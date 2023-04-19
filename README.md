@@ -3,3 +3,4 @@
 ## Creacion de base de datos
 
 `docker run -p 3306:3306 --name thinkup -e MYSQL_ROOT_PASSWORD=123456 -d mysql:latest`
+![Capture](https://user-images.githubusercontent.com/63562181/233177588-f8093008-af77-45f4-a24c-992ff1839851.PNG)
