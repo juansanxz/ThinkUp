@@ -22,7 +22,7 @@ public class UserService {
 		return UserRepository.save(User);
 	}
 
-	public User getUser(Long UserId) {
+	public User getUser(String UserId) {
 		return UserRepository.findById(UserId).get();
 	}
 
@@ -31,14 +31,14 @@ public class UserService {
 	}
 
 	public User updateUser(User User) {
-		if (UserRepository.existsById(User.getUserId())) {
+		if (UserRepository.existsById(User.getMail())) {
 			return UserRepository.save(User);
 		}
 
 		return null;
 	}
 
-	public void deleteUser(Long UserId) {
+	public void deleteUser(String UserId) {
 		UserRepository.deleteById(UserId);
 	}
 

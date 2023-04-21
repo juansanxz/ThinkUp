@@ -1,5 +1,6 @@
 package com.project.thinkup.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,12 +8,18 @@ import javax.persistence.Id;
 
 @Entity
 public class User {
+
 	@Id
+	private String mail;
+
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long UserId;
+	
+	@Column(name = "firstName")
 	private String firstName;
+
+	@Column(name = "lastName")
 	private String lastName;
-	private String mail;
 	private String password;
 	private String status;
 	private String role;

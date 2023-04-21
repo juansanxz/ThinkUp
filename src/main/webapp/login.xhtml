@@ -22,14 +22,14 @@
                         <div class="align-items-center justify-content-center">
                             <div class="ui-fluid">
                                 <div class="field">
-                                    <p:outputLabel value="Username" for="username" />
+                                    <p:outputLabel value="Username"/>
                                     <p:inputText id="username" value="#{loginBean.username}" />
                                 </div>
                                 <div class="field">
-                                    <p:outputLabel value="Password" for="password" />
+                                    <p:outputLabel value="Password"/>
                                     <p:inputText id="password" value="#{loginBean.password}"/>
                                 </div>
-                                <p:commandButton type="button" value="Login"/>
+                                <p:commandButton value="Login" action="#{loginBean.Login()}"/>
                             </div>
                         </div>
                     </div>
