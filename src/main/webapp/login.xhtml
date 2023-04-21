@@ -23,11 +23,11 @@
                             <div class="ui-fluid">
                                 <div class="field">
                                     <p:outputLabel value="Username" for="username" />
-                                    <p:inputText id="username" type="text" />
+                                    <p:inputText id="username" value="#{loginBean.username}" />
                                 </div>
                                 <div class="field">
                                     <p:outputLabel value="Password" for="password" />
-                                    <p:inputText id="password" type="password" />
+                                    <p:inputText id="password" value="#{loginBean.password}"/>
                                 </div>
                                 <p:commandButton type="button" value="Login"/>
                             </div>
