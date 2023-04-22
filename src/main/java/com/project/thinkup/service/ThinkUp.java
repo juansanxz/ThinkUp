@@ -1,6 +1,7 @@
 package com.project.thinkup.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
@@ -19,6 +20,7 @@ public class ThinkUp {
 	private HashMap<String, User> users;
 	@Autowired
 	LoginBean loginBean;
+
 	User currentUser;
 	
 	public ThinkUp () {
