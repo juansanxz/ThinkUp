@@ -43,9 +43,9 @@ public class LoginBean {
 
     public String login() {
         // Buscamos el usuario en la base de datos
-        List<User> users = userRepository.findByMail(username);
+        User users = userRepository.findByMail(username);
         // Verificamos que el usuario exista y que la contraseña sea correcta
-        if (users != null  && users.get(0).getPassword().equals(password)) {
+        if (users != null  && users.getPassword().equals(password)) {
             // Redirigimos al usuario a la página de inicio
             return "welcome.xhtml";
         } else {        

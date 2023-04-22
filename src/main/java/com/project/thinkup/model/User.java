@@ -10,8 +10,6 @@ import javax.persistence.Id;
 public class User {
 
 	@Id
-	private String mail;
-
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long UserId;
 	
@@ -21,6 +19,7 @@ public class User {
 	@Column(name = "lastName")
 	private String lastName;
 	private String password;
+	private String mail;
 	private String status;
 	private String role;
 	private String area;

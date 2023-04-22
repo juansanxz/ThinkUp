@@ -36,6 +36,7 @@ public class Main {
 
             System.out.println("\nGetting all User....");
             myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
+			System.out.println(myUserService.getUserByEmail("andrescamiloquimbayo@gmail.com").getPassword());
         };
     }
 
