@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.project.thinkup.model.User;
 import com.project.thinkup.repository.UserRepository;
+import com.project.thinkup.service.UserService;
 
 @ManagedBean
 @Component
@@ -18,7 +19,7 @@ import com.project.thinkup.repository.UserRepository;
 public class LoginBean {
 	
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     private String username;
     private String password;
@@ -43,15 +44,18 @@ public class LoginBean {
 
     public String login() {
         // Buscamos el usuario en la base de datos
-        User users = userRepository.findByMail(username);
+        User users = userService.getUserByEmail(username);
         // Verificamos que el usuario exista y que la contraseña sea correcta
         if (users != null  && users.getPassword().equals(password)) {
             // Redirigimos al usuario a la página de inicio
             return "welcome.xhtml";
         } else {        
             // Mantenemos al usuario en la página de login
-            FacesContext.getCurrentInstance().addMessage("@all", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Datos incorrectos", null));
-            return "hOLA";
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo", "No se");
+            context.addMessage("somekey", msg);
+            return null;
         }
     }
+
 }
