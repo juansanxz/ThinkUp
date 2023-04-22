@@ -3,6 +3,8 @@ package com.project.thinkup.service;
 import java.util.HashMap;
 
 import javax.annotation.ManagedBean;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +30,10 @@ public class ThinkUp {
 			currentUser = loginBean.getUser();
 			return "welcome.xhtml";
 		} else {
-			return "hOLA";
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo", "No se");
+			context.addMessage("somekey", msg);
+			return null;
 		}
 	}
 	

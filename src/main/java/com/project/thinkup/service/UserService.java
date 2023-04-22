@@ -19,7 +19,11 @@ public class UserService {
 	}
 
 	public User addUser(User User) {
-		return UserRepository.save(User);
+		if(!UserRepository.existsByMail(User.getMail())){
+			return UserRepository.save(User);
+		}
+		return null;
+		
 	}
 
 	public User getUser(String UserId) {
