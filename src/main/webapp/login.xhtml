@@ -22,14 +22,13 @@
                                 <p:messages for="somekey"/>
                                 <div class="field">
                                     <p:outputLabel value="Username" />
-                                    <h:inputText id="username" value="#{loginBean.username}" />
+                                    <h:inputText id="username"  binding="#{userName}" />
                                 </div>
                                 <div class="field">
                                     <p:outputLabel value="Password" />
-                                    <h:inputText id="password" value="#{loginBean.password}" />
+                                    <h:inputText id="password" binding="#{passwordLogin}" />
                                 </div>
-                                <h:commandButton value="Login" styleClass="rounded-button ui-button-flat"
-                                    action="#{loginBean.login()}" />
+                                <h:commandButton value="Login" styleClass="rounded-button ui-button-flat" action="#{thinkUp.login(userName.value, passwordLogin.value)}" />
                             </h:form>
                         </div>
                     </div>

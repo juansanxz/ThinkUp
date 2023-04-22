@@ -13,10 +13,7 @@
     <h:form>
         <h1>Bienvenido al Juego</h1>
         <h3>Ingrese su nombre:</h3>
-        <h:inputText id="nameInput" value="#{loginBean.username}" />
-        <h3>Ingrese su Correo:</h3>
-        <h:inputText id="MailInput" value="#{loginBean.password}" />
-        <h:commandButton value="Iniciar" styleClass="rounded-button ui-button-flat" action="#{loginBean.login()}"/>
+        <h:inputText id="nameInput" value="#{thinkUp.getUserName()}" />
     </h:form>
 </h:body>
 </html>
