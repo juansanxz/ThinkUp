@@ -16,42 +16,26 @@ import com.project.thinkup.repository.UserRepository;
 @Component
 @ApplicationScoped
 public class LoginBean {
+	User user;
 	
     @Autowired
     UserRepository userRepository;
 
-    private String username;
-    private String password;
-
-    // getters y setters
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String login() {
+    public boolean login(String username, String password) {
         // Buscamos el usuario en la base de datos
-        User users = userRepository.findByMail(username);
+        user = userRepository.findByMail(username);
         // Verificamos que el usuario exista y que la contraseña sea correcta
-        if (users != null  && users.getPassword().equals(password)) {
+        if (user != null  && user.getPassword().equals(password)) {
             // Redirigimos al usuario a la página de inicio
-            return "welcome.xhtml";
+            return true;
         } else {        
             // Mantenemos al usuario en la página de login
             FacesContext.getCurrentInstance().addMessage("@all", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Datos incorrectos", null));
-            return "hOLA";
+            return false;
         }
+    }
+    
+    public User getUser() {
+    	return user;
     }
 }
