@@ -43,7 +43,7 @@ public class UserService {
 	}
 
 	public void deleteUser(String UserId) {
-		UserRepository.deleteById(UserId);
+		UserRepository.deleteByMail(UserId);
 	}
 
 	public void deleteAllUsers() {

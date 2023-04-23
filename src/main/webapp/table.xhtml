@@ -12,20 +12,20 @@
 <h:body>
     <div class="card crud">
         <h:form id="form">
-            <p:messages for="dt-Users"/>
             <p:toolbar>
                 <p:toolbarGroup>
-                    <p:commandButton value="New" icon="pi pi-plus" actionListener="#{crudUserBean.openNew}"
-                        update=":dialogs:manage-user-content" oncomplete="PF('manageuserDialog').show()"
+                    <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{crudUserBean.openNew}"
+                        update=":dialogs:manage-user-content  dt-users" oncomplete="PF('manageuserDialog').show()"
                         styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target=":dialogs:manage-user-content" />
                     </p:commandButton>
                     <p:commandButton id="delete-users-button" value="#{crudUserBean.deleteButtonMessage}"
-                    icon="pi pi-trash" actionListener="#{crudUserBean.deleteSelectedUsers}"
+                    icon="ui-icon-trash" actionListener="#{crudUserBean.deleteSelectedUsers}"
                     styleClass="ui-button-danger" disabled="#{!crudUserBean.hasSelectedUsers()}" update="@this">
                     <p:confirm header="Confirmation" message="Delete the selected users?"
                         icon="pi pi-exclamation-triangle" />
-                </p:commandButton>
+                    </p:commandButton>
+                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
     
@@ -34,9 +34,9 @@
                 rowKey="#{user.mail}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
                 <f:facet name="header">
                     <div class="users-table-header">
-                        <span style="font-weight: bold">User</span>
-                        <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
-                            <p:inputText id="globalFilter" onkeyup="PF('dtusers').filter()" placeholder="Search" />
+                        <span style="font-weight: bold">Usuarios</span>
+                        <span class="filter-container ui-input-icon-left"> <i class="ui-icon ui-icon-search"></i>
+                            <p:inputText id="globalFilter" onkeyup="PF('dtUsers').filter()" placeholder="Search" />
                         </span>
                     </div>
                 </f:facet>
@@ -70,13 +70,13 @@
 
 
                 <p:column exportable="false">
-                    <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-user-content"
+                    <p:commandButton icon="ui-icon-pencil" update=":dialogs:manage-user-content"
                         oncomplete="PF('manageuserDialog').show()"
                         styleClass="edit-button rounded-button ui-button-success" process="@this">
                         <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
                         <p:resetInput target=":dialogs:manage-user-content" />
                     </p:commandButton>
-                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                    <p:commandButton class="ui-button-warning rounded-button" icon="ui-icon-trash"
                                      process="@this"
                                      oncomplete="PF('deleteuserDialog').show()">
                         <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
@@ -92,58 +92,64 @@
                 <p:outputPanel id="manage-user-content" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty crudUserBean.selectedUser}">
                         <div class="field">
-                            <p:outputLabel for="name">Name</p:outputLabel>
-                            <p:inputText id="name" value="#{crudUserBean.selectedUser.name}" required="true" />
+                            <p:outputLabel for="mail">Mail</p:outputLabel>
+                            <p:inputText id="mail" value="#{crudUserBean.selectedUser.mail}" required="true" />
                         </div>
                         <div class="field">
-                            <p:outputLabel for="description">Description</p:outputLabel>
-                            <p:inputTextarea id="description" value="#{crudUserBean.selectedUser.description}" />
+                            <p:outputLabel for="password">Password</p:outputLabel>
+                            <p:inputText id="password" value="#{crudUserBean.selectedUser.password}" required="true"/>
                         </div>
                         <div class="field">
-                            <p:outputLabel for="category">Category</p:outputLabel>
-                            <p:selectOneRadio id="category" value="#{crudUserBean.selectedUser.category}"
+                            <p:outputLabel for="status">Rol</p:outputLabel>
+                            <p:selectOneRadio id="status" value="#{crudUserBean.selectedUser.status}"
                                 layout="responsive" columns="2">
-                                <f:selectItem itemLabel="Accessories" itemValue="Accessories" />
-                                <f:selectItem itemLabel="Clothing" itemValue="Clothing" />
-                                <f:selectItem itemLabel="Electronics" itemValue="Electronics" />
-                                <f:selectItem itemLabel="Fitness" itemValue="Fitness" />
+                                <f:selectItem itemLabel="Activo" itemValue="Activo" />
+                                <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
                             </p:selectOneRadio>
                         </div>
-                        <div class="formgrid grid">
-                            <div class="field col">
-                                <p:outputLabel for="price">Price</p:outputLabel>
-                                <p:inputNumber id="price" value="#{crudUserBean.selectedUser.price}" symbol=" USD"
-                                    symbolPosition="s" decimalSeparator="." thousandSeparator="," />
-                            </div>
-                            <div class="field col">
-                                <p:outputLabel for="quantity">Quantity</p:outputLabel>
-                                <p:spinner id="quantity" min="0" value="#{crudUserBean.selectedUser.quantity}" />
-                            </div>
+                        <div class="field">
+                            <p:outputLabel for="role">Rol</p:outputLabel>
+                            <p:selectOneRadio id="role" value="#{crudUserBean.selectedUser.role}"
+                                layout="responsive" columns="2">
+                                <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+                                <f:selectItem itemLabel="Usuario" itemValue="Usuario" />
+                            </p:selectOneRadio>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="area">Area</p:outputLabel>
+                            <p:selectOneRadio id="area" value="#{crudUserBean.selectedUser.area}"
+                                layout="responsive" columns="2">
+                                <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
+                                <f:selectItem itemLabel="Profesor" itemValue="Profesor" />
+                                <f:selectItem itemLabel="Administrativo" itemValue="Administrativo" />
+                                <f:selectItem itemLabel="Externo" itemValue="Externo" />
+                            </p:selectOneRadio>
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>
     
                 <f:facet name="footer">
-                    <p:commandButton value="Save" icon="pi pi-check" actionListener="#{crudUserBean.saveuser}"
+                    <p:commandButton value="Save" icon="ui-icon-check" actionListener="#{crudUserBean.saveUser}"
                         update="manage-user-content" process="manage-user-content @this" />
-                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageuserDialog').hide()"
+                    <p:commandButton value="Cancel" icon="ui-icon-times" onclick="PF('manageuserDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>
+                <p:messages for="somekey"/>
             </p:dialog>
     
             <p:confirmDialog widgetVar="deleteuserDialog" showEffect="fade" width="300"
                 message="Delete the user?" header="Confirm" severity="warn">
-                <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{crudUserBean.deleteuser}"
+                <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{crudUserBean.deleteUser}"
                     process="@this" update=":form:delete-users-button"
                     oncomplete="PF('deleteuserDialog').hide()" />
-                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="ui-icon-times"
                     onclick="PF('deleteuserDialog').hide()" />
             </p:confirmDialog>
     
             <p:confirmDialog global="true" showEffect="fade" width="300">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
-                    icon="pi pi-times" />
+                    icon="ui-icon-times" />
             </p:confirmDialog>
         </h:form>
     </div>

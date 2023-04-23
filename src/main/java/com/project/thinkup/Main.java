@@ -32,7 +32,11 @@ public class Main {
     public CommandLineRunner run() throws Exception {
         return (args) -> {
             System.out.println("Adding Admon...\n");
-            myUserService.addUser(new User("andres","oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "admon", "sistemas" ));
+            myUserService.addUser(new User("Camilo","Oñate", "andres.onate@mail.edu.co", "123", "activo", "admin", "sistemas" ));
+			myUserService.addUser(new User("Juan","Sanchez", "juan.sanchez@mail.edu.co", "123", "activo", "admin", "sistemas" ));
+			myUserService.addUser(new User("Mateo","Olaya", "mateo.olaya@mail.edu.co", "123", "activo", "admin", "sistemas" ));
+			myUserService.addUser(new User("Alejandro","Huertas", "alejandro.huertas@mail.edu.co", "123", "activo", "admin", "sistemas" ));
+			myUserService.addUser(new User("Juan","Poveda", "juan.poveda@mail.edu.co", "123", "activo", "admin", "sistemas" ));
 
             System.out.println("\nGetting all User....");
             myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));

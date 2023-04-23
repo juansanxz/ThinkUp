@@ -1,5 +1,6 @@
 package com.project.thinkup.beans;
 
+
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import com.project.thinkup.service.UserService;
+
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.project.thinkup.model.User;
@@ -60,10 +63,25 @@ public class CrudUserBean {
         this.selectedUser = new User();
     }
 
+    public void saveUser() {
+        if (this.selectedUser.getUserId() == null) {
+            this.users.add(this.selectedUser);
+            userService.addUser(selectedUser);
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User Added", "New User");
+            context.addMessage("somekey", msg);      
+        }
+        else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("user Updated"));
+        }
+    }     
+
+
     public void deleteUser() {
         this.users.remove(this.selectedUser);
         this.selectedUsers.remove(this.selectedUser);
         this.selectedUser = null;
+        userService.deleteUser(selectedUser.getMail());
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User Removed", "Error");
         context.addMessage("dt-Users", msg);
@@ -83,6 +101,9 @@ public class CrudUserBean {
 
     public void deleteSelectedUsers() {
         this.users.removeAll(this.selectedUsers);
+        for(User user: this.selectedUsers){
+            userService.deleteUser(user.getMail());
+        }
         this.selectedUsers = null;
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Users Removed", "Error");
