@@ -19,11 +19,11 @@ public class UserService {
 	}
 
 	public User addUser(User User) {
-		if(!UserRepository.existsByMail(User.getMail())){
+		if (!UserRepository.existsByMail(User.getMail())) {
 			return UserRepository.save(User);
 		}
 		return null;
-		
+
 	}
 
 	public User getUser(String UserId) {
@@ -51,7 +51,7 @@ public class UserService {
 		;
 	}
 
-	public User getUserByEmail(String mail){
+	public User getUserByEmail(String mail) {
 		return UserRepository.findByMail(mail);
 
 	}

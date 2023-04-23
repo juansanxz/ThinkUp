@@ -1,10 +1,16 @@
 package com.project.thinkup.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -12,7 +18,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long UserId;
-	
+
 	@Column(name = "firstName")
 	private String firstName;
 
@@ -24,12 +30,16 @@ public class User {
 	private String role;
 	private String area;
 
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private List<Idea> ideas;
+
 	public User() {
 
 	}
 
 	public User(String firstName, String lastName, String mail, String password, String status, String role,
-			String area) {
+			String area, List<Idea> ideas) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
@@ -37,13 +47,15 @@ public class User {
 		this.status = status;
 		this.role = role;
 		this.area = area;
+		this.ideas = ideas;
 
 	}
 
 	@Override
 	public String toString() {
-		return "User [UserId=" + UserId + ", firstName=" + firstName + ", lastName=" + lastName + ", mail=" + mail
-				+ ", password=" + password + ", status=" + status + ", role=" + role + ", area=" + area + "]";
+		return "User [UserId=" + UserId + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
+				+ password + ", mail=" + mail + ", status=" + status + ", role=" + role + ", area=" + area + ", ideas="
+				+ ideas + "]";
 	}
 
 	public Long getUserId() {
@@ -110,6 +122,14 @@ public class User {
 		this.area = area;
 	}
 
+	public List<Idea> getIdeas() {
+		return ideas;
+	}
+
+	public void setIdeas(List<Idea> ideas) {
+		this.ideas = ideas;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -117,11 +137,12 @@ public class User {
 		result = prime * result + ((UserId == null) ? 0 : UserId.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((area == null) ? 0 : area.hashCode());
+		result = prime * result + ((ideas == null) ? 0 : ideas.hashCode());
 		return result;
 	}
 
@@ -149,15 +170,15 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (mail == null) {
-			if (other.mail != null)
-				return false;
-		} else if (!mail.equals(other.mail))
-			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
+			return false;
+		if (mail == null) {
+			if (other.mail != null)
+				return false;
+		} else if (!mail.equals(other.mail))
 			return false;
 		if (status == null) {
 			if (other.status != null)
@@ -173,6 +194,11 @@ public class User {
 			if (other.area != null)
 				return false;
 		} else if (!area.equals(other.area))
+			return false;
+		if (ideas == null) {
+			if (other.ideas != null)
+				return false;
+		} else if (!ideas.equals(other.ideas))
 			return false;
 		return true;
 	}

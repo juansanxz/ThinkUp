@@ -11,5 +11,6 @@ import javax.print.DocFlavor.STRING;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     User findByMail(String mail);
+
     boolean existsByMail(String mail);
 }

@@ -15,28 +15,33 @@ import com.project.thinkup.model.User;
 @ManagedBean
 @Component
 public class ThinkUp {
-	
+
 	private HashMap<String, User> users;
 	@Autowired
 	LoginBean loginBean;
 	User currentUser;
-	
-	public ThinkUp () {
+
+	public ThinkUp() {
 		users = new HashMap<String, User>();
 	}
-	
-	public String login (String username, String password) {
+
+	public String login(String username, String password) {
 		if (loginBean.login(username, password)) {
 			currentUser = loginBean.getUser();
 			return "welcome.xhtml";
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo", "No se");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo",
+					"No se");
 			context.addMessage("somekey", msg);
 			return null;
 		}
 	}
-	
+
+	public void publishAnIdea(String description, String keyWord) {
+
+	}
+
 	public String getUserName() {
 		return currentUser.getMail();
 	}
