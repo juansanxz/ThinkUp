@@ -11,48 +11,48 @@ import com.project.thinkup.repository.UserRepository;
 @Service
 public class UserService {
 
-	private final UserRepository UserRepository;
+	private final UserRepository userRepository;
 
 	@Autowired
 	public UserService(UserRepository UserRepository) {
-		this.UserRepository = UserRepository;
+		this.userRepository = UserRepository;
 	}
 
-	public User addUser(User User) {
-		if (!UserRepository.existsByMail(User.getMail())) {
-			return UserRepository.save(User);
+	public User addUser(User user) {
+		if (!userRepository.existsByMail(user.getMail())) {
+			return userRepository.save(user);
 		}
 		return null;
 
 	}
 
-	public User getUser(String UserId) {
-		return UserRepository.findById(UserId).get();
+	public User getUser(Long userId) {
+		return userRepository.findById(userId).get();
 	}
 
 	public List<User> getAllUsers() {
-		return UserRepository.findAll();
+		return userRepository.findAll();
 	}
 
-	public User updateUser(User User) {
-		if (UserRepository.existsById(User.getMail())) {
-			return UserRepository.save(User);
+	public User updateUser(User user) {
+		if (userRepository.existsById(user.getUserId())) {
+			return userRepository.save(user);
 		}
 
 		return null;
 	}
 
-	public void deleteUser(String UserId) {
-		UserRepository.deleteById(UserId);
+	public void deleteUser(Long userId) {
+		userRepository.deleteById(userId);
 	}
 
 	public void deleteAllUsers() {
-		UserRepository.deleteAll();
+		userRepository.deleteAll();
 		;
 	}
 
 	public User getUserByEmail(String mail) {
-		return UserRepository.findByMail(mail);
+		return userRepository.findByMail(mail);
 
 	}
 }

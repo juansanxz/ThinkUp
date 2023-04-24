@@ -1,5 +1,6 @@
 package com.project.thinkup.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long UserId;
+	private Long userId;
 
 	@Column(name = "firstName")
 	private String firstName;
@@ -39,7 +40,7 @@ public class User {
 	}
 
 	public User(String firstName, String lastName, String mail, String password, String status, String role,
-			String area, List<Idea> ideas) {
+			String area) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
@@ -47,19 +48,22 @@ public class User {
 		this.status = status;
 		this.role = role;
 		this.area = area;
-		this.ideas = ideas;
+		this.ideas = new ArrayList<Idea>();
+	}
 
+	public void addIdea (Idea ideaToAdd) {
+		ideas.add(ideaToAdd);
 	}
 
 	@Override
 	public String toString() {
-		return "User [UserId=" + UserId + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
+		return "User [UserId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
 				+ password + ", mail=" + mail + ", status=" + status + ", role=" + role + ", area=" + area + ", ideas="
 				+ ideas + "]";
 	}
 
 	public Long getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public String getFirstName() {
@@ -91,7 +95,7 @@ public class User {
 	}
 
 	public void setUserId(Long userId) {
-		UserId = userId;
+		this.userId = userId;
 	}
 
 	public void setFirstName(String firstName) {
@@ -134,7 +138,7 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((UserId == null) ? 0 : UserId.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -155,10 +159,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (UserId == null) {
-			if (other.UserId != null)
+		if (userId == null) {
+			if (other.userId != null)
 				return false;
-		} else if (!UserId.equals(other.UserId))
+		} else if (!userId.equals(other.userId))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
