@@ -12,26 +12,32 @@
 <h:body>
     <div class="card crud">
         <h:form id="form">
+            <p:growl id="messages" showDetail="true" />
             <p:toolbar>
                 <p:toolbarGroup>
-                    <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{crudUserBean.openNew}"
-                        update=":dialogs:manage-user-content  dt-users" oncomplete="PF('manageuserDialog').show()"
+                    <!-- Botón Nuevo Usuario-->
+                    <p:commandButton value="Nuevo" icon="ui-icon-plus" action="#{crudUserBean.openNew}"
+                        update=":dialogs:manage-user-content dt-users" oncomplete="PF('manageuserDialog').show()"
                         styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target=":dialogs:manage-user-content" />
                     </p:commandButton>
+                    <!-- Botón Eliminar Usuarios-->
                     <p:commandButton id="delete-users-button" value="#{crudUserBean.deleteButtonMessage}"
-                    icon="ui-icon-trash" actionListener="#{crudUserBean.deleteSelectedUsers}"
+                    icon="ui-icon-trash" action="#{crudUserBean.deleteSelectedUsers}"
                     styleClass="ui-button-danger" disabled="#{!crudUserBean.hasSelectedUsers()}" update="@this">
+                    <!-- Confirmar Eliminar usuarios-->
                     <p:confirm header="Confirmation" message="Delete the selected users?"
-                        icon="pi pi-exclamation-triangle" />
+                        icon="ui-button-warning" />
                     </p:commandButton>
-                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
+                    <!-- Actualizar tabla de usuarios -->
+                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users messages" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
-    
+            <!-- Tabla con Usuarios -->
             <p:dataTable id="dt-users" widgetVar="dtUsers" var="user" value="#{crudUserBean.users}"
                 reflow="true" styleClass="users-table" selection="#{crudUserBean.selectedUsers}"
                 rowKey="#{user.mail}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                <!-- Buscar usuarios -->
                 <f:facet name="header">
                     <div class="users-table-header">
                         <span style="font-weight: bold">Usuarios</span>
@@ -40,15 +46,17 @@
                         </span>
                     </div>
                 </f:facet>
-    
+                <!-- Buscar usuarios -->
                 <p:ajax event="rowSelect" update=":form:delete-users-button" />
                 <p:ajax event="rowUnselect" update=":form:delete-users-button" />
                 <p:ajax event="rowSelectCheckbox" update=":form:delete-users-button" />
                 <p:ajax event="rowUnselectCheckbox" update=":form:delete-users-button" />
-                <p:ajax event="toggleSelect" update=":form:delete-users-button" />
-    
+                <p:ajax event="toggleSelect" update=":form:delete-users-button" />   
+
+               <!--  Columna para seleccionar  -->
                 <p:column selectionMode="multiple" exportable="false"></p:column>
     
+                <!--  Datos Usuario  -->
                 <p:column headerText="Mail">
                     <h:outputText value="#{user.mail}" />
                 </p:column>
@@ -68,26 +76,28 @@
                     <h:outputText value="#{user.area}" />
                 </p:column>
 
-
+                <!--  Datos Usuario  -->
                 <p:column exportable="false">
+                    <!--  Editar Usuarios  -->
                     <p:commandButton icon="ui-icon-pencil" update=":dialogs:manage-user-content"
                         oncomplete="PF('manageuserDialog').show()"
                         styleClass="edit-button rounded-button ui-button-success" process="@this">
                         <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
                         <p:resetInput target=":dialogs:manage-user-content" />
                     </p:commandButton>
+                    <!--  Eliminar Usuarios  -->
                     <p:commandButton class="ui-button-warning rounded-button" icon="ui-icon-trash"
                                      process="@this"
                                      oncomplete="PF('deleteuserDialog').show()">
                         <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
                     </p:commandButton>
                 </p:column>
-    
             </p:dataTable>
         </h:form>
-
+        <!--  Ventanas del CRUD -->
         <h:form id="dialogs">
-            <p:dialog header="user Details" showEffect="fade" modal="true" widgetVar="manageuserDialog"
+            <!--  Editar/Agregar Usuario Usuarios  -->
+            <p:dialog header="User Details" showEffect="fade" modal="true" widgetVar="manageuserDialog"
                 responsive="true">
                 <p:outputPanel id="manage-user-content" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty crudUserBean.selectedUser}">
@@ -127,29 +137,28 @@
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>
-    
+            <!--  Confirmación  -->    
                 <f:facet name="footer">
                     <p:commandButton value="Save" icon="ui-icon-check" actionListener="#{crudUserBean.saveUser}"
                         update="manage-user-content" process="manage-user-content @this" />
-                    <p:commandButton value="Cancel" icon="ui-icon-times" onclick="PF('manageuserDialog').hide()"
+                    <p:commandButton value="Cancel" icon="ui-button-danger" onclick="PF('manageuserDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>
-                <p:messages for="somekey"/>
             </p:dialog>
-    
+            <!--  Eliminar Usuario  -->
             <p:confirmDialog widgetVar="deleteuserDialog" showEffect="fade" width="300"
                 message="Delete the user?" header="Confirm" severity="warn">
                 <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{crudUserBean.deleteUser}"
                     process="@this" update=":form:delete-users-button"
                     oncomplete="PF('deleteuserDialog').hide()" />
-                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="ui-icon-times"
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="ui-button-danger"
                     onclick="PF('deleteuserDialog').hide()" />
-            </p:confirmDialog>
-    
+            </p:confirmDialog>           
+            <!--  Eliminar Usuario  -->
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
-                    icon="ui-icon-times" />
+                    icon="i-button-danger" />
             </p:confirmDialog>
         </h:form>
     </div>

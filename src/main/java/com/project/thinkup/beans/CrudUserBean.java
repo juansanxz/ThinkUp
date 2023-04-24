@@ -69,13 +69,13 @@ public class CrudUserBean {
             userService.addUser(selectedUser);
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User Added", "New User");
-            context.addMessage("somekey", msg);      
+            context.addMessage("messages", msg); 
         }
         else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("user Updated"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("user Updated"));     
+            
         }
     }     
-
 
     public void deleteUser() {
         this.users.remove(this.selectedUser);
