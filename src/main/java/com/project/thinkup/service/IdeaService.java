@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.thinkup.model.Idea;
-import com.project.thinkup.model.User;
 import com.project.thinkup.repository.IdeaRepository;
 
 @Service

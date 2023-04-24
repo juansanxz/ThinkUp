@@ -23,11 +23,13 @@
         <h:form class="post">
             
                 <h:inputText id="publish"  style="width: 100%;" binding="#{idea}" onkeypress="if (event.keyCode == 13) mostrarPopUp();"/>
+                <h:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(idea.value)}"/>
+                <h:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
                 <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
                         <h:outputLabel for="valorPopUp" value="Insert key words: " />
-                        <h:inputText id="valorPopUp" binding="#{keyWords}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
-                        <h:commandButton value="Login" type="button" onclick="PF('popUp').hide()" />
+                        <h:inputText id="valorPopUp" binding="#{keyWord}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
+                        <h:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="PF('popUp').hide()"/>
                     </h:form>
                 </p:dialog>
         </h:form>

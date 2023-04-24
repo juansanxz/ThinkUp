@@ -1,17 +1,13 @@
 package com.project.thinkup.beans;
 
-import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
+import javax.annotation.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
 
 import com.project.thinkup.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.project.thinkup.model.User;
-import com.project.thinkup.repository.UserRepository;
 
 @ManagedBean
 @Component
@@ -35,6 +31,10 @@ public class LoginBean {
         }
     }
     
+    public User updateUser () {
+        return userService.updateUser(user);
+    }
+
     public User getUser() {
     	return user;
     }

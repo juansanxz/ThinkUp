@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Idea {
@@ -35,9 +33,9 @@ public class Idea {
     public Idea() {
     }
 
-    public Idea(String status, String description, List<KeyWord> keywords) {
+    public Idea(String description, List<KeyWord> keywords) {
         this.creationDate = LocalDate.now();
-        this.status = status;
+        status = Status.created;
         this.description = description;
         this.keyWords = keywords;
     }

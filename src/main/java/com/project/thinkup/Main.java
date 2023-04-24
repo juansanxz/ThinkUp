@@ -69,23 +69,11 @@ public class Main {
 			keyWords3.add(keyWord2);
 
 			System.out.println("Adding Admon's ideas...\n");
-			Idea idea1 = new Idea("Activa", "Proyecto de redes", keyWords1);
+			Idea idea1 = new Idea("Proyecto de redes", keyWords1);
 
-			Idea idea2 = new Idea("En proceso", "Proyecto de ciclos", keyWords2);
+			Idea idea2 = new Idea("Proyecto de ciclos", keyWords2);
 
-			Idea idea3 = new Idea("Activa", "Proyecto de aupn", keyWords3);
-
-			List<Idea> ideas1 = new ArrayList<Idea>();
-			ideas1.add(idea1);
-			ideas1.add(idea2);
-			ideas1.add(idea3);
-
-			List<Idea> ideas2 = new ArrayList<Idea>();
-			ideas2.add(idea1);
-
-			List<Idea> ideas3 = new ArrayList<Idea>();
-			ideas3.add(idea2);
-			ideas3.add(idea3);
+			Idea idea3 = new Idea("Proyecto de aupn", keyWords3);
 
 			myIdeaService.addIdea(idea1);
 			myIdeaService.addIdea(idea2);
@@ -93,12 +81,21 @@ public class Main {
 
 			System.out.println("Adding Admon...\n");
 			User admon = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "admon",
-					"sistemas", ideas1);
+					"sistemas");
+			admon.addIdea(idea1);
+			admon.addIdea(idea2);
 			myUserService.addUser(admon);
 
 			User admon1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "admon",
-					"sistemas", ideas2);
+					"sistemas");
+			admon1.addIdea(idea3);
 			myUserService.addUser(admon1);
+
+			System.out.println("Adding new idea and adding to admon1...\n");
+			Idea idea4 = new Idea("Idea adicional", keyWords3);
+			myIdeaService.addIdea(idea4);
+			admon1.addIdea(idea4);
+			myUserService.updateUser(admon1);
 
 			System.out.println("\nGetting all Users....");
 			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
@@ -107,7 +104,7 @@ public class Main {
 			myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
 
 			System.out.println("\nGetting ideas with active status....");
-			myIdeaService.getAllIdeasByStatus("Activa").forEach(item -> System.out.println(item));
+			myIdeaService.getAllIdeasByStatus("Created").forEach(item -> System.out.println(item));
 
 			System.out.println("\nGetting ideas by user....");
 		};
