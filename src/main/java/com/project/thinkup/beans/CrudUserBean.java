@@ -69,33 +69,48 @@ public class CrudUserBean {
 
     public void saveUser() {
         if (this.selectedUser.getUserId() == null) {
-            userService.addUser(selectedUser);
-            FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User Added", "New User");
-            context.addMessage("messages", msg); 
+            if(!userService.userExist(selectedUser.getMail())){
+                userService.addUser(selectedUser);
+                refresh();
+                FacesContext context = FacesContext.getCurrentInstance();
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito","Crear usuario");
+                context.addMessage("anotherkey", msg);
+            }else{
+                FacesContext context = FacesContext.getCurrentInstance();
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "El usuario ya existe!","Usuario ya existe");
+                context.addMessage("anotherkey", msg);
+            }
         }
         else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("user Updated"));     
-            
+            if(userService.updateUser(selectedUser) != null){
+                FacesContext context = FacesContext.getCurrentInstance();
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario actualizado con exito!","Usuario modificado con exito");
+                context.addMessage("anotherkey", msg);
+
+            }else{
+                FacesContext context = FacesContext.getCurrentInstance();
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar","Error al actualizar");
+                context.addMessage("anotherkey", msg);
+            }
+
         }
     }     
 
     public void deleteUser() {
-        this.users.remove(this.selectedUser);
-        this.selectedUsers.remove(this.selectedUser);
-        this.selectedUser = null;
         userService.deleteUser(selectedUser.getUserId());
+        this.selectedUser = null;
+        refresh();
         FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User Removed", "Error");
-        context.addMessage("dt-Users", msg);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario borrado con exito!", "Usuario borrado con exito!");
+        context.addMessage("anotherkey", msg);
     }
 
     public String getDeleteButtonMessage() {
         if (hasSelectedUsers()) {
             int size = this.selectedUsers.size();
-            return size > 1 ? size + " Users selected" : "1 User selected";
+            return size > 1 ? size + " Usuarios seleccionados" : "1 usuario seleccionado";
         }
-        return "Delete";
+        return "Eliminar";
     }
 
     public boolean hasSelectedUsers() {
@@ -108,8 +123,9 @@ public class CrudUserBean {
             userService.deleteUser(user.getUserId());
         }
         this.selectedUsers = null;
+        refresh();
         FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Users Removed", "Error");
-        context.addMessage("dt-Users", msg);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios borrados con exito!", "Usuario borrado con exito!");
+        context.addMessage("anotherkey", msg);
     }
 }
