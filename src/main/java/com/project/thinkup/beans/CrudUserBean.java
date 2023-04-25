@@ -31,6 +31,12 @@ public class CrudUserBean {
     @PostConstruct
     public void init() {
         this.users = userService.getAllUsers();
+
+    }
+
+    public void refresh() {
+        this.users = userService.getAllUsers();
+
     }
 
     public List<User> getUsers() {
@@ -63,7 +69,6 @@ public class CrudUserBean {
 
     public void saveUser() {
         if (this.selectedUser.getUserId() == null) {
-            this.users.add(this.selectedUser);
             userService.addUser(selectedUser);
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User Added", "New User");

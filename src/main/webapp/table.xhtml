@@ -29,7 +29,7 @@
                         icon="ui-button-warning" />
                     </p:commandButton>
                     <!-- Actualizar tabla de usuarios -->
-                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users messages" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
+                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users" action="#{crudUserBean.refresh}" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
             <!-- Tabla con Usuarios -->
@@ -109,7 +109,7 @@
                             <p:inputText id="password" value="#{crudUserBean.selectedUser.password}" required="true"/>
                         </div>
                         <div class="field">
-                            <p:outputLabel for="status">Rol</p:outputLabel>
+                            <p:outputLabel for="status">Status</p:outputLabel>
                             <p:selectOneRadio id="status" value="#{crudUserBean.selectedUser.status}"
                                 layout="responsive" columns="2">
                                 <f:selectItem itemLabel="Activo" itemValue="Activo" />
@@ -120,18 +120,18 @@
                             <p:outputLabel for="role">Rol</p:outputLabel>
                             <p:selectOneRadio id="role" value="#{crudUserBean.selectedUser.role}"
                                 layout="responsive" columns="2">
-                                <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
-                                <f:selectItem itemLabel="Usuario" itemValue="Usuario" />
+                                <f:selectItem itemLabel="Administrador" itemValue="admin" />
+                                <f:selectItem itemLabel="Usuario" itemValue="user" />
                             </p:selectOneRadio>
                         </div>
                         <div class="field">
                             <p:outputLabel for="area">Area</p:outputLabel>
                             <p:selectOneRadio id="area" value="#{crudUserBean.selectedUser.area}"
                                 layout="responsive" columns="2">
-                                <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
-                                <f:selectItem itemLabel="Profesor" itemValue="Profesor" />
-                                <f:selectItem itemLabel="Administrativo" itemValue="Administrativo" />
-                                <f:selectItem itemLabel="Externo" itemValue="Externo" />
+                                <f:selectItem itemLabel="Estudiante" itemValue="estudiante" />
+                                <f:selectItem itemLabel="Profesor" itemValue="profesor" />
+                                <f:selectItem itemLabel="Administrativo" itemValue="administrativo" />
+                                <f:selectItem itemLabel="Externo" itemValue="externo" />
                             </p:selectOneRadio>
                         </div>
                     </p:outputPanel>
