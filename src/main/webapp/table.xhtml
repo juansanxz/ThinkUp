@@ -12,7 +12,6 @@
 <h:body>
     <div class="card crud">
         <h:form id="form">
-            <p:growl id="messages" showDetail="true" />
             <p:toolbar>
                 <p:toolbarGroup>
                     <!-- Botón Nuevo Usuario-->
@@ -139,9 +138,9 @@
                 </p:outputPanel>
             <!--  Confirmación  -->    
                 <f:facet name="footer">
-                    <p:commandButton value="Save" icon="ui-icon-check" actionListener="#{crudUserBean.saveUser}"
-                        update="manage-user-content" process="manage-user-content @this" />
-                    <p:commandButton value="Cancel" icon="ui-button-danger" onclick="PF('manageuserDialog').hide()"
+                    <p:commandButton value="Save"  actionListener="#{crudUserBean.saveUser}"
+                        update="manage-user-content" process="manage-user-content @this" onclick="PF('manageuserDialog').hide()"/>
+                    <p:commandButton value="Cancel"  onclick="PF('manageuserDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>
             </p:dialog>
@@ -160,6 +159,7 @@
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
                     icon="i-button-danger" />
             </p:confirmDialog>
+            <p:growl id="messages" showDetail="true" />
         </h:form>
     </div>
 </h:body>

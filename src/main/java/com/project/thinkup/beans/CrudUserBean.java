@@ -10,12 +10,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import com.project.thinkup.service.UserService;
-
-import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.project.thinkup.model.User;
-import com.project.thinkup.repository.UserRepository;
+
 
 @ManagedBean
 @Component
@@ -81,7 +79,7 @@ public class CrudUserBean {
         this.users.remove(this.selectedUser);
         this.selectedUsers.remove(this.selectedUser);
         this.selectedUser = null;
-        userService.deleteUser(selectedUser.getMail());
+        userService.deleteUser(selectedUser.getUserId());
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User Removed", "Error");
         context.addMessage("dt-Users", msg);
@@ -102,7 +100,7 @@ public class CrudUserBean {
     public void deleteSelectedUsers() {
         this.users.removeAll(this.selectedUsers);
         for(User user: this.selectedUsers){
-            userService.deleteUser(user.getMail());
+            userService.deleteUser(user.getUserId());
         }
         this.selectedUsers = null;
         FacesContext context = FacesContext.getCurrentInstance();
