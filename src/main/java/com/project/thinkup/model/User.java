@@ -1,18 +1,25 @@
 package com.project.thinkup.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long UserId;
-	
+	private Long userId;
+
 	@Column(name = "firstName")
 	private String firstName;
 
@@ -23,6 +30,10 @@ public class User {
 	private String status;
 	private String role;
 	private String area;
+
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private List<Idea> ideas;
 
 	public User() {
 
@@ -37,17 +48,22 @@ public class User {
 		this.status = status;
 		this.role = role;
 		this.area = area;
+		this.ideas = new ArrayList<Idea>();
+	}
 
+	public void addIdea (Idea ideaToAdd) {
+		ideas.add(ideaToAdd);
 	}
 
 	@Override
 	public String toString() {
-		return "User [UserId=" + UserId + ", firstName=" + firstName + ", lastName=" + lastName + ", mail=" + mail
-				+ ", password=" + password + ", status=" + status + ", role=" + role + ", area=" + area + "]";
+		return "User [UserId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
+				+ password + ", mail=" + mail + ", status=" + status + ", role=" + role + ", area=" + area + ", ideas="
+				+ ideas + "]";
 	}
 
 	public Long getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public String getFirstName() {
@@ -79,7 +95,7 @@ public class User {
 	}
 
 	public void setUserId(Long userId) {
-		UserId = userId;
+		this.userId = userId;
 	}
 
 	public void setFirstName(String firstName) {
@@ -110,18 +126,27 @@ public class User {
 		this.area = area;
 	}
 
+	public List<Idea> getIdeas() {
+		return ideas;
+	}
+
+	public void setIdeas(List<Idea> ideas) {
+		this.ideas = ideas;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((UserId == null) ? 0 : UserId.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((area == null) ? 0 : area.hashCode());
+		result = prime * result + ((ideas == null) ? 0 : ideas.hashCode());
 		return result;
 	}
 
@@ -134,10 +159,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (UserId == null) {
-			if (other.UserId != null)
+		if (userId == null) {
+			if (other.userId != null)
 				return false;
-		} else if (!UserId.equals(other.UserId))
+		} else if (!userId.equals(other.userId))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -149,15 +174,15 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (mail == null) {
-			if (other.mail != null)
-				return false;
-		} else if (!mail.equals(other.mail))
-			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
+			return false;
+		if (mail == null) {
+			if (other.mail != null)
+				return false;
+		} else if (!mail.equals(other.mail))
 			return false;
 		if (status == null) {
 			if (other.status != null)
@@ -173,6 +198,11 @@ public class User {
 			if (other.area != null)
 				return false;
 		} else if (!area.equals(other.area))
+			return false;
+		if (ideas == null) {
+			if (other.ideas != null)
+				return false;
+		} else if (!ideas.equals(other.ideas))
 			return false;
 		return true;
 	}

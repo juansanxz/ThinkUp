@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core">
+  <h:head>
+    <title>ThinkUp</title>
+    <link rel="stylesheet" type="text/css" href="Content/main.css" />
+    <script src="Javascript/showInputText.js"></script>
+  </h:head>
+  <h:body>
+    <div class="container">
+      <div class="left-column">
+        <div>
+          <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="80" height="80"/>
+        </div>
+        <a class ="profile" href="index.html"><img class="m-glass-image" src="Content/Images/m_glass.png"/></a>
+        <a href="index.html">Profile</a>
+        <a href="index.html">Statistics</a>
+        <a href="index.html">Configuration</a>
+        <a href="index.html">Administrar Usuarios</a>
+      </div>
+      <div class="right-column">
+        <h:form class="post">
+            
+                <h:inputText id="publish"  style="width: 100%;" binding="#{idea}" onkeypress="if (event.keyCode == 13) mostrarPopUp();"/>
+                <h:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(idea.value)}"/>
+                <h:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
+                <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
+                    <h:form>
+                        <h:outputLabel for="valorPopUp" value="Insert key words: " />
+                        <h:inputText id="valorPopUp" binding="#{keyWord}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
+                        <h:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="PF('popUp').hide()"/>
+                    </h:form>
+                </p:dialog>
+        </h:form>
+        <div class="publications">
+            <textarea placeholder="Mostrar información"></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- Agregamos el archivo JS para el comportamiento del pop-up -->
+	<script type="text/javascript" src="Javascript/showInputText.js"></script>
+  </h:body>
+</html>

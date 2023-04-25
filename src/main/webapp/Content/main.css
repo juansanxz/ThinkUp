@@ -1,0 +1,137 @@
+/* Estilos para el contenedor principal */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #990000;
+}
+
+/* Estilos para la columna izquierda */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    height: 100vh;
+    background-color: #990000;
+}
+
+/* Estilos para los botones de la columna izquierda */
+.left-column button {
+    margin: 10px;
+    padding: 10px;
+    width: 150px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Estilos para el botón inferior de la columna izquierda */
+.bottom-button {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 150px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Estilos para el botón inferior de la columna izquierda */
+.bottom-button {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 150px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+/* Estilos para la columna derecha */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    height: 100vh;
+    background-color: white;
+}
+
+/* Estilos para los espacios de texto en la columna derecha */
+.right-column input[type="text"] {
+    margin: 10px;
+    padding: 10px; 
+    width: calc(100% - 20px);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+/* Estilos para el espacio de información en la columna derecha */
+.right-column textarea {
+    margin: 10px;
+    padding: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 120px);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}
+
+.circular-image {
+    border-radius: 50%;
+    border-color: black;
+    border-width: 5px;
+    border-style: solid;
+}
+
+.m-glass-image {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a:link { color: black; }
+a:visited { color: black; }
+a:hover { color: yellow; }
+a:focus { color: red; }
+a:active { color: red; }
+
+.post {
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    height: 30%;
+    margin-bottom: 0%;
+}
+
+.publications {
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    height: 30%;
+    margin-top: 50px;
+}
+
+body {
+    background-color: #990000
+};
