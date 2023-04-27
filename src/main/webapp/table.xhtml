@@ -19,19 +19,19 @@
                     </p:commandButton>
                     <!-- Botón Eliminar Usuarios-->
                     <p:commandButton id="delete-users-button" value="#{crudUserBean.deleteButtonMessage}"
-                    icon="ui-icon-trash" actionListener="#{crudUserBean.deleteSelectedUsers}"
-                    styleClass="ui-button-danger" disabled="#{!crudUserBean.hasSelectedUsers()}" update="@this">
+                    icon="ui-icon-trash" oncomplete="PF('deleteusersDialog').show()"
+                    styleClass="ui-button-danger" disabled="#{!crudUserBean.hasSelectedUsers()}" process="@this">
                     <!-- Confirmar Eliminar usuarios-->
-                    <p:confirm header="Confirmation" message="Delete the selected users?"
-                        icon="ui-button-warning" />
                     </p:commandButton>
                     <!-- Actualizar tabla de usuarios -->
-                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users" action="#{crudUserBean.refresh}" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
+                    <p:commandButton value="Actualizar" icon="ui-icon-refresh" update=":form :form:dt-users " action="#{crudUserBean.refresh}" 
+                    styleClass="ui-button-success" style="margin-right: .5rem" oncomplete="PF('dtUsers').filter()" >
+                    </p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
             <!-- Tabla con Usuarios -->
             <p:dataTable id="dt-users" widgetVar="dtUsers" var="user" value="#{crudUserBean.users}"
-                reflow="true" styleClass="users-table" selection="#{crudUserBean.selectedUsers}"
+                reflow="true" styleClass="users-table" selection="#{crudUserBean.selectedUsers}" filteredValue="#{crudUserBean.filteredUsers}"
                 rowKey="#{user.userId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
                 <!-- Buscar usuarios -->
                 <f:facet name="header">
@@ -62,7 +62,7 @@
                 <p:column headerText="Correo" filterMatchMode="startsWith" filterBy="#{user.mail}" filterStyle="display:none">
                     <h:outputText value="#{user.mail}" />
                 </p:column>
-                <p:column headerText="Nombre" filterMatchMode="contains" filterBy="#{user.firstName}" filterStyle="display:none">
+                <p:column headerText="Nombre" filterMatchMode="contains" filterBy="#{user.firstName} #{user.lastName} " filterStyle="display:none">
                     <h:outputText value="#{user.firstName} #{user.lastName}" />
                 </p:column>
                 <p:column headerText="Contraseña">
@@ -86,6 +86,7 @@
                         styleClass="edit-button rounded-button ui-button-success" process="@this">
                         <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
                         <p:resetInput target=":dialogs:manage-user-content" />
+
                     </p:commandButton>
                     <!--  Eliminar Usuarios  -->
                     <p:commandButton class="ui-button-warning rounded-button" icon="ui-icon-trash" update=":dialogs:manage-user-content :form :form:dt-users"
@@ -150,7 +151,7 @@
             <!--  Confirmación  -->    
                 <f:facet name="footer">
                     <p:commandButton value="Guardar"  actionListener="#{crudUserBean.saveUser}"
-                        update="manage-user-content :form" process="manage-user-content @this" oncomplete="PF('manageuserDialog').hide()"/>
+                        update="manage-user-content :form" process="manage-user-content @this" oncomplete="PF('manageuserDialog').hide(); PF('dtUsers').filter()"/>
                     <p:commandButton value="Cancelar"  onclick="PF('manageuserDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>
@@ -158,17 +159,26 @@
             </p:dialog>
             <!--  Eliminar Usuario  -->
             <p:confirmDialog widgetVar="deleteuserDialog" showEffect="fade" width="300"
-                message="¿Eliminar Usuario? Es posible que el usuaro tenga ideas creadas" header="Confirmar" severity="alert">
+                message="¿Eliminar Usuario? Es posible que el usuario tenga ideas creadas" header="Confirmar" severity="alert">
                 <p:commandButton value="Si" actionListener="#{crudUserBean.deleteUser}"
-                    process="@this" update=":form:delete-users-button :form :form:dt-users"
-                    oncomplete="PF('deleteuserDialog').hide()" />
+                    process="@this" update=":form :form:dt-users :form:delete-users-button "
+                    oncomplete="PF('deleteuserDialog').hide(); PF('dtUsers').filter()" />
                 <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
                     onclick="PF('deleteuserDialog').hide()" />
-            </p:confirmDialog>           
+            </p:confirmDialog> 
+            <!--  Eliminar Usuarios  -->
+            <p:confirmDialog widgetVar="deleteusersDialog" showEffect="fade" width="300"
+                message="¿Eliminar Usuario? Es posible que los usuarios tengan ideas creadas" header="Confirmar" severity="alert">
+                <p:commandButton value="Si" actionListener="#{crudUserBean.deleteSelectedUsers}"
+                    process="@this" update=":form:delete-users-button :form :form:dt-users"
+                    oncomplete="PF('deleteusersDialog').hide(); PF('dtUsers').filter()" />
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
+                    onclick="PF('deleteusersDialog').hide()" />
+            </p:confirmDialog>               
             <!--  Eliminar Usuario  -->
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Si" type="button" />
-                <p:commandButton value="No" type="button" icon="i-button-danger" />
+                <p:commandButton value="No" type="button"/>
             </p:confirmDialog>
         </h:form>
     </div>

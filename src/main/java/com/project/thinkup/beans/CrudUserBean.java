@@ -24,6 +24,7 @@ public class CrudUserBean {
     private List<User> users;
     private User selectedUser;
     private List<User> selectedUsers;
+    private List<User> filteredUsers;
 	
     @Autowired
     UserService userService;
@@ -36,11 +37,18 @@ public class CrudUserBean {
 
     public void refresh() {
         this.users = userService.getAllUsers();
-
     }
 
     public List<User> getUsers() {
         return users;
+    }
+
+    public void setFilteredUsers(List<User> filteredUsers) {
+        this.filteredUsers = filteredUsers;
+    }
+
+    public List<User> getFilteredUsers() {
+        return filteredUsers;
     }
 
     public void setUsers(List<User> users) {
@@ -128,4 +136,9 @@ public class CrudUserBean {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios borrados con exito!", "Usuario borrado con exito!");
         context.addMessage("anotherkey", msg);
     }
+
+    
+
+
+
 }
