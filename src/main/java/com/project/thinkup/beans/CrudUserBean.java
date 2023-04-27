@@ -1,7 +1,6 @@
 package com.project.thinkup.beans;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
