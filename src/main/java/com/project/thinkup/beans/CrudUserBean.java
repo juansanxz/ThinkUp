@@ -1,6 +1,7 @@
 package com.project.thinkup.beans;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -36,9 +37,7 @@ public class CrudUserBean {
     }
 
     public void refresh() {
-        filteredUsers = null;
         this.users = userService.getAllUsers();
-
     }
 
     public List<User> getUsers() {
@@ -138,6 +137,9 @@ public class CrudUserBean {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios borrados con exito!", "Usuario borrado con exito!");
         context.addMessage("anotherkey", msg);
     }
+
+    
+
 
 
 }
