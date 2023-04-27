@@ -69,11 +69,11 @@ public class Main {
 			keyWords3.add(keyWord2);
 
 			System.out.println("Adding Admon's ideas...\n");
-			Idea idea1 = new Idea("Proyecto de redes", keyWords1);
+			Idea idea1 = new Idea("Titulo1", "Proyecto de redes", keyWords1);
 
-			Idea idea2 = new Idea("Proyecto de ciclos", keyWords2);
+			Idea idea2 = new Idea("Titulo2", "Proyecto de ciclos", keyWords2);
 
-			Idea idea3 = new Idea("Proyecto de aupn", keyWords3);
+			Idea idea3 = new Idea("Titulo3", "Proyecto de aupn", keyWords3);
 
 			myIdeaService.addIdea(idea1);
 			myIdeaService.addIdea(idea2);
@@ -92,7 +92,7 @@ public class Main {
 			myUserService.addUser(admon1);
 
 			System.out.println("Adding new idea and adding to admon1...\n");
-			Idea idea4 = new Idea("Idea adicional", keyWords3);
+			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
 			myIdeaService.addIdea(idea4);
 			admon1.addIdea(idea4);
 			myUserService.updateUser(admon1);

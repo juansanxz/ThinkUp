@@ -21,15 +21,18 @@
       </div>
       <div class="right-column">
         <h:form class="post">
-            
-                <h:inputText id="publish"  style="width: 100%;" binding="#{idea}" onkeypress="if (event.keyCode == 13) mostrarPopUp();"/>
-                <h:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(idea.value)}"/>
-                <h:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
+                <p:outputLabel value="Título" />
+                <p:inputText id="title-idea"  style="width: 96%; height: 20%;" binding="#{title}" onkeypress="if (event.keyCode == 13) mostrarPopUp();"/>
+                <p:inputText id="publish"  style="width: 96%;" binding="#{idea}" onkeypress="if (event.keyCode == 13) mostrarPopUp();"/>
+                <div class="button-in-publish">
+                    <h:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(title.value, idea.value)}"/>
+                    <h:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
+                </div>
                 <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
-                        <h:outputLabel for="valorPopUp" value="Insert key words: " />
-                        <h:inputText id="valorPopUp" binding="#{keyWord}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
-                        <h:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="PF('popUp').hide()"/>
+                        <p:outputLabel for="valorPopUp" value="Insert key words: " />
+                        <p:inputText id="valorPopUp" binding="#{keyWord}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
+                        <p:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="PF('popUp').hide()"/>
                     </h:form>
                 </p:dialog>
         </h:form>
