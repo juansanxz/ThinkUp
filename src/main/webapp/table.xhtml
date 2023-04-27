@@ -26,12 +26,12 @@
                         icon="ui-button-warning" />
                     </p:commandButton>
                     <!-- Actualizar tabla de usuarios -->
-                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users" action="#{crudUserBean.refresh}" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
+                    <p:commandButton value="Actualizar" icon="ui-icon-refresh" update=":form:dt-users" action="#{crudUserBean.refresh}" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
             <!-- Tabla con Usuarios -->
             <p:dataTable id="dt-users" widgetVar="dtUsers" var="user" value="#{crudUserBean.users}"
-                reflow="true" styleClass="users-table" selection="#{crudUserBean.selectedUsers}"
+                reflow="true" styleClass="users-table" selection="#{crudUserBean.selectedUsers}" filteredValue="#{crudUserBean.filteredUsers}"
                 rowKey="#{user.userId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
                 <!-- Buscar usuarios -->
                 <f:facet name="header">
@@ -86,6 +86,7 @@
                         styleClass="edit-button rounded-button ui-button-success" process="@this">
                         <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
                         <p:resetInput target=":dialogs:manage-user-content" />
+                        
                     </p:commandButton>
                     <!--  Eliminar Usuarios  -->
                     <p:commandButton class="ui-button-warning rounded-button" icon="ui-icon-trash" update=":dialogs:manage-user-content :form :form:dt-users"
