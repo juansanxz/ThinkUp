@@ -8,6 +8,6 @@ import com.project.thinkup.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByMail(String mail);
-
     boolean existsByMail(String mail);
+    void deleteByMail(String mail);
 }

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Think Up!</title>
+</h:head>
+<h:body>
+    <div class="card crud">
+        <h:form id="form">
+            <p:growl for="anotherkey"/>
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <!-- Botón Nuevo Usuario-->
+                    <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{crudUserBean.openNew}"
+                        update=":dialogs:manage-user-content" oncomplete="PF('manageuserDialog').show()"
+                        styleClass="ui-button-success" style="margin-right: .5rem">
+                        <p:resetInput target=":dialogs:manage-user-content"/>
+                    </p:commandButton>
+                    <!-- Botón Eliminar Usuarios-->
+                    <p:commandButton id="delete-users-button" value="#{crudUserBean.deleteButtonMessage}"
+                    icon="ui-icon-trash" actionListener="#{crudUserBean.deleteSelectedUsers}"
+                    styleClass="ui-button-danger" disabled="#{!crudUserBean.hasSelectedUsers()}" update="@this">
+                    <!-- Confirmar Eliminar usuarios-->
+                    <p:confirm header="Confirmation" message="Delete the selected users?"
+                        icon="ui-button-warning" />
+                    </p:commandButton>
+                    <!-- Actualizar tabla de usuarios -->
+                    <p:commandButton value="Acualizar" icon="ui-icon-refresh" update=":form:dt-users" action="#{crudUserBean.refresh}" styleClass="ui-button-success" style="margin-right: .5rem"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <!-- Tabla con Usuarios -->
+            <p:dataTable id="dt-users" widgetVar="dtUsers" var="user" value="#{crudUserBean.users}"
+                reflow="true" styleClass="users-table" selection="#{crudUserBean.selectedUsers}"
+                rowKey="#{user.userId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                <!-- Buscar usuarios -->
+                <f:facet name="header">
+                    <div class="users-table-header">
+                        <span style="font-weight: bold">Usuarios</span>
+                    </div>
+                </f:facet>
+                <f:facet name="header">
+                    <div class="users-table-header">
+                        <p:inputText id="globalFilter" onkeyup="PF('dtUsers').filter()" placeholder="Buscar" />
+                    </div>
+                </f:facet>
+                <!-- Buscar usuarios -->
+                <p:ajax event="rowSelect" update=":form:delete-users-button" />
+                <p:ajax event="rowUnselect" update=":form:delete-users-button" />
+                <p:ajax event="rowSelectCheckbox" update=":form:delete-users-button" />
+                <p:ajax event="rowUnselectCheckbox" update=":form:delete-users-button" />
+                <p:ajax event="toggleSelect" update=":form:delete-users-button" />   
+
+               <!--  Columna para seleccionar  -->
+                <p:column selectionMode="multiple" exportable="false"></p:column>
+    
+                <!--  Datos Usuario  -->
+
+                <p:column headerText="Id">
+                    <h:outputText value="#{user.userId}" />
+                </p:column>
+                <p:column headerText="Correo" filterMatchMode="startsWith" filterBy="#{user.mail}" filterStyle="display:none">
+                    <h:outputText value="#{user.mail}" />
+                </p:column>
+                <p:column headerText="Nombre" filterMatchMode="contains" filterBy="#{user.firstName}" filterStyle="display:none">
+                    <h:outputText value="#{user.firstName} #{user.lastName}" />
+                </p:column>
+                <p:column headerText="Contraseña">
+                    <h:outputText value="#{user.password}" />
+                </p:column>
+                <p:column headerText="Estado" filterMatchMode="startsWith" filterBy="#{user.status}" filterStyle="display:none">
+                    <h:outputText value="#{user.status}" />
+                </p:column>
+                <p:column headerText="Role" filterMatchMode="startsWith" filterBy="#{user.role}" filterStyle="display:none">
+                    <h:outputText value="#{user.role}" />
+                </p:column>
+                <p:column headerText="Area" filterMatchMode="startsWith" filterBy="#{user.area}" filterStyle="display:none">
+                    <h:outputText value="#{user.area}" />
+                </p:column>
+
+                <!--  Datos Usuario  -->
+                <p:column exportable="false">
+                    <!--  Editar Usuarios  -->
+                    <p:commandButton icon="ui-icon-pencil" update=":dialogs:manage-user-content"
+                        oncomplete="PF('manageuserDialog').show()"
+                        styleClass="edit-button rounded-button ui-button-success" process="@this">
+                        <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
+                        <p:resetInput target=":dialogs:manage-user-content" />
+                    </p:commandButton>
+                    <!--  Eliminar Usuarios  -->
+                    <p:commandButton class="ui-button-warning rounded-button" icon="ui-icon-trash" update=":dialogs:manage-user-content :form :form:dt-users"
+                                     process="@this"
+                                     oncomplete="PF('deleteuserDialog').show()">
+                        <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <!--  Ventanas del CRUD -->
+        <h:form id="dialogs">
+            <!--  Editar/Agregar Usuario Usuarios  -->
+            <p:dialog header="User Details" showEffect="fade" modal="true" widgetVar="manageuserDialog"
+                responsive="true">
+                <p:outputPanel id="manage-user-content" class="ui-fluid">
+                    <p:outputPanel rendered="#{not empty crudUserBean.selectedUser}">
+                        <div class="field">
+                            <p:outputLabel for="firstName">Nombre</p:outputLabel>
+                            <p:inputText id="firstName" value="#{crudUserBean.selectedUser.firstName}" required="true" />
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="lastName">Apellido</p:outputLabel>
+                            <p:inputText id="lastName" value="#{crudUserBean.selectedUser.lastName}" required="true" />
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="mail">Correo</p:outputLabel>
+                            <p:inputText id="mail" value="#{crudUserBean.selectedUser.mail}" required="true" />
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="password">Contraseña</p:outputLabel>
+                            <p:inputText id="password" value="#{crudUserBean.selectedUser.password}" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="status">Estado</p:outputLabel>
+                            <p:selectOneRadio id="status" value="#{crudUserBean.selectedUser.status}"
+                                layout="responsive" columns="2"  required="true">
+                                <f:selectItem itemLabel="Activo" itemValue="activo" />
+                                <f:selectItem itemLabel="Inactivo" itemValue="inactivo" />
+                            </p:selectOneRadio>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="role">Rol</p:outputLabel>
+                            <p:selectOneRadio id="role" value="#{crudUserBean.selectedUser.role}"
+                                layout="responsive" columns="2" required="true">
+                                <f:selectItem itemLabel="Administrador" itemValue="admin" />
+                                <f:selectItem itemLabel="Usuario" itemValue="user" />
+                            </p:selectOneRadio>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="area">Area</p:outputLabel>
+                            <p:selectOneRadio id="area" value="#{crudUserBean.selectedUser.area}"
+                                layout="responsive" columns="2" required="true">
+                                <f:selectItem itemLabel="Estudiante" itemValue="estudiante" />
+                                <f:selectItem itemLabel="Profesor" itemValue="profesor" />
+                                <f:selectItem itemLabel="Administrativo" itemValue="administrativo" />
+                                <f:selectItem itemLabel="Externo" itemValue="externo" />
+                            </p:selectOneRadio>
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+            <!--  Confirmación  -->    
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar"  actionListener="#{crudUserBean.saveUser}"
+                        update="manage-user-content :form" process="manage-user-content @this" oncomplete="PF('manageuserDialog').hide()"/>
+                    <p:commandButton value="Cancelar"  onclick="PF('manageuserDialog').hide()"
+                        class="ui-button-secondary" type="button" />
+                </f:facet>
+                <p:messages for="somekey"/>
+            </p:dialog>
+            <!--  Eliminar Usuario  -->
+            <p:confirmDialog widgetVar="deleteuserDialog" showEffect="fade" width="300"
+                message="¿Eliminar Usuario? Es posible que el usuaro tenga ideas creadas" header="Confirmar" severity="alert">
+                <p:commandButton value="Si" actionListener="#{crudUserBean.deleteUser}"
+                    process="@this" update=":form:delete-users-button :form :form:dt-users"
+                    oncomplete="PF('deleteuserDialog').hide()" />
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
+                    onclick="PF('deleteuserDialog').hide()" />
+            </p:confirmDialog>           
+            <!--  Eliminar Usuario  -->
+            <p:confirmDialog global="true" showEffect="fade" width="300">
+                <p:commandButton value="Si" type="button" />
+                <p:commandButton value="No" type="button" icon="i-button-danger" />
+            </p:confirmDialog>
+        </h:form>
+    </div>
+</h:body>
+</html>

@@ -32,6 +32,7 @@ public class ThinkUp {
 	
 	@Autowired
 	LoginBean loginBean;
+
 	User currentUser;
 	@Autowired
 	IdeaService myIdeaService;

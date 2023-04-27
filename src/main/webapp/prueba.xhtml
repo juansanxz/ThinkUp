@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Think Up!</title>
+</h:head>
+<h:body>
+    <div class="card crud">
+        <h:form id="form">
+            <!-- Tabla con Usuarios -->
+            <p:dataTable id="dt-users" widgetVar="dtUsers" var="user" value="#{crudUserBean.users}"
+                reflow="true" styleClass="users-table" selection="#{crudUserBean.selectedUsers}"
+                rowKey="#{user.userId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom" filterBy="#{user.mail}">
+                <!-- Buscar usuarios -->
+                <f:facet name="header">
+                    <div class="users-table-header">
+                        <span style="font-weight: bold">Usuarios</span>
+                        <span class="filter-container ui-input-icon-left"> <i class="ui-icon ui-icon-search"></i>
+                            <p:inputText id="globalFilter" onkeyup="PF('dtUsers').filter()" placeholder="Buscar" />
+                        </span>
+                    </div>
+                </f:facet>
+
+               <!--  Columna para seleccionar  -->
+                <p:column selectionMode="multiple" exportable="false"></p:column>
+    
+                <!--  Datos Usuario  -->
+
+                <p:column headerText="Id" filterMatchMode="startsWith">
+                    <h:outputText value="#{user.userId}" />
+                </p:column>
+                <p:column headerText="Correo">
+                    <h:outputText value="#{user.mail}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{user.firstName} #{user.lastName}" />
+                </p:column>
+                <p:column headerText="Contraseña">
+                    <h:outputText value="#{user.password}" />
+                </p:column>
+                <p:column headerText="Estado">
+                    <h:outputText value="#{user.status}" />
+                </p:column>
+                <p:column headerText="Role">
+                    <h:outputText value="#{user.role}" />
+                </p:column>
+                <p:column headerText="Area">
+                    <h:outputText value="#{user.area}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </div>
+</h:body>
+</html>
