@@ -23,9 +23,11 @@ public class Idea {
     private LocalDate creationDate;
     private String status;
     private String description;
+    private String title;
 
     // @ManyToOne(cascade = { CascadeType.REMOVE })
     // User user;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<KeyWord> keyWords;
@@ -33,7 +35,8 @@ public class Idea {
     public Idea() {
     }
 
-    public Idea(String description, List<KeyWord> keywords) {
+    public Idea(String title, String description, List<KeyWord> keywords) {
+        this.title = title;
         this.creationDate = LocalDate.now();
         status = Status.created;
         this.description = description;
@@ -88,6 +91,7 @@ public class Idea {
         result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((keyWords == null) ? 0 : keyWords.hashCode());
         return result;
     }
@@ -121,6 +125,11 @@ public class Idea {
                 return false;
         } else if (!description.equals(other.description))
             return false;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
         if (keyWords == null) {
             if (other.keyWords != null)
                 return false;
@@ -132,7 +141,15 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", keyWords=" + keyWords + "]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + "]";
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 }

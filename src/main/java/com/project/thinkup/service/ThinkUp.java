@@ -76,14 +76,14 @@ public class ThinkUp {
 	}
 
 	// Solo se le manda la descripción porque cuando el usuario vaya creando las ideas las va agregando en stringKeyWords
-	public void publishAnIdea(String description) {
+	public void publishAnIdea(String title, String description) {
 		// Agregar las keyword a la base de datos
 		for (String keyWord : stringKeyWords) {
 			addKeyWord(keyWord);
 		}
 
 		// Creación de ideas
-		Idea ideaToAdd = new Idea(description, currentKeyWords);
+		Idea ideaToAdd = new Idea(title, description, currentKeyWords);
 
 		// Agregando idea a la base de datos
 		myIdeaService.addIdea(ideaToAdd);
