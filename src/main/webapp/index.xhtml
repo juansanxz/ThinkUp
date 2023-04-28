@@ -5,7 +5,6 @@
 <h:head>
     <title>ThinkUp Login</title>
     <link rel="stylesheet" type="text/css" href="App/Themes/Lumen/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="App/Modules/Core/Css/core.css" />
     <link rel="stylesheet" type="text/css" href="Content/login.css" />
 </h:head>
 <h:body>
@@ -16,19 +15,17 @@
                     <div class="row login_header">
                         <img class="circular--image" src="Content/Images/logo.png" />
                     </div>
-                    <div class="align-items-center justify-content-center">
+                    <div class="align-items-center-justify-content-center">
                         <div class="ui-fluid">
                             <h:form>
                                 <p:messages for="somekey"/>
                                 <div class="field">
-                                    <p:outputLabel value="Username" />
-                                    <h:inputText id="username"  binding="#{userName}" />
+                                    <p:inputText id="username" binding="#{userName}" placeholder="Correo Electronico" />
                                 </div>
                                 <div class="field">
-                                    <p:outputLabel value="Password" />
-                                    <h:inputText id="password" binding="#{passwordLogin}" />
+                                    <p:inputText id="password" binding="#{passwordLogin}" placeholder="Contraseña" />
                                 </div>
-                                <h:commandButton value="Login" styleClass="rounded-button ui-button-flat" action="#{thinkUp.login(userName.value, passwordLogin.value)}" />
+                                <h:commandButton class="login-Button" value="Login" action="#{thinkUp.login(userName.value, passwordLogin.value)}" />
                             </h:form>
                         </div>
                     </div>

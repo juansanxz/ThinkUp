@@ -1,25 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Start Page</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <h2>Form</h2>
-    <form name="idForm" action="/OpenTheWindow" method="get" onsubmit="return validateForm()">
-      <label for="id">Ingrese un número:</label>
-      <input type="text" id="id" name="id"><br><br>
-      <input type="submit" value="Submit">
-    </form>
+<body>
+    <h1>Redireccionando...</h1>
     <script>
-	function validateForm() {
-  		let x = document.forms["idForm"]["id"].value;
-  		if (isNaN(x)) {
-    		alert("Id is not a number");
-    		return false;
-  		}
-	}	
-	</script>
-  </body>
-</html>
+        location.href = "index.xhtml"
+    </script>
+</body>
