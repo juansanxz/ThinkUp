@@ -32,7 +32,7 @@
                 <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
                         <p:outputLabel for="valorPopUp" value="Insert key words: " />
-                        <p:inputText id="valorPopUp" binding="#{keyWord}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
+                        <p:inputText id="valorPopUp" binding="#{keyWord}" />
                         <p:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="ocultaPopUp();"/>
                     </h:form>
                 </p:dialog>
@@ -51,7 +51,7 @@
                         <h:selectOneRadio id="columnRadio" binding="#{columnOption}" layout="custom">
                           <f:selectItem itemLabel="Título" itemValue="title" />
                           <f:selectItem itemLabel="Descripción" itemValue="description" />
-                          <f:selectItem itemLabel="Fecha" itemValue="creation_date" />
+                          <f:selectItem itemLabel="Fecha" itemValue="creationDate" />
                           <f:selectItem itemLabel="Estado" itemValue="status" />
                         </h:selectOneRadio>
                         <h:selectOneRadio id="orderRadio" binding="#{orderOption}" layout="custom">
