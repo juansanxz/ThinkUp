@@ -9,8 +9,36 @@
     border-color: black;
     border-width: 5px;
     border-style: solid;
+    position: relative;
+    margin-top: auto;
 }
 
 body {
-    background-color: #990000
+    background-color: #990000;
 };
+
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+    body {
+        background-color: red;
+    }
+    .circular--image {
+        width: 216px;
+    }
+}
+  
+/* Media Query for Tablets */
+@media (min-width: 481px) and (max-width: 1024px) {
+    body {
+        background-color: yellow;
+    }
+}
+  
+  
+/* Media Query for Laptops and Desktops */
+@media (min-width: 1025px) {
+    body {
+        background-color: green;
+    }
+}
+
