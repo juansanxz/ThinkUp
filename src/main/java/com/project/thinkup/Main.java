@@ -104,7 +104,7 @@ public class Main {
 			myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
 
 			System.out.println("\nGetting ideas with active status....");
-			myIdeaService.getAllIdeasByStatus("Created").forEach(item -> System.out.println(item));
+			myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
 
 			System.out.println("\nGetting ideas by user....");
 		};

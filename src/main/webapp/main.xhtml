@@ -17,27 +17,73 @@
         <a href="index.html">Profile</a>
         <a href="index.html">Statistics</a>
         <a href="index.html">Configuration</a>
-        <a href="index.html">Administrar Usuarios</a>
+        <a href="table.xhtml">Administrar Usuarios</a>
       </div>
       <div class="right-column">
         <h:form class="post">
-                <p:outputLabel value="Título" />
-                <p:inputText id="title-idea"  style="width: 96%; height: 20%;" binding="#{title}" onkeypress="if (event.keyCode == 13) mostrarPopUp();"/>
-                <p:inputText id="publish"  style="width: 96%;" binding="#{idea}" onkeypress="if (event.keyCode == 13) mostrarPopUp();"/>
+                <p:outputLabel value="Título"/>
+                <p:inputText id="title-idea"  style="width: 96%; height: 20%;" binding="#{title}"/>
+                <p:outputLabel value="Descripción"/>
+                <p:inputText id="publish"  style="width: 96%;" binding="#{idea}"/>
                 <div class="button-in-publish">
-                    <h:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(title.value, idea.value)}"/>
-                    <h:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
+                    <p:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(title.value, idea.value)}"/>
+                    <p:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
                 </div>
                 <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
                         <p:outputLabel for="valorPopUp" value="Insert key words: " />
                         <p:inputText id="valorPopUp" binding="#{keyWord}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
-                        <p:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="PF('popUp').hide()"/>
+                        <p:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="ocultaPopUp();"/>
                     </h:form>
                 </p:dialog>
         </h:form>
         <div class="publications">
-            <textarea placeholder="Mostrar información"></textarea>
+            <h:form>
+              <div>
+                <p:commandButton value="Siguiente" action="#{thinkUp.changeIdea('next')}" update="publicationId"/>
+                <p:commandButton value="Atras" action="#{thinkUp.changeIdea('back')}" update="publicationId"/>
+                <p:commandButton value="Ordenar" type="button" onclick="mostrarPopUpOrden();"/>
+                <p:commandButton value="Editar" icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();"/>
+              </div>
+              <p:dialog id="popUpOrdenar" header="Ordenar" widgetVar="popUpOrdenar" modal="true" showEffect="fade" hideEffect="fade">
+                    <h:form>
+                        <p:outputLabel value="Seleccione el tipo de orden" />
+                        <h:selectOneRadio id="columnRadio" binding="#{columnOption}" layout="custom">
+                          <f:selectItem itemLabel="Título" itemValue="title" />
+                          <f:selectItem itemLabel="Descripción" itemValue="description" />
+                          <f:selectItem itemLabel="Fecha" itemValue="creation_date" />
+                          <f:selectItem itemLabel="Estado" itemValue="status" />
+                        </h:selectOneRadio>
+                        <h:selectOneRadio id="orderRadio" binding="#{orderOption}" layout="custom">
+                          <f:selectItem itemLabel="Ascendente" itemValue="asc" />
+                          <f:selectItem itemLabel="Descendente" itemValue="desc" />
+                        </h:selectOneRadio>
+                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" onclick="ocultaPopUpOrden();"  update="publicationId"/>
+                        <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="publicationId"/>
+                      </h:form>
+              </p:dialog>
+            </h:form>
+            <h:form>
+              <p:dialog id="popUpEditarStatus" header="Editar" widgetVar="popUpEditarStatus" modal="true" showEffect="fade" hideEffect="fade">
+                    <h:form>
+                        <p:outputLabel value="Seleccione el nuevo estado" />
+                        <h:selectOneRadio id="statusRadio" binding="#{statusOption}" layout="custom">
+                          <f:selectItem itemLabel="Creada" itemValue="Creada" />
+                          <f:selectItem itemLabel="En análisis" itemValue="En análisis" />
+                          <f:selectItem itemLabel="Aprobada" itemValue="Aprobada" />
+                          <f:selectItem itemLabel="Rechazada" itemValue="Rechazada" />
+                          <f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />
+                        </h:selectOneRadio>
+                        <p:commandButton value="Guardar" action="#{thinkUp.editIdeaStatus(statusOption.value)}" onclick="ocultaPopUpStatus();"  update="publicationId"/>
+                        </h:form>
+              </p:dialog>
+            </h:form>
+            <h:panelGroup id="publicationId">
+              <p:outputLabel value="#{thinkUp.getCurrentIdea().getTitle()}"/>
+              <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}"/>
+              <p:outputLabel value="#{thinkUp.getCurrentIdea().getCreationDate()}"/>
+              <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}"/>
+            </h:panelGroup>
         </div>
       </div>
     </div>
