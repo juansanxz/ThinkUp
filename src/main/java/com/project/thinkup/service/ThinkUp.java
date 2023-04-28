@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -48,9 +49,14 @@ public class ThinkUp {
 		stringKeyWords = new ArrayList<String>();
 		currentIdeaPage = -1;
 		//System.out.println(myIdeaService);
-		currentIdea = new Idea("Bienvenido a tu portal de Ideas", " ", currentKeyWords);
+		//currentIdea = new Idea("Bienvenido a tu portal de Ideas", " ", currentKeyWords);
 		//changeIdea();
 		inOrder = false;
+	}
+
+	@PostConstruct
+	private void getFirstIdea() {
+		changeIdea("next");
 	}
 
 	public String login(String username, String password) {

@@ -32,7 +32,7 @@
                 <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
                         <p:outputLabel for="valorPopUp" value="Insert key words: " />
-                        <p:inputText id="valorPopUp" binding="#{keyWord}" onkeypress="if (event.keyCode == 13) ocultaPopUp();"/>
+                        <p:inputText id="valorPopUp" binding="#{keyWord}" />
                         <p:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" onclick="ocultaPopUp();"/>
                     </h:form>
                 </p:dialog>
