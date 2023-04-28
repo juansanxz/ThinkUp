@@ -62,7 +62,7 @@ public class ThinkUp {
 	public String login(String username, String password) {
 		if (loginBean.login(username, password)) {
 			currentUser = loginBean.getUser();
-			return "main.xhtml";
+			return "main.xhtml?faces-redirect=true";
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo",
