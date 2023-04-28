@@ -1,0 +1,21 @@
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+    .circular--image {
+        width: 250px;
+    }
+}
+
+/* Media Query for Tablets */
+@media (min-width: 481px) and (max-width: 1024px) {
+    .circular--image {
+        width: 350px;
+    }
+}
+
+
+/* Media Query for Laptops and Desktops */
+@media (min-width: 1025px) {
+    .circular--image {
+        width: 450px;
+    }
+}
