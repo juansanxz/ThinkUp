@@ -11,13 +11,13 @@
     <div class="container">
       <div class="left-column">
         <div>
-          <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="80" height="80"/>
+          <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
         </div>
-        <a class ="profile" href="index.html"><img class="m-glass-image" src="Content/Images/m_glass.png"/></a>
-        <a href="index.html">Profile</a>
-        <a href="index.html">Statistics</a>
-        <a href="index.html">Configuration</a>
-        <a href="table.xhtml">Administrar Usuarios</a>
+        <p:commandButton  icon="ui-icon-search"/>
+        <p:commandButton value="Perfil" />
+        <p:commandButton value="Estadísticas" />
+        <p:commandButton value="Configuración" />
+        <p:commandButton value="Administrar Usuarios" />
       </div>
       <div class="right-column">
         <h:form class="post">
@@ -51,7 +51,7 @@
                         <h:selectOneRadio id="columnRadio" binding="#{columnOption}" layout="custom">
                           <f:selectItem itemLabel="Título" itemValue="title" />
                           <f:selectItem itemLabel="Descripción" itemValue="description" />
-                          <f:selectItem itemLabel="Fecha" itemValue="creation_date" />
+                          <f:selectItem itemLabel="Fecha" itemValue="creationDate" />
                           <f:selectItem itemLabel="Estado" itemValue="status" />
                         </h:selectOneRadio>
                         <h:selectOneRadio id="orderRadio" binding="#{orderOption}" layout="custom">
@@ -78,12 +78,12 @@
                         </h:form>
               </p:dialog>
             </h:form>
-            <h:panelGroup id="publicationId">
+            <h:panelGrid id="publicationId">
               <p:outputLabel value="#{thinkUp.getCurrentIdea().getTitle()}"/>
               <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}"/>
               <p:outputLabel value="#{thinkUp.getCurrentIdea().getCreationDate()}"/>
               <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}"/>
-            </h:panelGroup>
+            </h:panelGrid>
         </div>
       </div>
     </div>

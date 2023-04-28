@@ -31,6 +31,21 @@
     cursor: pointer;
 }
 
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: rgb(173, 10, 10);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background: url('Images/m_glass.png');
+    background-repeat: no-repeat;
+  }
+
 /* Estilos para el botón inferior de la columna izquierda */
 .bottom-button {
     margin-bottom: 10px;
@@ -142,6 +157,7 @@ a:active { color: red; }
     width: 96%; 
     height: 20%;
 }
+    
 
 body {
     background-color: #990000
