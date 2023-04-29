@@ -39,12 +39,6 @@
         </h:form>
         <div class="publications">
             <h:form>
-              <div>
-                <p:commandButton value="Siguiente" action="#{thinkUp.changeIdea('next')}" update="publicationId"/>
-                <p:commandButton value="Atras" action="#{thinkUp.changeIdea('back')}" update="publicationId"/>
-                <p:commandButton value="Ordenar" type="button" onclick="mostrarPopUpOrden();"/>
-                <p:commandButton value="Editar" icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();"/>
-              </div>
               <p:dialog id="popUpOrdenar" header="Ordenar" widgetVar="popUpOrdenar" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
                         <p:outputLabel value="Seleccione el tipo de orden" />
@@ -58,8 +52,8 @@
                           <f:selectItem itemLabel="Ascendente" itemValue="asc" />
                           <f:selectItem itemLabel="Descendente" itemValue="desc" />
                         </h:selectOneRadio>
-                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" onclick="ocultaPopUpOrden();"  update="publicationId"/>
-                        <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="publicationId"/>
+                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" onclick="ocultaPopUpOrden();"  update="idea-content"/>
+                        <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="idea-content"/>
                       </h:form>
               </p:dialog>
             </h:form>
@@ -74,16 +68,36 @@
                           <f:selectItem itemLabel="Rechazada" itemValue="Rechazada" />
                           <f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />
                         </h:selectOneRadio>
-                        <p:commandButton value="Guardar" action="#{thinkUp.editIdeaStatus(statusOption.value)}" onclick="ocultaPopUpStatus();"  update="publicationId"/>
+                        <p:commandButton value="Guardar" action="#{thinkUp.editIdeaStatus(statusOption.value)}" onclick="ocultaPopUpStatus();"  update="idea-content"/>
                         </h:form>
               </p:dialog>
             </h:form>
-            <h:panelGrid id="publicationId">
-              <p:outputLabel value="#{thinkUp.getCurrentIdea().getTitle()}"/>
-              <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}"/>
-              <p:outputLabel value="#{thinkUp.getCurrentIdea().getCreationDate()}"/>
-              <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}"/>
-            </h:panelGrid>
+            <div class="idea-display">
+                <h:panelGrid id="idea-display-grid" columns="3" layout="grid" cellpadding="10">
+                
+                  <p:column colspan="3">
+                    <p:commandButton value="Atras" action="#{thinkUp.changeIdea('back')}" update="idea-content" styleClass="ui-button" style="width: 100%;"/>
+                  </p:column>           
+                 
+                  <p:column>
+                    <h:panelGrid id="idea-content" columns="1" layout="grid" width="100%">
+                    <p:commandButton value="Ordenar" type="button" onclick="mostrarPopUpOrden();" styleClass="ui-button" style="width: 100%;" />
+                    <p:commandButton value="Editar" icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();" style="width: 100%;"/>
+                   
+                    <p:outputLabel value="#{thinkUp.getCurrentIdea().getTitle()}" />
+                    <p:outputLabel value="#{thinkUp.getCurrentIdea().getCreationDate()}" />
+                    <p:outputLabel value="Estado" styleClass="status-label text-center" />
+                    <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}" />
+                    <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}" />
+                  </h:panelGrid>
+                  </p:column>
+
+                  <p:column>
+                    <p:commandButton value="Siguiente" action="#{thinkUp.changeIdea('next')}" update="idea-content" styleClass="ui-button" style="width: 100%;"/>           
+                  </p:column>
+
+               </h:panelGrid>
+            </div>
         </div>
       </div>
     </div>

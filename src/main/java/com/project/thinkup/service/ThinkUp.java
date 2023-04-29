@@ -189,6 +189,7 @@ public class ThinkUp {
 		return currentIdea;
 	}
 
+
 	public String getCurrentIdeaTitle() {
 		return currentIdea.getTitle();
 	}
