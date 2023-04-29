@@ -36,7 +36,6 @@ public class User {
 	private List<Idea> ideas;
 
 	public User() {
-
 	}
 
 	public User(String firstName, String lastName, String mail, String password, String status, String role,
