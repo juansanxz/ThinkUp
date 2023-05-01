@@ -48,9 +48,6 @@ public class ThinkUp {
 		currentKeyWords = new ArrayList<KeyWord>();
 		stringKeyWords = new ArrayList<String>();
 		currentIdeaPage = -1;
-		//System.out.println(myIdeaService);
-		//currentIdea = new Idea("Bienvenido a tu portal de Ideas", " ", currentKeyWords);
-		//changeIdea();
 		inOrder = false;
 	}
 
@@ -154,31 +151,45 @@ public class ThinkUp {
 
 	// Solo se le manda la descripción porque cuando el usuario vaya creando las ideas las va agregando en stringKeyWords
 	public void publishAnIdea(String title, String description) {
-		// Agregar las keyword a la base de datos
-		for (String keyWord : stringKeyWords) {
-			addKeyWord(keyWord);
+		// Antes de ponerse a agregar cosas valida que la información no esté vacía
+		if (title.isBlank() || description.isBlank() || stringKeyWords.isEmpty()) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta información",
+					"No se");
+			context.addMessage("somekey", msg);
+		} else {
+			// Agregar las keyword a la base de datos
+			for (String keyWord : stringKeyWords) {
+				addKeyWord(keyWord);
+			}
+
+			// Creación de ideas
+			Idea ideaToAdd = new Idea(title, description, currentKeyWords);
+
+			// Agregando idea a la base de datos
+			myIdeaService.addIdea(ideaToAdd);
+
+			// Agregando idea al usuario que la creó
+			currentUser.addIdea(ideaToAdd);
+
+			// Actualizando el registro del usuario en la base de datos para que la idea dirija al usuario
+			loginBean.updateUser();
+
+			// Vaciar el arreglo de keywords actual para que así la próxima idea lo inicie limpio
+			currentKeyWords.clear();
+			stringKeyWords.clear();
 		}
-
-		// Creación de ideas
-		Idea ideaToAdd = new Idea(title, description, currentKeyWords);
-
-		// Agregando idea a la base de datos
-		myIdeaService.addIdea(ideaToAdd);
-
-		// Agregando idea al usuario que la creó
-		currentUser.addIdea(ideaToAdd);
-
-		// Actualizando el registro del usuario en la base de datos para que la idea dirija al usuario
-		loginBean.updateUser();
-
-		// Vaciar el arreglo de keywords actual para que así la próxima idea lo inicie limpio
-		currentKeyWords.clear();
-		// Mirar como hacer mejor
-		stringKeyWords.clear();
 	}
 
 	public void addStringKeyWord (String stringKeyWord) {
-		stringKeyWords.add(stringKeyWord);
+		if (stringKeyWord.isBlank()) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Está vacía la KeyWord",
+					"No se");
+			context.addMessage("addKeyWord", msg);
+		} else {
+			stringKeyWords.add(stringKeyWord);
+		}
 	}
 
 	public String getUserName() {
