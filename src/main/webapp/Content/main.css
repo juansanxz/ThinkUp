@@ -75,7 +75,6 @@
 .right-column {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     width: 80%;
     height: 100vh;
@@ -144,7 +143,7 @@ a:active { color: red; }
     flex-direction: row;
     justify-content: space-between;
     width: 80%;
-    height: 30%;
+    height: 100%;
     margin-top: 50px;
 }
 
@@ -160,17 +159,18 @@ a:active { color: red; }
     
 .idea-display {
     width:100%;
+    height:100%;
     display: flex;
     flex-direction: column;
 }
-#idea-display-grid td {
-    width: 33.33%;
-  }
+
   
 #idea-display-grid {
     table-layout: fixed;
   }
 
+
 body {
-    background-color: #990000
+    background-color: #990000;
+    font-family: Ubuntu,sans-serif;
 };
