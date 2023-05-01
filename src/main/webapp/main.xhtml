@@ -6,6 +6,7 @@
     <title>ThinkUp</title>
     <link rel="stylesheet" type="text/css" href="Content/main.css" />
     <script src="Javascript/showInputText.js"></script>
+    <script src="Javascript/hideAdminOptions.js"></script>
   </h:head>
   <h:body>
     <div class="container">
@@ -17,7 +18,8 @@
         <p:commandButton value="Perfil" />
         <p:commandButton value="Estadísticas" />
         <p:commandButton value="Configuración" />
-        <p:commandButton value="Administrar Usuarios" />
+        <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}"/>
+        <p:button value="Cerrar sesión" outcome="index.html"/>
       </div>
       <div class="right-column">
         <h:form class="post">
@@ -87,16 +89,16 @@
                   <p:column>
                     <p:commandButton icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="idea-content" styleClass="ui-button" style="width: 100%;"/>
                   </p:column>           
-                 
+
                   <p:column>
                       <h:panelGrid id="idea-content" columns="1" layout="grid" width="100%">
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getTitle()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getCreationDate()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}" />
-                        <h:panelGrid columns="2" layout="grid" width="100%">
+                        <h:panelGrid id="idea-options" columns="2" layout="grid" width="100%">
                           <p:commandButton value="Ordenar" type="button" onclick="mostrarPopUpOrden();" styleClass="ui-button" style="width: 100%;" />
-                        <p:commandButton icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();" style="width: 100%;"/>
+                        <p:commandButton icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();" style="width: 100%;" rendered="#{thinkUp.isAdminCurrentUser()}"/>
                         </h:panelGrid>
                       </h:panelGrid>
                   </p:column>
@@ -105,7 +107,7 @@
                     <p:commandButton icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="idea-content" styleClass="ui-button" style="width: 100%;"/>           
                   </p:column>
 
-               </h:panelGrid>
+                </h:panelGrid>
             </div>
         </div>
       </div>
