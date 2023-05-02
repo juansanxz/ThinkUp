@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.springframework.data.domain.Page;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.ApplicationScope;
@@ -116,6 +117,10 @@ public class ThinkUp {
 		columnOrder = column;
 		orderBy = order;
 		changeIdea ("next");
+		RequestContext.getCurrentInstance().execute("PF('popUpOrdenar').hide()");
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ideas have been sorted by " + column + " in " + order + " order.","Orden");
+		context.addMessage("anotherkey", msg);
 	}
 
 	private Page<Idea> getIdeasDisordered () {

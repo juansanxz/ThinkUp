@@ -22,7 +22,8 @@
         <p:button value="Cerrar sesión" outcome="index.html"/>
       </div>
       <div class="right-column">
-        <h:form class="post">
+        <h:form class="post" id="form">
+                <p:growl for="anotherkey"/>
                 <p:outputLabel value="Título"/>
                 <p:inputText id="title-idea" style="width: 96%; height: 20%;" binding="#{title}"/>
                 <p:outputLabel value="Descripción"/>
@@ -51,21 +52,24 @@
         <div class="publications">
             <h:form>
               <p:dialog id="popUpOrdenar" header="Ordenar" widgetVar="popUpOrdenar" modal="true" showEffect="fade" hideEffect="fade">
-                    <h:form>
+                <p:outputPanel id="manage-ordenar">
+                      <p:message for="columnRadio"/>
                         <p:outputLabel value="Seleccione el tipo de orden" />
-                        <h:selectOneRadio id="columnRadio" binding="#{columnOption}" layout="custom">
-                          <f:selectItem itemLabel="Título" itemValue="title" />
+                        <p:selectOneRadio id="columnRadio" binding="#{columnOption}" layout="responsive" required="true" columns="2" requiredMessage="Por favor, seleccione una opción">
+                          <f:selectItem itemLabel="Título" itemValue="title"/>
                           <f:selectItem itemLabel="Descripción" itemValue="description" />
                           <f:selectItem itemLabel="Fecha" itemValue="creationDate" />
                           <f:selectItem itemLabel="Estado" itemValue="status" />
-                        </h:selectOneRadio>
-                        <h:selectOneRadio id="orderRadio" binding="#{orderOption}" layout="custom">
+                        </p:selectOneRadio>
+                        <p:message for="orderRadio"/>
+                        <p:outputLabel value="Seleccione el tipo de orden" />
+                        <p:selectOneRadio id="orderRadio" binding="#{orderOption}" layout="responsive" columns="1" required="true" requiredMessage="Por favor, seleccione una opción">
                           <f:selectItem itemLabel="Ascendente" itemValue="asc" />
                           <f:selectItem itemLabel="Descendente" itemValue="desc" />
-                        </h:selectOneRadio>
-                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" onclick="ocultaPopUpOrden();"  update="idea-content"/>
+                        </p:selectOneRadio>
+                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" update="manage-ordenar idea-content :form"/>
                         <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="idea-content"/>
-                      </h:form>
+                </p:outputPanel>
               </p:dialog>
             </h:form>
             <h:form>
