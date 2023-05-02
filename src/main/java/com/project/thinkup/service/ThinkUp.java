@@ -200,6 +200,10 @@ public class ThinkUp {
 		return currentIdea;
 	}
 
+	public boolean isAdminCurrentUser (){
+		return currentUser.isAdmin();
+	}
+
 
 	public String getCurrentIdeaTitle() {
 		return currentIdea.getTitle();

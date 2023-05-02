@@ -80,22 +80,42 @@ public class Main {
 			myIdeaService.addIdea(idea3);
 
 			System.out.println("Adding Admon...\n");
-			User admon = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "admon",
+			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
 					"sistemas");
-			admon.addIdea(idea1);
-			admon.addIdea(idea2);
-			myUserService.addUser(admon);
+			user.addIdea(idea1);
+			user.addIdea(idea2);
+			myUserService.addUser(user);
 
-			User admon1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "admon",
+			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
 					"sistemas");
-			admon1.addIdea(idea3);
-			myUserService.addUser(admon1);
+			user1.addIdea(idea3);
+			myUserService.addUser(user1);
+
+			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
+					"sistemas");
+			myUserService.addUser(user2);
+
+			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", "activo", "user",
+					"sistemas");
+			myUserService.addUser(user3);
+
+			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", "activo", "user",
+					"sistemas");
+			myUserService.addUser(user4);
+
+			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", "activo", "user",
+					"sistemas");
+			myUserService.addUser(user5);
+
+			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo", "admon",
+					"sistemas");
+			myUserService.addUser(admon);
 
 			System.out.println("Adding new idea and adding to admon1...\n");
 			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
 			myIdeaService.addIdea(idea4);
-			admon1.addIdea(idea4);
-			myUserService.updateUser(admon1);
+			user1.addIdea(idea4);
+			myUserService.updateUser(user1);
 
 			System.out.println("\nGetting all Users....");
 			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));

@@ -50,6 +50,10 @@ public class User {
 		this.ideas = new ArrayList<Idea>();
 	}
 
+	public boolean isAdmin() {
+		return (role.equals("admon"));
+	}
+
 	public void addIdea (Idea ideaToAdd) {
 		ideas.add(ideaToAdd);
 	}
