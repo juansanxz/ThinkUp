@@ -178,7 +178,7 @@
             <!--  Confirmación  -->    
                 <f:facet name="footer">
                     <p:commandButton value="Guardar"  actionListener="#{crudUserBean.saveUser}"
-                        update="manage-user-content :form" process="manage-user-content @this" oncomplete="PF('manageuserDialog').hide(); PF('dtUsers').filter()"/>
+                        update="manage-user-content :form" process="manage-user-content @this" oncomplete="PF('dtUsers').filter()"/>
                     <p:commandButton value="Cancelar"  onclick="PF('manageuserDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>

@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import com.project.thinkup.service.UserService;
+
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.project.thinkup.model.User;
@@ -133,9 +135,10 @@ public class CrudUserBean {
             if(!userService.userExist(selectedUser.getMail())){
                 userService.addUser(selectedUser);
                 refresh();
+                RequestContext.getCurrentInstance().execute("PF('manageuserDialog').hide()");
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito","Crear usuario");
-                context.addMessage("anotherkey", msg);
+                context.addMessage("anotherkey", msg);               
             }else{
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "El usuario ya existe!","Usuario ya existe");
@@ -162,12 +165,23 @@ public class CrudUserBean {
      * If the operation is successful, a success message is displayed to the user via the FacesContext object.
      */
     public void deleteUser() {
-        userService.deleteUser(selectedUser.getUserId());
-        this.selectedUser = null;
-        refresh();
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario borrado con exito!", "Usuario borrado con exito!");
-        context.addMessage("anotherkey", msg);
+        try{
+            userService.deleteUser(selectedUser.getUserId());
+            this.selectedUser = null;
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario borrado con exito!", "Usuario borrado con exito!");
+            context.addMessage("anotherkey", msg);
+
+        }catch(Exception e){
+            String message = e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, message, message);
+            context.addMessage("anotherkey", msg);
+
+
+        }
+
     }
 
     /**
@@ -200,14 +214,22 @@ public class CrudUserBean {
     * If the operation is successful, a success message is displayed to the user via the FacesContext object.
     */
     public void deleteSelectedUsers() {
-        this.users.removeAll(this.selectedUsers);
-        for(User user: this.selectedUsers){
-            userService.deleteUser(user.getUserId());
+        try{
+            this.users.removeAll(this.selectedUsers);
+            for(User user: this.selectedUsers){
+                userService.deleteUser(user.getUserId());
+            }
+            this.selectedUsers = null;
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios borrados con exito!", "Usuario borrado con exito!");
+            context.addMessage("anotherkey", msg);
+
+        }catch(Exception e){
+            String message = e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, message, message);
+            context.addMessage("anotherkey", msg);
         }
-        this.selectedUsers = null;
-        refresh();
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios borrados con exito!", "Usuario borrado con exito!");
-        context.addMessage("anotherkey", msg);
     }
 }
