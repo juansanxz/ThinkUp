@@ -15,7 +15,7 @@ function ocultaPopUp() {
    if (validateErrorMessageIsMine()) {
       //console.log("ENtre");
       if (!hasMessages() || (getMessagesId() !== "j_idt12:j_idt20:no-keyword-created")) {
-         PF('popUp').hide();
+         //PF('popUp').hide();
          borrarInput();
       }
    }

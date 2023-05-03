@@ -6,7 +6,6 @@
     <title>ThinkUp</title>
     <link rel="stylesheet" type="text/css" href="Content/main.css" />
     <script src="Javascript/showInputText.js"></script>
-    <script src="Javascript/hideAdminOptions.js"></script>
   </h:head>
   <h:body>
     <div class="container">
@@ -19,7 +18,7 @@
         <p:commandButton value="Estadísticas" />
         <p:commandButton value="Configuración" />
         <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}"/>
-        <p:button value="Cerrar sesión" outcome="index.html"/>
+        <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
       </div>
       <div class="right-column">
         <h:form class="post" id="form">
@@ -29,15 +28,18 @@
                 <p:outputLabel value="Descripción"/>
                 <p:inputText id="publish"  style="width: 96%;" binding="#{idea}"/>
                 <div class="button-in-publish">
-                    <p:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(title.value, idea.value)}" oncomplete="mostrarPopUpIdea();" update="no-idea-created"/>
+                    <p:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(title.value, idea.value)}" oncomplete="mostrarPopUpIdea();" update="no-idea-created idea-content"/>
                     <p:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
                 </div>
                 <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
+                      <h:panelGrid columns="1">
                         <p:messages for="addKeyWord" id="no-keyword-created"/>
                         <p:outputLabel for="valorPopUp" value="Inserte la key word: " />
-                        <p:inputText id="valorPopUp" binding="#{keyWord}" />
-                        <p:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" oncomplete="ocultaPopUp();" update="no-keyword-created"/>
+                        <p:inputText id="valorPopUp" binding="#{keyWord}"/>
+                        <p:outputLabel id="keyword-place" value="#{thinkUp.getStringKeyWordsNice()}" />
+                        <p:commandButton value="Agregar" action="#{thinkUp.addStringKeyWord(keyWord.value)}" oncomplete="ocultaPopUp();" update="no-keyword-created keyword-place"/>
+                      </h:panelGrid>  
                     </h:form>
                 </p:dialog>
         </h:form>
@@ -76,13 +78,13 @@
               <p:dialog id="popUpEditarStatus" header="Editar" widgetVar="popUpEditarStatus" modal="true" showEffect="fade" hideEffect="fade">
                     <h:form>
                         <p:outputLabel value="Seleccione el nuevo estado" />
-                        <h:selectOneRadio id="statusRadio" binding="#{statusOption}" layout="custom">
+                        <p:selectOneRadio id="statusRadio" binding="#{statusOption}" layout="responsive" columns="1">
                           <f:selectItem itemLabel="Creada" itemValue="Creada" />
                           <f:selectItem itemLabel="En análisis" itemValue="En análisis" />
                           <f:selectItem itemLabel="Aprobada" itemValue="Aprobada" />
                           <f:selectItem itemLabel="Rechazada" itemValue="Rechazada" />
                           <f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />
-                        </h:selectOneRadio>
+                        </p:selectOneRadio>
                         <p:commandButton value="Guardar" action="#{thinkUp.editIdeaStatus(statusOption.value)}" onclick="ocultaPopUpStatus();"  update="idea-content"/>
                         </h:form>
               </p:dialog>
@@ -100,10 +102,12 @@
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getCreationDate()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}" />
+                        <p:outputLabel value="#{thinkUp.getCurrentIdea().getStringKeyWords()}" />
                         <h:panelGrid id="idea-options" columns="2" layout="grid" width="100%">
                           <p:commandButton value="Ordenar" type="button" onclick="mostrarPopUpOrden();" styleClass="ui-button" style="width: 100%;" />
-                        <p:commandButton icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();" style="width: 100%;" rendered="#{thinkUp.isAdminCurrentUser()}"/>
+                          <p:commandButton icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();" style="width: 100%;" rendered="#{thinkUp.isAdminCurrentUser()}"/>
                         </h:panelGrid>
+                        <p:outputLabel value="#{thinkUp.getCurrentIdeaPageToShow()} / #{thinkUp.getAmountOfIdeas()}" style="align-content: right;"/>
                       </h:panelGrid>
                   </p:column>
 
