@@ -152,4 +152,16 @@ public class Idea {
         this.title = title;
     }
 
+    public String getStringKeyWords() {
+		String result = "";
+		for (int i = 0; i < keyWords.size(); i ++) {
+			if (i != keyWords.size() - 1) {
+				result += keyWords.get(i).getWord() + ", ";
+			} else {
+				result += keyWords.get(i).getWord();
+			}
+		}
+		return result;
+	}
+
 }

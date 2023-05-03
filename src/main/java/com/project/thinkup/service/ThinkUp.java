@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.springframework.data.domain.Page;
@@ -119,7 +120,7 @@ public class ThinkUp {
 		changeIdea ("next");
 		RequestContext.getCurrentInstance().execute("PF('popUpOrdenar').hide()");
 		FacesContext context = FacesContext.getCurrentInstance();
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ideas have been sorted by " + column + " in " + order + " order.","Orden");
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Las ideas fueron ordenadas por el criterio seleccionado","Orden");
 		context.addMessage("anotherkey", msg);
 	}
 
@@ -197,6 +198,22 @@ public class ThinkUp {
 		}
 	}
 
+	// Cierra sesion
+	public void logOut () {
+		currentUser = null;
+		stringKeyWords.clear();
+		currentKeyWords.clear();
+		resetOrder();
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+  		externalContext.invalidateSession();
+		try {
+			externalContext.redirect("index.html");
+		} catch (Exception e) {
+		}
+  		
+  		//return null;
+	}
+
 	public String getUserName() {
 		return currentUser.getMail();
 	}
@@ -213,4 +230,37 @@ public class ThinkUp {
 	public String getCurrentIdeaTitle() {
 		return currentIdea.getTitle();
 	}
+
+	public ArrayList<String> getStringKeyWords() {
+		return stringKeyWords;
+	}
+
+	public String getStringKeyWordsNice() {
+		String result = "";
+		for (int i = 0; i < stringKeyWords.size(); i ++) {
+			if (i != stringKeyWords.size() - 1) {
+				result += stringKeyWords.get(i) + ", ";
+			} else {
+				result += stringKeyWords.get(i);
+			}
+		}
+		return result;
+	}
+
+	public int getCurrentIdeaPage() {
+		return currentIdeaPage;
+	}
+
+	public int getCurrentIdeaPageToShow() {
+		return currentIdeaPage + 1;
+	}
+
+	public void setCurrentIdeaPage(int currentIdeaPage) {
+		this.currentIdeaPage = currentIdeaPage;
+	}
+
+	public int getAmountOfIdeas() {
+		return myIdeaService.getAllIdeas().size();
+	}
+	
 }

@@ -20,10 +20,10 @@
                             <h:form>
                                 <p:messages for="somekey"/>
                                 <div class="field">
-                                    <p:inputText id="username" binding="#{userName}" placeholder="Correo Electronico" />
+                                    <p:inputText id="username" binding="#{userName}" placeholder="Correo Electrónico" />
                                 </div>
                                 <div class="field">
-                                    <p:inputText id="password" binding="#{passwordLogin}" placeholder="Contraseña" />
+                                    <p:inputText id="password" binding="#{passwordLogin}" placeholder="Contraseña" type="password"/>
                                 </div>
                                 <h:commandButton class="login-Button" value="Login" action="#{thinkUp.login(userName.value, passwordLogin.value)}" />
                             </h:form>
