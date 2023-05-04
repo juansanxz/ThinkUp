@@ -51,7 +51,7 @@ public class User {
 	}
 
 	public boolean isAdmin() {
-		return (role.equals("admon"));
+		return (role.equals("admin"));
 	}
 
 	public void addIdea (Idea ideaToAdd) {

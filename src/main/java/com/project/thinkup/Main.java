@@ -81,34 +81,38 @@ public class Main {
 
 			System.out.println("Adding Admon...\n");
 			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
-					"sistemas");
+					"studiante");
 			user.addIdea(idea1);
 			user.addIdea(idea2);
 			myUserService.addUser(user);
 
 			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
-					"sistemas");
+					"estudiante");
 			user1.addIdea(idea3);
 			myUserService.addUser(user1);
 
 			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
-					"sistemas");
+					"estudiante");
 			myUserService.addUser(user2);
 
 			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", "activo", "user",
-					"sistemas");
+					"estudiante");
 			myUserService.addUser(user3);
 
 			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", "activo", "user",
-					"sistemas");
+					"estudiante");
 			myUserService.addUser(user4);
 
 			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", "activo", "user",
-					"sistemas");
+					"estudiante");
 			myUserService.addUser(user5);
 
-			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo", "admon",
-					"sistemas");
+			User user6 = new User("Jorge", "Useche", "jorge.useche@gmail.com", "123", "activo", "user",
+					"profesor");
+			myUserService.addUser(user6);
+
+			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo", "admin",
+					"administrativo");
 			myUserService.addUser(admon);
 
 			System.out.println("Adding new idea and adding to admon1...\n");
