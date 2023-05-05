@@ -17,9 +17,11 @@ import org.springframework.context.annotation.DependsOn;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
+import com.project.thinkup.model.Topic;
 import com.project.thinkup.model.User;
 import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.KeyWordService;
+import com.project.thinkup.service.TopicService;
 import com.project.thinkup.service.UserService;
 
 @SpringBootApplication
@@ -34,6 +36,9 @@ public class Main {
 	@Autowired
 	KeyWordService myKeyWordService;
 
+	@Autowired
+	TopicService myTopicService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 
@@ -46,6 +51,7 @@ public class Main {
 			myIdeaService.deleteAllIdeas();
 			myUserService.deleteAllUsers();
 			myKeyWordService.deleteAllKeyWords();
+			myTopicService.deleteAllTopics();
 
 			System.out.println("Adding keywords...\n");
 			KeyWord keyWord1 = new KeyWord("Redes");
@@ -131,6 +137,20 @@ public class Main {
 			myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
 
 			System.out.println("\nGetting ideas by user....");
+
+
+			Topic topic1  = new Topic("Marvel", "Peliculas");
+			myTopicService.addTopic(topic1);
+			topic1.addIdea(idea4);
+			myTopicService.updateTopic(topic1);
+
+			System.out.println("\nGetting ideas by topic....");
+			myTopicService.getAllIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
+
+			System.out.println("\nGetting topic....");
+			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
+
+
 		};
 	}
 

@@ -72,4 +72,6 @@ public class IdeaService {
     public List<Idea> getAllIdeasByStatus(String status) {
         return ideaRepository.findByStatus(status);
     }
+
+    
 }

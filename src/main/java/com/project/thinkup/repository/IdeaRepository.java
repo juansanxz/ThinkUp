@@ -10,7 +10,6 @@ import com.project.thinkup.model.Idea;
 @Repository
 public interface IdeaRepository extends JpaRepository<Idea, Long> {
     List<Idea> findByStatus(String status);
-
     boolean existsByIdeaId(Long ideaId);
 
 }
