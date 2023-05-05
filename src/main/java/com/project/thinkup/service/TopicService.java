@@ -66,14 +66,16 @@ public class TopicService {
 
 	}
 
-	public boolean TopicExist(String title){
+	public boolean topicExist(String title){
 		return topicRepository.existsByTitle(title);
 	}
 
-    public List<Idea> getAllIdeasByTopicId(Long topicId) {
-        TypedQuery<Idea> query = entityManager.createQuery("SELECT i FROM Idea WHERE i.topic_id = :topicId", Idea.class);
-        query.setParameter("topicId", topicId);
-        List<Idea> ideas = query.getResultList();
-        return ideas;
+    public List<Idea> getIdeasByTopicId(Long topicId) {
+		Optional<Topic> optionalTopic = topicRepository.findById(topicId);
+		if (optionalTopic.isPresent()) {
+			Topic topic = optionalTopic.get();
+			return topic.getIdeas();
+		}
+		return new ArrayList<>();
     }
 }

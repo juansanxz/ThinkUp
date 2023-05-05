@@ -145,7 +145,7 @@ public class Main {
 			myTopicService.updateTopic(topic1);
 
 			System.out.println("\nGetting ideas by topic....");
-			myTopicService.getAllIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
+			myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
 
 			System.out.println("\nGetting topic....");
 			myTopicService.getAllTopics().forEach(item -> System.out.println(item));

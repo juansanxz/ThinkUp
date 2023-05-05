@@ -14,4 +14,5 @@ import com.project.thinkup.model.Topic;
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     boolean existsByTitle(String title);
     Topic findByTitle(String title);
+    List<Idea> getIdeasByTopicId(Long topicId);
 }
