@@ -4,7 +4,7 @@
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
     <title>Think Up!</title>
-    <link rel="stylesheet" type="text/css" href="Content/table.css" />
+    <link rel="stylesheet" type="text/css" href="Content/tableIdeas.css" />
 </h:head>
 <h:body>
     <div class="row titulo">
@@ -22,15 +22,15 @@
             <div class="row bandera1"></div>
         </div>
     </div>
-    <div class="card-crud">
-        <h:form id="form" >
+    <div class="card-topics">
+        <h:form id="topics">
             <p:growl for="anotherkey"/>
             <div class="tool-bar">
                 <p:toolbar styleClass="mi-toolbar">
                     <p:toolbarGroup>
                         <!-- Botón Nuevo Tema-->
                         <p:commandButton value="Nuevo Tema" icon="ui-icon-plus" actionListener="#{ideasBean.openNew}"
-                            update=":form :topics" oncomplete="PF('managetopicDialog').show()"
+                            update=":dialogs:manage-topic-content" oncomplete="PF('managetopicDialog').show()"
                             styleClass="ui-button-success" style="margin-right: .5rem">
                             <p:resetInput target=":dialogs:manage-topic-content"/>
                         </p:commandButton>
@@ -40,12 +40,30 @@
                         styleClass="ui-button-danger" disabled="#{!ideasBean.hasSelectedIdeas()}" process="@this">
                         </p:commandButton>
                         <!-- Actualizar tabla de ideas -->
-                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" update=":form :form:dt-ideas " action="#{ideasBean.refresh}" 
+                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" update=":form :form:dt-ideas :topics " action="#{ideasBean.refresh}" 
                         styleClass="ui-button-success" style="margin-right: .5rem" oncomplete="PF('dtIdeas').filter()" >
                         </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
             </div>
+            <div>
+                <p:carousel value="#{ideasBean.topics}" var="topic" numVisible="1" numScroll="1" responsive="true"  style="width: 20%;margin:auto;" circular="true">
+                    <h:panelGrid columns="1" style="width : 100%">
+                        <h:outputText value="Tema: #{topic.title}"/>
+                        <h:outputText value="Descripción: #{topic.description}" />
+                    </h:panelGrid>
+                    <div class="bottom">
+                        <p:commandButton icon=" ui-icon-folder-open" update=":dialogs:topic-content"
+                            oncomplete="PF('topicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{topic}" target="#{ideasBean.selectedTopic}" />
+                        </p:commandButton>
+                    </div>
+                </p:carousel>
+            </div>
+        </h:form>
+    </div>
+    <div class="card-crud">
+        <h:form id="form" >
             <!-- Tabla con ideas -->
             <div class="table">
                 <p:dataTable id="dt-ideas" widgetVar="dtIdeas" var="idea" value="#{ideasBean.ideas}"
@@ -63,11 +81,11 @@
                         </div>
                     </f:facet>
                     <!-- Buscar ideas -->
-                    <p:ajax event="rowSelect" update=":form:group-ideas-button" />
-                    <p:ajax event="rowUnselect" update=":form:group-ideas-button" />
-                    <p:ajax event="rowSelectCheckbox" update=":form:group-ideas-button" />
-                    <p:ajax event="rowUnselectCheckbox" update=":form:group-ideas-button" />
-                    <p:ajax event="toggleSelect" update=":form:group-ideas-button" />   
+                    <p:ajax event="rowSelect" update=":topics:group-ideas-button" />
+                    <p:ajax event="rowUnselect" update=":topics:group-ideas-button" />
+                    <p:ajax event="rowSelectCheckbox" update=":topics:group-ideas-button" />
+                    <p:ajax event="rowUnselectCheckbox" update=":topics:group-ideas-button" />
+                    <p:ajax event="toggleSelect" update=":topics:group-ideas-button" />   
                     <!--  Columna para seleccionar  -->
                     <p:column selectionMode="multiple" exportable="false"></p:column>
                     <!--  Datos Idea  -->
@@ -114,30 +132,66 @@
                         class="ui-button-secondary" type="button" />
                 </f:facet>
                 <p:messages for="somekey"/>
-            </p:dialog>            
+            </p:dialog> 
+
+            <!--  Topic Ideas and Configuration -->   
+            <p:dialog header="Detalles del Tema" showEffect="fade" modal="true" widgetVar="topicDialog" responsive="true" style="width: 80%;">
+                <p:outputPanel id="topic-content">
+                    <h:panelGrid columns="1" style="width : 100%">
+                        <h:outputText value="Tema: #{ideasBean.selectedTopic.title}"/>
+                        <h:outputText value="Descripción: #{ideasBean.selectedTopic.description}" />
+                    </h:panelGrid>
+                    <div>
+                        <p:dataTable id="dt-ideas-topic" widgetVar="dtIdeasByTopic" var="idea" value="#{ideasBean.selectedTopic.ideas}"
+                        reflow="true" styleClass="ideas-table"
+                        rowKey="#{idea.ideaId}" paginator="true" rows="5" rowSelectMode="add" paginatorPosition="bottom">
+                            <!-- Buscar ideas -->
+                            <f:facet name="header">
+                                <div class="ideas-table-header">
+                                    <span style="font-weight: bold">Ideas</span>
+                                </div>
+                            </f:facet>
+                            <f:facet name="header">
+                                <div class="idea-table-header">
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtIdeas').filter()" placeholder="Buscar" />
+                                </div>
+                            </f:facet>
+                            <!-- Buscar ideas -->
+                            <p:ajax event="rowSelect" update=":topics:group-ideas-button" />
+                            <p:ajax event="rowUnselect" update=":topics:group-ideas-button" />
+                            <p:ajax event="rowSelectCheckbox" update=":topics:group-ideas-button" />
+                            <p:ajax event="rowUnselectCheckbox" update=":topics:group-ideas-button" />
+                            <p:ajax event="toggleSelect" update=":topics:group-ideas-button" />   
+                            <!--  Columna para seleccionar  -->
+                            <p:column selectionMode="multiple" exportable="false"></p:column>
+                            <!--  Datos Idea  -->
+                            <p:column headerText="Id">
+                                <h:outputText value="#{idea.ideaId}" />
+                            </p:column>
+                            <p:column headerText="Titulo" filterMatchMode="startsWith" filterBy="#{idea.title}" filterStyle="display:none">
+                                <h:outputText value="#{idea.title}" />
+                            </p:column>
+                            <p:column headerText="Fecha" filterMatchMode="startsWith" filterBy="#{idea.creationDate}" filterStyle="display:none">
+                                <h:outputText value="#{idea.creationDate}" />
+                            </p:column>
+                            <p:column headerText="Descripción" filterMatchMode="contains" filterBy="#{idea.description}" filterStyle="display:none">
+                                <h:outputText value="#{idea.description}" />
+                            </p:column>
+                            <p:column headerText="Estado" filterMatchMode="startsWith" filterBy="#{idea.status}" filterStyle="display:none">
+                                <h:outputText value="#{idea.status}" />
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </p:outputPanel>
+            </p:dialog> 
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Si" type="button" />
                 <p:commandButton value="No" type="button"/>
             </p:confirmDialog>
         </h:form>
-
     </div>
-    <h:form id="topics">
-        <div>
-            <p:carousel value="#{ideasBean.topics}" var="topic" numVisible="1" numScroll="1" responsive="true"  style="width: 50%;margin:auto;"  >
-                <f:facet name="header">
-                    <h5>Temas</h5>
-                </f:facet>
-                <p:panelGrid columns="1">
-                    <h:outputText value="Tema: #{topic.title}" />
-                    <h:outputText value="Descripción: #{idea.description}" />
-                </p:panelGrid>
-            </p:carousel>
-        </div>
-        <div class="bottom">
-            <h:commandButton class="back-Button" value="Regresar" action="main.xhtml?faces-redirect=true"/>
-        </div>
-    </h:form>
-
+    <div class="bottom">
+        <h:commandButton class="back-Button" value="Regresar" action="main.xhtml?faces-redirect=true"/>
+    </div>
 </h:body>
 </html>

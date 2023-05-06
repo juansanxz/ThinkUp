@@ -33,6 +33,7 @@ public class Topic {
 
 
     public Topic(){
+        this.creationDate = LocalDate.now();
     }
 
     public Topic(String title, String description) {
