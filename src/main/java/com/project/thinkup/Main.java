@@ -131,8 +131,7 @@ public class Main {
 			myUserService.updateUser(user1);
 
 			System.out.println("\nGetting all Users....");
-			// myUserService.getAllUsers().forEach(configuration ->
-			// System.out.println(configuration));
+			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
 
 			System.out.println("\nGetting all ideas....");
 			myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
