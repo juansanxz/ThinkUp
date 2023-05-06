@@ -22,6 +22,7 @@ public class Idea {
     @Column(name = "creationDate")
     private LocalDate creationDate;
     private String status;
+    @Column(length = 2000)
     private String description;
     private String title;
 
