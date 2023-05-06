@@ -193,6 +193,10 @@ a:active { color: red; }
     table-layout: fixed;
 }
 
+#user-display.grid {
+    table-layout: fixed;
+}
+
 #idea-options {
     margin-top: 50px;
 }

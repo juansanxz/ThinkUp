@@ -53,48 +53,13 @@ public class Main {
 			myKeyWordService.deleteAllKeyWords();
 			myTopicService.deleteAllTopics();
 
-			System.out.println("Adding keywords...\n");
-			KeyWord keyWord1 = new KeyWord("Redes");
-			myKeyWordService.addKeyWord(keyWord1);
-
-			KeyWord keyWord2 = new KeyWord("Ciclos");
-			myKeyWordService.addKeyWord(keyWord2);
-
-			KeyWord keyWord3 = new KeyWord("Aupn");
-			myKeyWordService.addKeyWord(keyWord3);
-
-			List<KeyWord> keyWords1 = new ArrayList<KeyWord>();
-			keyWords1.add(keyWord1);
-			keyWords1.add(keyWord2);
-
-			List<KeyWord> keyWords2 = new ArrayList<KeyWord>();
-			keyWords2.add(keyWord1);
-			keyWords2.add(keyWord3);
-
-			List<KeyWord> keyWords3 = new ArrayList<KeyWord>();
-			keyWords3.add(keyWord2);
-
-			System.out.println("Adding Admon's ideas...\n");
-			Idea idea1 = new Idea("Titulo1", "Proyecto de redes", keyWords1);
-
-			Idea idea2 = new Idea("Titulo2", "Proyecto de ciclos", keyWords2);
-
-			Idea idea3 = new Idea("Titulo3", "Proyecto de aupn", keyWords3);
-
-			myIdeaService.addIdea(idea1);
-			myIdeaService.addIdea(idea2);
-			myIdeaService.addIdea(idea3);
-
 			System.out.println("Adding Admon...\n");
 			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
 					"studiante");
-			user.addIdea(idea1);
-			user.addIdea(idea2);
 			myUserService.addUser(user);
 
 			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
 					"estudiante");
-			user1.addIdea(idea3);
 			myUserService.addUser(user1);
 
 			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
@@ -117,18 +82,57 @@ public class Main {
 					"profesor");
 			myUserService.addUser(user6);
 
-			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo", "admin",
+			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo",
+					"admin",
 					"administrativo");
 			myUserService.addUser(admon);
 
+			System.out.println("Adding keywords...\n");
+			KeyWord keyWord1 = new KeyWord("Redes");
+			myKeyWordService.addKeyWord(keyWord1);
+
+			KeyWord keyWord2 = new KeyWord("Ciclos");
+			myKeyWordService.addKeyWord(keyWord2);
+
+			KeyWord keyWord3 = new KeyWord("Aupn");
+			myKeyWordService.addKeyWord(keyWord3);
+
+			List<KeyWord> keyWords1 = new ArrayList<KeyWord>();
+			keyWords1.add(keyWord1);
+			keyWords1.add(keyWord2);
+
+			List<KeyWord> keyWords2 = new ArrayList<KeyWord>();
+			keyWords2.add(keyWord1);
+			keyWords2.add(keyWord3);
+
+			List<KeyWord> keyWords3 = new ArrayList<KeyWord>();
+			keyWords3.add(keyWord2);
+
+			System.out.println("Adding Admon's ideas...\n");
+			Idea idea1 = new Idea("Titulo1", "Proyecto de redes", keyWords1, user);
+
+			Idea idea2 = new Idea("Titulo2", "Proyecto de ciclos", keyWords2, user);
+
+			Idea idea3 = new Idea("Titulo3", "Proyecto de aupn", keyWords3, user1);
+
+			myIdeaService.addIdea(idea1);
+			myIdeaService.addIdea(idea2);
+			myIdeaService.addIdea(idea3);
+
+			user.addIdea(idea1);
+			user.addIdea(idea2);
+
+			user1.addIdea(idea3);
+
 			System.out.println("Adding new idea and adding to admon1...\n");
-			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
+			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3, user1);
 			myIdeaService.addIdea(idea4);
 			user1.addIdea(idea4);
 			myUserService.updateUser(user1);
 
 			System.out.println("\nGetting all Users....");
-			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
+			// myUserService.getAllUsers().forEach(configuration ->
+			// System.out.println(configuration));
 
 			System.out.println("\nGetting all ideas....");
 			myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
@@ -138,8 +142,7 @@ public class Main {
 
 			System.out.println("\nGetting ideas by user....");
 
-
-			Topic topic1  = new Topic("Marvel", "Peliculas");
+			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
 			topic1.addIdea(idea4);
 			myTopicService.updateTopic(topic1);
@@ -149,7 +152,6 @@ public class Main {
 
 			System.out.println("\nGetting topic....");
 			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
-
 
 		};
 	}
