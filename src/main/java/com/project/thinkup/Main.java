@@ -87,7 +87,7 @@ public class Main {
 
 			System.out.println("Adding Admon...\n");
 			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
-					"studiante");
+					"estudiante");
 			user.addIdea(idea1);
 			user.addIdea(idea2);
 			myUserService.addUser(user);
