@@ -13,11 +13,11 @@
         <div>
           <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
         </div>
-        <p:commandButton icon="ui-icon-search"/>
-        <p:commandButton value="Perfil" />
-        <p:commandButton value="Estadísticas" />
-        <p:commandButton value="Configuración" />
-        <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}"/>
+        <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
+        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}" />
+        <p:commandButton value="Estadísticas" action="#{thinkUp.setOnProfile('false')}"/>
+        <p:commandButton value="Configuración" action="#{thinkUp.setOnProfile('false')}"/>
+        <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
       </div>
       <div class="right-column">
@@ -28,7 +28,7 @@
                 <p:outputLabel value="Descripción"/>
                 <p:inputText id="publish"  style="width: 96%;" binding="#{idea}"/>
                 <div class="button-in-publish">
-                    <p:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(title.value, idea.value)}" oncomplete="mostrarPopUpIdea(); cambiarColorLikeInverse();" update="no-idea-created idea-content currentIdeaLike like-button form:j_idt20:keyword-place"/>
+                    <p:commandButton value="Agregar Idea" action="#{thinkUp.publishAnIdea(title.value, idea.value)}" oncomplete="mostrarPopUpIdea(); cambiarColorLikeInverse();" update="no-idea-created idea-content page currentIdeaLike like-button form:j_idt20:keyword-place"/>
                     <p:commandButton value="Agregar KeyWord" type="button" onclick="mostrarPopUp();"/>
                 </div>
                 <p:dialog header="Key words" widgetVar="popUp" modal="true" showEffect="fade" hideEffect="fade">
@@ -91,13 +91,14 @@
             </h:form>
             <div class="idea-display">
                 <h:inputHidden id="currentIdeaLike" value="#{thinkUp.getCurrentIdeaLike()}" />
-                <h:panelGrid id="idea-display-grid" columns="3">
+                <h:panelGrid id="idea-display-grid" columns="3" columnClasses="col-1,col-2,col-3">
                   <p:column>
-                    <p:commandButton id="back-button" icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="like-button back-button next-button idea-content currentIdeaLike" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button" style="width: 100%;"/>
+                    <p:commandButton id="back-button" icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="like-button back-button next-button idea-content page currentIdeaLike" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>
                   </p:column>           
 
                   <p:column>
-                      <h:panelGrid id="idea-content" columns="1" layout="grid" width="100%">
+                    <div class="idea-on-display"> 
+                      <h:panelGrid id="idea-content" columns="1" layout="grid" width="100%" >
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getTitle()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getCreationDate()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}" />
@@ -111,10 +112,18 @@
                         </h:panelGrid>
                         <p:outputLabel value="#{thinkUp.getCurrentIdeaPageToShow()} / #{thinkUp.getAmountOfIdeas()}" style="align-content: right;"/>
                       </h:panelGrid>
+                    </div>
+                    <div class="order-page">
+                      <h:panelGrid columns="2" layout="grid" width="100%">
+                        <p:commandButton value="Ordenar" type="button" onclick="mostrarPopUpOrden();" styleClass="ui-button" style="width: 100%;" />
+                        <p:commandButton icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();" style="width: 100%;" rendered="#{thinkUp.isAdminCurrentUser()}"/>
+                      </h:panelGrid>
+                      <p:outputLabel id="page" value="#{thinkUp.getCurrentIdeaPageToShow()} / #{thinkUp.getAmountOfIdeas()}"/>
+                    </div>
                   </p:column>
 
                   <p:column>
-                    <p:commandButton id="next-button" icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="like-button back-button next-button idea-content currentIdeaLike" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button" style="width: 100%;"/>           
+                    <p:commandButton id="next-button" icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="like-button back-button next-button idea-content currentIdeaLike page" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>           
                   </p:column>
 
                 </h:panelGrid>

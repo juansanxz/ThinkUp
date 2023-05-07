@@ -35,8 +35,7 @@ public class User {
 	private String area;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "user_id")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Idea> ideas;
 
 	//Colección de likes
@@ -60,10 +59,10 @@ public class User {
 	}
 
 	public boolean isAdmin() {
-		return (role.equals("admon"));
+		return (role.equals("admin"));
 	}
 
-	public void addIdea (Idea ideaToAdd) {
+	public void addIdea(Idea ideaToAdd) {
 		ideas.add(ideaToAdd);
 	}
 
