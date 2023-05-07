@@ -56,7 +56,6 @@ public class User {
 		this.role = role;
 		this.area = area;
 		this.ideas = new ArrayList<Idea>();
-		this.likes = new ArrayList<Like>();
 	}
 
 	public boolean isAdmin() {
@@ -65,14 +64,6 @@ public class User {
 
 	public void addIdea(Idea ideaToAdd) {
 		ideas.add(ideaToAdd);
-	}
-
-	public void giveLike (Like like) {
-		likes.add(like);
-	}
-
-	public void quitLike (Like like) {
-		likes.remove(like);
 	}
 
 	@Override

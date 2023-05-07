@@ -20,7 +20,6 @@ import com.project.thinkup.beans.LoginBean;
 import com.project.thinkup.model.User;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
-import com.project.thinkup.model.Like;
 
 @ManagedBean
 @Component
@@ -44,14 +43,11 @@ public class ThinkUp {
 	UserService myUserService;
 	@Autowired
 	KeyWordService myKeyWordService;
-	@Autowired
-	LikeService myLikeService;
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
 	private String columnOrder;
 	private String orderBy;
-	private boolean currentIdeaLike;
 	private boolean onProfile;
 
 	public ThinkUp() {
@@ -59,7 +55,6 @@ public class ThinkUp {
 		stringKeyWords = new ArrayList<String>();
 		currentIdeaPage = -1;
 		inOrder = false;
-		currentIdeaLike = false;
 		onProfile = false;
 	}
 
@@ -71,8 +66,7 @@ public class ThinkUp {
 	public String login(String username, String password) {
 		if (loginBean.login(username, password)) {
 			currentUser = loginBean.getUser();
-			resetOrder();
-			return "main.xhtml?faces-redirect=true&nocache=" + Math.random();
+			return "main.xhtml?faces-redirect=true";
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo",
@@ -85,6 +79,8 @@ public class ThinkUp {
 	public void editIdeaStatus(String newStatus) {
 		currentIdea.setStatus(newStatus);
 		myIdeaService.updateIdea(currentIdea);
+		// currentIdeaPage -= 1;
+		// changeIdea("next");
 	}
 
 	// Cambia de idea dependiendo si es a la izquierda o a la derecha, y depende si
@@ -92,6 +88,7 @@ public class ThinkUp {
 	public void changeIdea(String way) {
 		changeNumberOfPage(way);
 		try {
+			// Page<Idea> ideaPage = myIdeaService.getAllIdeasPageable(currentIdeaPage);
 			Page<Idea> ideaPage;
 			if (inOrder == true) {
 				ideaPage = getIdeasInOrder();
@@ -101,7 +98,6 @@ public class ThinkUp {
 
 			List<Idea> allIdeas = ideaPage.getContent();
 			currentIdea = allIdeas.get(0);
-			verifyLiked();
 		} catch (Exception e) {
 			if (way.equals("next")) {
 				currentIdeaPage -= 1;
@@ -160,15 +156,6 @@ public class ThinkUp {
 			currentIdeaPage += 1;
 		} else if (way.equals("back")) {
 			currentIdeaPage -= 1;
-		}
-	}
-
-	// Verifica si la currentIdea tiene like del currentUser
-	private void verifyLiked () {
-		if (myLikeService.getLikeByIdeaUser(currentIdea, currentUser) != null) {
-			currentIdeaLike = true;
-		} else {
-			currentIdeaLike = false;
 		}
 	}
 
@@ -263,38 +250,6 @@ public class ThinkUp {
 		
 	}
 
-	// Dar like
-	public void giveLike () {
-		if (currentIdeaLike) {
-			Like likeToDelete = myLikeService.getLikeByIdeaUser(currentIdea, currentUser);
-
-			myLikeService.deleteLike(myLikeService.getLikeByIdeaUser(currentIdea, currentUser).getLikeId());
-			
-			// Eliminar likes de los arreglos de usuario y de idea
-			currentIdea.quitLike(likeToDelete);
-			currentUser.quitLike(likeToDelete);
-
-			currentIdeaLike = false;
-		} else {
-			// Creación de like
-			Like likeToSet = new Like(currentIdea, currentUser);
-
-			// Agregando like a la base de datos
-			myLikeService.addLike(likeToSet);
-
-			// Agregando like al usuario que lo creó
-			currentUser.giveLike(likeToSet);
-
-			// Agregando like a la idea
-			currentIdea.giveLike(likeToSet);
-			currentIdeaLike = true;
-		}
-	}
-
-	public int getAmountOfLikes () {
-		return myLikeService.getLikeByIdea(currentIdea).size();
-	}
-
 	public String getUserName() {
 		return currentUser.getMail();
 	}
@@ -375,7 +330,4 @@ public class ThinkUp {
 		
 	}
 
-	public boolean getCurrentIdeaLike() {
-		return currentIdeaLike;
-	}
 }

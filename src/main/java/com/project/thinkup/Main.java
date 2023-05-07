@@ -17,13 +17,11 @@ import org.springframework.context.annotation.DependsOn;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
-import com.project.thinkup.model.Like;
 import com.project.thinkup.model.Topic;
 import com.project.thinkup.model.User;
 import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.service.TopicService;
-import com.project.thinkup.service.LikeService;
 import com.project.thinkup.service.UserService;
 
 @SpringBootApplication
@@ -39,9 +37,6 @@ public class Main {
 	KeyWordService myKeyWordService;
 
 	@Autowired
-	LikeService myLikeService;
-  
-  @Autowired
 	TopicService myTopicService;
 
 	public static void main(String[] args) {
@@ -56,7 +51,6 @@ public class Main {
 			myIdeaService.deleteAllIdeas();
 			myUserService.deleteAllUsers();
 			myKeyWordService.deleteAllKeyWords();
-			myLikeService.deleteAllLikes();
 			myTopicService.deleteAllTopics();
 
 			System.out.println("Adding Admon...\n");
