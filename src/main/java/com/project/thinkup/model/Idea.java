@@ -23,14 +23,16 @@ public class Idea {
     @Column(name = "creationDate")
     private LocalDate creationDate;
     private String status;
-    @Column(length = 2000)
+
+    @Column(length = 15000)
     private String description;
     private String title;
 
     @ManyToOne(targetEntity = User.class)
     User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany()
     private List<KeyWord> keyWords;
 
     public Idea() {
