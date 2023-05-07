@@ -106,11 +106,6 @@
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getStringKeyWords()}" />
                         <p:commandButton id="like-button" icon="ui-icon-heart" action="#{thinkUp.giveLike()}" update="idea-content like-button" oncomplete="cambiarColorLike('#{thinkUp.getCurrentIdeaLike()}');"/>
                         <p:outputLabel value="#{thinkUp.getAmountOfLikes()}" />
-                        <h:panelGrid id="idea-options" columns="2" layout="grid" width="100%">
-                          <p:commandButton value="Ordenar" type="button" onclick="mostrarPopUpOrden();" styleClass="ui-button" style="width: 100%;" />
-                          <p:commandButton icon="ui-icon-pencil" type="button" onclick="mostrarPopUpStatus();" style="width: 100%;" rendered="#{thinkUp.isAdminCurrentUser()}"/>
-                        </h:panelGrid>
-                        <p:outputLabel value="#{thinkUp.getCurrentIdeaPageToShow()} / #{thinkUp.getAmountOfIdeas()}" style="align-content: right;"/>
                       </h:panelGrid>
                     </div>
                     <div class="order-page">

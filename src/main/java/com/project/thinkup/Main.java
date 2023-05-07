@@ -126,6 +126,7 @@ public class Main {
 			myIdeaService.addIdea(idea2);
 			myIdeaService.addIdea(idea3);
 
+
 			user.addIdea(idea1);
 			user.addIdea(idea2);
 			myUserService.updateUser(user);
@@ -138,6 +139,7 @@ public class Main {
 			myUserService.updateUser(user1);
 			idea3.setUser(user1);
 			myIdeaService.updateIdea(idea3);
+		
 
 			System.out.println("Adding new idea and adding to admon1...\n");
 			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
@@ -163,8 +165,6 @@ public class Main {
 			idea4.giveLike(like1);
 			myUserService.updateUser(user3);
 			myIdeaService.updateIdea(idea4);
-      
-			System.out.println("\nGetting ideas by user....");
 
 			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);

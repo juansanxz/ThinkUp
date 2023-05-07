@@ -39,7 +39,8 @@ public class User {
 	private List<Idea> ideas;
 
 	//Colección de likes
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
 	public User() {
