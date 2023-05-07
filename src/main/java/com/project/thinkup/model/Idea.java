@@ -11,6 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.CascadeType;
 
 @Entity
 public class Idea {
@@ -32,6 +38,11 @@ public class Idea {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<KeyWord> keyWords;
 
+    //Colección de likes
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
+    private List<Like> likes;
+
     public Idea() {
     }
 
@@ -41,8 +52,17 @@ public class Idea {
         status = Status.created;
         this.description = description;
         this.keyWords = keywords;
+        likes = new ArrayList<Like>();
     }
 
+    public void giveLike (Like likeToSet) {
+        likes.add(likeToSet);
+    }
+
+    public void quitLike (Like like) {
+		likes.remove(like);
+	}
+    
     public Long getIdeaId() {
         return ideaId;
     }
@@ -163,5 +183,9 @@ public class Idea {
 		}
 		return result;
 	}
+
+    public int getAmountOfLikes() {
+        return likes.size();
+    }
 
 }
