@@ -53,6 +53,41 @@ public class Main {
 			myKeyWordService.deleteAllKeyWords();
 			myTopicService.deleteAllTopics();
 
+			System.out.println("Adding Admon...\n");
+			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
+					"estudiante");
+			myUserService.addUser(user);
+
+			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
+					"estudiante");
+			myUserService.addUser(user1);
+
+			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
+					"estudiante");
+			myUserService.addUser(user2);
+			
+
+			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", "activo", "user",
+					"estudiante");
+			myUserService.addUser(user3);
+
+			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", "activo", "user",
+					"estudiante");
+			myUserService.addUser(user4);
+
+			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", "activo", "user",
+					"estudiante");
+			myUserService.addUser(user5);
+
+			User user6 = new User("Jorge", "Useche", "jorge.useche@gmail.com", "123", "activo", "user",
+					"profesor");
+			myUserService.addUser(user6);
+
+			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo",
+					"admin",
+					"administrativo");
+			myUserService.addUser(admon);
+
 			System.out.println("Adding keywords...\n");
 			KeyWord keyWord1 = new KeyWord("Redes");
 			myKeyWordService.addKeyWord(keyWord1);
@@ -85,47 +120,26 @@ public class Main {
 			myIdeaService.addIdea(idea2);
 			myIdeaService.addIdea(idea3);
 
-			System.out.println("Adding Admon...\n");
-			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
-					"estudiante");
 			user.addIdea(idea1);
 			user.addIdea(idea2);
-			myUserService.addUser(user);
+			myUserService.updateUser(user);
+			idea1.setUser(user);
+			myIdeaService.updateIdea(idea1);
+			idea2.setUser(user);
+			myIdeaService.updateIdea(idea2);
 
-			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
-					"estudiante");
 			user1.addIdea(idea3);
-			myUserService.addUser(user1);
-
-			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
-					"estudiante");
-			myUserService.addUser(user2);
-
-			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", "activo", "user",
-					"estudiante");
-			myUserService.addUser(user3);
-
-			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", "activo", "user",
-					"estudiante");
-			myUserService.addUser(user4);
-
-			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", "activo", "user",
-					"estudiante");
-			myUserService.addUser(user5);
-
-			User user6 = new User("Jorge", "Useche", "jorge.useche@gmail.com", "123", "activo", "user",
-					"profesor");
-			myUserService.addUser(user6);
-
-			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo", "admin",
-					"administrativo");
-			myUserService.addUser(admon);
+			myUserService.updateUser(user1);
+			idea3.setUser(user1);
+			myIdeaService.updateIdea(idea3);
 
 			System.out.println("Adding new idea and adding to admon1...\n");
 			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
 			myIdeaService.addIdea(idea4);
 			user1.addIdea(idea4);
 			myUserService.updateUser(user1);
+			idea4.setUser(user1);
+			myIdeaService.updateIdea(idea4);
 
 			System.out.println("\nGetting all Users....");
 			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
@@ -138,8 +152,7 @@ public class Main {
 
 			System.out.println("\nGetting ideas by user....");
 
-
-			Topic topic1  = new Topic("Marvel", "Peliculas");
+			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
 			topic1.addIdea(idea4);
 			myTopicService.updateTopic(topic1);
@@ -149,7 +162,6 @@ public class Main {
 
 			System.out.println("\nGetting topic....");
 			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
-
 
 		};
 	}

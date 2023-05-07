@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Idea {
@@ -26,9 +27,8 @@ public class Idea {
     private String description;
     private String title;
 
-    // @ManyToOne(cascade = { CascadeType.REMOVE })
-    // User user;
-
+    @ManyToOne(targetEntity = User.class)
+    User user;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<KeyWord> keyWords;
@@ -77,6 +77,14 @@ public class Idea {
     }
 
     public void setKeyWords(ArrayList<KeyWord> keyWords) {
+        this.keyWords = keyWords;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setKeyWords(List<KeyWord> keyWords) {
         this.keyWords = keyWords;
     }
 
@@ -142,7 +150,7 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", title=" + title + ", keyWords=" + keyWords + "]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() + "]";
     }
 
     public String getTitle() {
@@ -154,15 +162,19 @@ public class Idea {
     }
 
     public String getStringKeyWords() {
-		String result = "";
-		for (int i = 0; i < keyWords.size(); i ++) {
-			if (i != keyWords.size() - 1) {
-				result += keyWords.get(i).getWord() + ", ";
-			} else {
-				result += keyWords.get(i).getWord();
-			}
-		}
-		return result;
-	}
+        String result = "";
+        for (int i = 0; i < keyWords.size(); i++) {
+            if (i != keyWords.size() - 1) {
+                result += keyWords.get(i).getWord() + ", ";
+            } else {
+                result += keyWords.get(i).getWord();
+            }
+        }
+        return result;
+    }
+
+    public User getUser() {
+        return user;
+    }
 
 }

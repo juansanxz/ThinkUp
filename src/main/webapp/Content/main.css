@@ -194,6 +194,14 @@ a:active { color: red; }
     height: 100%;
 }
 
+#user-display.grid {
+    table-layout: fixed;
+}
+
+#idea-options {
+    margin-top: 50px;
+}
+
 body {
     background-color: #990000;
     font-family: Ubuntu,sans-serif;
