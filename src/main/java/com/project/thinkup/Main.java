@@ -55,7 +55,7 @@ public class Main {
 
 			System.out.println("Adding Admon...\n");
 			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
-					"studiante");
+					"estudiante");
 			myUserService.addUser(user);
 
 			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
@@ -65,6 +65,7 @@ public class Main {
 			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
 					"estudiante");
 			myUserService.addUser(user2);
+			
 
 			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", "activo", "user",
 					"estudiante");
@@ -109,11 +110,11 @@ public class Main {
 			keyWords3.add(keyWord2);
 
 			System.out.println("Adding Admon's ideas...\n");
-			Idea idea1 = new Idea("Titulo1", "Proyecto de redes", keyWords1, user);
+			Idea idea1 = new Idea("Titulo1", "Proyecto de redes", keyWords1);
 
-			Idea idea2 = new Idea("Titulo2", "Proyecto de ciclos", keyWords2, user);
+			Idea idea2 = new Idea("Titulo2", "Proyecto de ciclos", keyWords2);
 
-			Idea idea3 = new Idea("Titulo3", "Proyecto de aupn", keyWords3, user1);
+			Idea idea3 = new Idea("Titulo3", "Proyecto de aupn", keyWords3);
 
 			myIdeaService.addIdea(idea1);
 			myIdeaService.addIdea(idea2);
@@ -121,14 +122,24 @@ public class Main {
 
 			user.addIdea(idea1);
 			user.addIdea(idea2);
+			myUserService.updateUser(user);
+			idea1.setUser(user);
+			myIdeaService.updateIdea(idea1);
+			idea2.setUser(user);
+			myIdeaService.updateIdea(idea2);
 
 			user1.addIdea(idea3);
+			myUserService.updateUser(user1);
+			idea3.setUser(user1);
+			myIdeaService.updateIdea(idea3);
 
 			System.out.println("Adding new idea and adding to admon1...\n");
-			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3, user1);
+			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
 			myIdeaService.addIdea(idea4);
 			user1.addIdea(idea4);
 			myUserService.updateUser(user1);
+			idea4.setUser(user1);
+			myIdeaService.updateIdea(idea4);
 
 			System.out.println("\nGetting all Users....");
 			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));

@@ -11,12 +11,13 @@
     <div class="container">
         <div class="left-column">
             <div>
-                <a href="main.xhtml">
-                    <img class="circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200" />
-                </a>
+              <h:form>
+                <h:commandLink action="#{thinkUp.redirection()}">
+                  <h:graphicImage class="circular-image" value="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
+                </h:commandLink>
+              </h:form>
             </div>
             <p:commandButton icon="ui-icon-search" />
-            <p:commandButton value="Perfil" />
             <p:commandButton value="Estadísticas" />
             <p:commandButton value="Configuración" />
             <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml"
@@ -79,7 +80,7 @@
                   </p:dialog>
                 </h:form>
                 <div class="idea-display">
-                    <h:panelGrid id="idea-display-grid" columns="3">
+                    <h:panelGrid id="idea-display-grid" columns="3" rendered="#{thinkUp.userHasIdeas()}">
                     
                       <p:column>
                         <p:commandButton icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="idea-content" styleClass="ui-button" style="width: 100%;"/>

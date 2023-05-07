@@ -35,13 +35,12 @@ public class Idea {
     public Idea() {
     }
 
-    public Idea(String title, String description, List<KeyWord> keywords, User user) {
+    public Idea(String title, String description, List<KeyWord> keywords) {
         this.title = title;
         this.creationDate = LocalDate.now();
         status = Status.created;
         this.description = description;
         this.keyWords = keywords;
-        this.user = user;
     }
 
     public Long getIdeaId() {
@@ -150,7 +149,7 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user + "]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() + "]";
     }
 
     public String getTitle() {

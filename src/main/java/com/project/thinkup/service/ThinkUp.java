@@ -1,5 +1,6 @@
 package com.project.thinkup.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,12 +48,14 @@ public class ThinkUp {
 	private boolean inOrder;
 	private String columnOrder;
 	private String orderBy;
+	private boolean onProfile;
 
 	public ThinkUp() {
 		currentKeyWords = new ArrayList<KeyWord>();
 		stringKeyWords = new ArrayList<String>();
 		currentIdeaPage = -1;
 		inOrder = false;
+		onProfile = false;
 	}
 
 	@PostConstruct
@@ -92,6 +95,7 @@ public class ThinkUp {
 			} else {
 				ideaPage = getIdeasDisordered();
 			}
+
 			List<Idea> allIdeas = ideaPage.getContent();
 			currentIdea = allIdeas.get(0);
 		} catch (Exception e) {
@@ -130,11 +134,20 @@ public class ThinkUp {
 	}
 
 	private Page<Idea> getIdeasDisordered() {
-		return myIdeaService.getAllIdeasPageable(currentIdeaPage);
+		if(onProfile){
+			return myIdeaService.getIdeasPageableByUser(currentIdeaPage, currentUser);
+		} else{
+			return myIdeaService.getAllIdeasPageable(currentIdeaPage);
+		}
+		
 	}
 
 	private Page<Idea> getIdeasInOrder() {
-		return myIdeaService.getAllIdeasOrdered(columnOrder, orderBy, currentIdeaPage);
+		if(onProfile){
+			return myIdeaService.getIdeasOrderedByUser(columnOrder, orderBy, currentIdeaPage, currentUser);
+		} else{
+			return myIdeaService.getAllIdeasOrdered(columnOrder, orderBy, currentIdeaPage);
+		}
 	}
 
 	// Cambia el numero de la página dependiendo si fue next o back
@@ -177,7 +190,8 @@ public class ThinkUp {
 			}
 
 			// Creación de ideas
-			Idea ideaToAdd = new Idea(title, description, currentKeyWords, currentUser);
+			Idea ideaToAdd = new Idea(title, description, currentKeyWords);
+			ideaToAdd.setUser(currentUser);
 
 			// Agregando idea a la base de datos
 			myIdeaService.addIdea(ideaToAdd);
@@ -219,8 +233,21 @@ public class ThinkUp {
 			externalContext.redirect("index.html");
 		} catch (Exception e) {
 		}
+		setOnProfile(false);
 
 		// return null;
+	}
+
+	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en que página está
+	public void redirection() throws IOException{
+		if(!onProfile) {
+			setOnProfile(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+		} else {
+			setOnProfile(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
+		}
+		
 	}
 
 	public String getUserName() {
@@ -231,12 +258,35 @@ public class ThinkUp {
 		return currentUser;
 	}
 
+
+
 	public Idea getCurrentIdea() {
 		return currentIdea;
 	}
 
 	public boolean isAdminCurrentUser() {
 		return currentUser.isAdmin();
+	}
+
+	//Determina si tiene o no ideas el usuario actual, para saber si mostrar o no  
+	//el panelgrid que se encarga de contenerlas
+	public boolean userHasIdeas(){
+		if(currentUser.getIdeas().size()==0){
+			return false;
+		}
+		return true;
+	}
+
+	
+	//Cuando se da click a boton de perfil, para cambiar atributo onProfile a true
+	//Cuando se da click a boton de logo, para cambiar atributo onProfile a false
+	public void setOnProfile(boolean onProfile) {
+		this.onProfile = onProfile;
+		resetOrder();
+	}
+	
+	public boolean isOnProfile() {
+		return onProfile;
 	}
 
 	public String getCurrentIdeaTitle() {
@@ -272,7 +322,12 @@ public class ThinkUp {
 	}
 
 	public int getAmountOfIdeas() {
-		return myIdeaService.getAllIdeas().size();
+		if(onProfile) { 
+			return myIdeaService.getIdeasByUser(currentUser).size();
+		} else {
+			return myIdeaService.getAllIdeas().size();
+		}
+		
 	}
 
 }
