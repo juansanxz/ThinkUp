@@ -142,6 +142,9 @@ public class Main {
 			Topic topic1  = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
 			topic1.addIdea(idea4);
+			topic1.addIdea(idea1);
+			topic1.addIdea(idea2);
+			topic1.addIdea(idea3);
 			myTopicService.updateTopic(topic1);
 
 			System.out.println("\nGetting ideas by topic....");
@@ -149,6 +152,7 @@ public class Main {
 
 			System.out.println("\nGetting topic....");
 			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
+
 
 
 		};

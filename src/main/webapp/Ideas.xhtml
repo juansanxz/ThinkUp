@@ -104,12 +104,22 @@
                     <p:column headerText="Estado" filterMatchMode="startsWith" filterBy="#{idea.status}" filterStyle="display:none">
                         <h:outputText value="#{idea.status}" />
                     </p:column>
+                    <p:column exportable="false">
+                        <!--  Agrupar Ideas -->
+                        <p:commandButton icon="ui-icon-plus" update=":dialogs:group-topic-content" oncomplete="PF('grouptopicDialog').show()"
+                            styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{idea}" target="#{ideasBean.selectedIdea}" />
+                            <p:resetInput target=":dialogs:group-topic-content" />
+                        </p:commandButton>
+                    </p:column>
                 </p:dataTable>
             </div>
         </h:form>
-        <!--  Ventanas-->
+    <!--  Ventanas-->
+    </div>
+    <div class="card-dialogs">
         <h:form id="dialogs">
-            <!--  Editar/Agregar Usuario Usuarios  -->
+            <!--  Editar/Agregar Temas -->
             <p:dialog header="Detalles del Tema" showEffect="fade" modal="true" widgetVar="managetopicDialog"
                 responsive="true">
                 <p:outputPanel id="manage-topic-content" class="ui-fluid">
@@ -135,7 +145,7 @@
             </p:dialog> 
 
             <!--  Topic Ideas and Configuration -->   
-            <p:dialog header="Detalles del Tema" showEffect="fade" modal="true" widgetVar="topicDialog" responsive="true" style="width: 80%;">
+            <p:dialog header="Detalles del Tema" showEffect="fade" modal="true" widgetVar="topicDialog" responsive="true" class="topic-dialog">
                 <p:outputPanel id="topic-content">
                     <h:panelGrid columns="1" style="width : 100%">
                         <h:outputText value="Tema: #{ideasBean.selectedTopic.title}"/>
@@ -184,10 +194,24 @@
                     </div>
                 </p:outputPanel>
             </p:dialog> 
+
+             <!--  Agrupar Ideas  -->
+            <p:dialog header="Agrupar Idea" showEffect="fade" modal="true" widgetVar="grouptopicDialog"
+                responsive="true">
+                <p:outputPanel id="group-topic-content" class="ui-fluid">
+                    <p:outputPanel rendered="#{not empty ideasBean.selectedIdea}">
+                        <div class="field">
+                            <p:outputLabel value="#{ideasBean.selectedIdea.title}"/>
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </p:dialog> 
+
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Si" type="button" />
                 <p:commandButton value="No" type="button"/>
             </p:confirmDialog>
+        
         </h:form>
     </div>
     <div class="bottom">

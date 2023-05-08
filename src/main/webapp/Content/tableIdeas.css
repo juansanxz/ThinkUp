@@ -75,6 +75,10 @@ body {
     background-color: #ffffff;
 }
 
+.topic-dialog {
+    max-width:80%;
+}
+
 .tool-bar {
     
     max-width:100%;
