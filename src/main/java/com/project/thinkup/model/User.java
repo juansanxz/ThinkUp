@@ -38,11 +38,6 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Idea> ideas;
 
-	//Colección de likes
-	@LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Like> likes;
-
 	public User() {
 	}
 
