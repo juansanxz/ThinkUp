@@ -335,7 +335,6 @@ public class ThinkUp {
 
 	public void addComment(String comment) {
 		Comment description = new Comment(currentIdea, currentUser, comment);
-
 		currentIdea.addComment(description);
 		myIdeaService.updateIdea(currentIdea);
 	}
