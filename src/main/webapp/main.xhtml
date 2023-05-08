@@ -104,8 +104,6 @@
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}" />
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getStringKeyWords()}" />
-                        <p:commandButton id="like-button" icon="ui-icon-heart" action="#{thinkUp.giveLike()}" update="idea-content like-button" oncomplete="cambiarColorLike('#{thinkUp.getCurrentIdeaLike()}');"/>
-                        <p:outputLabel value="#{thinkUp.getAmountOfLikes()}" />
                       </h:panelGrid>
                     </div>
                     <div class="order-page">
