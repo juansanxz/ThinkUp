@@ -49,6 +49,7 @@ public class Idea {
         status = Status.created;
         this.description = description;
         this.keyWords = keywords;
+        this.comments = new ArrayList<Comment>();
     }
 
     public Long getIdeaId() {
@@ -184,4 +185,11 @@ public class Idea {
         return user;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
 }

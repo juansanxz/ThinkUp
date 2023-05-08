@@ -18,6 +18,7 @@ import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.project.thinkup.beans.LoginBean;
 import com.project.thinkup.model.User;
+import com.project.thinkup.model.Comment;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
 
@@ -43,6 +44,8 @@ public class ThinkUp {
 	UserService myUserService;
 	@Autowired
 	KeyWordService myKeyWordService;
+	@Autowired
+	CommentService myCommentService;
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
@@ -328,6 +331,13 @@ public class ThinkUp {
 			return myIdeaService.getAllIdeas().size();
 		}
 		
+	}
+
+	public void addComment(String comment) {
+		Comment description = new Comment(currentIdea, currentUser, comment);
+
+		currentIdea.addComment(description);
+		myIdeaService.updateIdea(currentIdea);
 	}
 
 }

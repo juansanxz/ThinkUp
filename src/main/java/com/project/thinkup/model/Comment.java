@@ -25,6 +25,13 @@ public class Comment {
     public Comment() {
     }
 
+    public Comment(Idea idea, User user, String description) {
+        creationDate = LocalDate.now();
+        this.idea = idea;
+        this.user = user;
+        this.description = description; 
+    }
+
     public Long getCommentId() {
         return commentId;
     }
