@@ -201,10 +201,25 @@
                 <p:outputPanel id="group-topic-content" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty ideasBean.selectedIdea}">
                         <div class="field">
-                            <p:outputLabel value="#{ideasBean.selectedIdea.title}"/>
+                            <p:outputLabel value="Titulo: #{ideasBean.selectedIdea.title}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel value="Descripción: #{ideasBean.selectedIdea.description}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="inputTopic">Tema:</p:outputLabel>
+                            <p:autoComplete id="inputTopic" value="#{ideasBean.menuTopic}" completeMethod="#{ideasBean.complete}"  dropdown="true" required="true" />
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar"  actionListener="#{ideasBean.groupIdea}"
+                        update="group-topic-content topic-content :form :form:dt-ideas :topics " process="group-topic-content @this" oncomplete="PF('dtIdeas').filter()"/>
+                    <p:commandButton value="Cancelar"  onclick="PF('grouptopicDialog').hide()"
+                        class="ui-button-secondary" type="button" />
+                </f:facet>
+                <p:messages for="somekey"/>
             </p:dialog> 
 
             <p:confirmDialog global="true" showEffect="fade" width="300">

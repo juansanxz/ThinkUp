@@ -2,6 +2,7 @@ package com.project.thinkup.beans;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,7 @@ public class IdeasBean {
     private List<Topic> topics;
     private Idea selectedIdea;
     private Topic selectedTopic;
+    private String menuTopic;
     private List<Idea> selectedIdeas;
     private List<Idea> filteredIdeas;
 
@@ -49,6 +51,14 @@ public class IdeasBean {
 
     public void setSelectedIdea(Idea selectedIdea) {
         this.selectedIdea = selectedIdea;
+    }
+
+    public String getMenuTopic() {
+        return menuTopic;
+    }
+
+    public void setMenuTopic(String menuTopic) {
+        this.menuTopic = menuTopic;
     }
 
     public List<Idea> getFilteredIdeas() {
@@ -144,6 +154,43 @@ public class IdeasBean {
         }
     }  
 
+    public List<String> complete(String query) {
+        List<String> results = new ArrayList<String>();
+        for (Topic topic : topics) {
+            String title = topic.getTitle();
+            if (title.toLowerCase().startsWith(query.toLowerCase())) {
+                results.add(title);
+            }
+        }
+        return results;
+    }
+    
+
+    public void groupIdea() {
+        try{
+            Topic currentMenuTopic = topicService.getTopicByTitle(menuTopic);
+            currentMenuTopic.addIdea(selectedIdea);
+            topicService.updateTopic(currentMenuTopic);
+            refresh();
+            RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Idea agregada con exito al tema" + menuTopic,"Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+
+        }catch(Exception e){
+            RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al agrupar:" + e.getMessage(),"Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+        }
+    }
 
     
-}
+}  
+        
+
+
+    
+
