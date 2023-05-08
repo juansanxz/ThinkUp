@@ -19,10 +19,12 @@ import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
 import com.project.thinkup.model.Topic;
 import com.project.thinkup.model.User;
+import com.project.thinkup.model.Comment;
 import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.service.TopicService;
 import com.project.thinkup.service.UserService;
+import com.project.thinkup.service.CommentService;
 
 @SpringBootApplication
 public class Main {
@@ -39,6 +41,9 @@ public class Main {
 	@Autowired
 	TopicService myTopicService;
 
+	@Autowired
+	CommentService myCommentService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 
@@ -52,6 +57,7 @@ public class Main {
 			myUserService.deleteAllUsers();
 			myKeyWordService.deleteAllKeyWords();
 			myTopicService.deleteAllTopics();
+			myCommentService.deleteAllComments();
 
 			System.out.println("Adding Admon...\n");
 			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
