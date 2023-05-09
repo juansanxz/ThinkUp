@@ -209,8 +209,8 @@
                                     <f:setPropertyActionListener value="#{idea}" target="#{ideasBean.selectedIdeaInTopic}" />
                                 </p:commandButton>
                             </p:column>
-
                         </p:dataTable>
+                        <p:commandButton class="bottom" value="Regresar" oncomplete="PF('topicDialog').hide()" />
                     </div>
                 </p:outputPanel>
             </p:dialog> 
@@ -259,7 +259,7 @@
             message="¿Eliminar Tema? Es posible que el tema agrupe ideas" header="Confirmar">
             <p:commandButton value="Si" actionListener="#{ideasBean.deleteSelectedTopic}"
                 process="@this" update=":topics :dialogs:topic-content :form "
-                oncomplete="PF('deletetopicDialog').hide()"/>
+                oncomplete="PF('deletetopicDialog').hide(); PF('topicDialog').hide()"/>
             <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
                 onclick="PF('deletetopicDialog').hide()" />
         </p:confirmDialog> 

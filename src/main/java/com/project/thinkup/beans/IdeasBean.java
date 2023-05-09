@@ -233,7 +233,7 @@ public class IdeasBean {
         }
     }
 
-    public void deleteUser() {
+    public void deleteSelectedTopic() {
         try{
             topicService.deleteTopic(selectedTopic.getTopicId());
             this.selectedTopic = null;

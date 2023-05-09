@@ -27,7 +27,7 @@ public class Topic {
     private String description;
     private String title;
 
-	@OneToMany(targetEntity = Idea.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Idea.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "topic_id")
 	private List<Idea> ideas;
 
