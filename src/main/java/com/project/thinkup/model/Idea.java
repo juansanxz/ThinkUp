@@ -36,8 +36,8 @@ public class Idea {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<KeyWord> keyWords;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "comment_id")
+    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@JoinColumn(name = "commentId")
 	private List<Comment> comments;
 
     public Idea() {
