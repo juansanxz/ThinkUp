@@ -150,16 +150,22 @@
                     <h:panelGrid columns="1" style="width : 100%">
                         <h:outputText value="Tema: #{ideasBean.selectedTopic.title}"/>
                         <h:outputText value="Descripción: #{ideasBean.selectedTopic.description}" />
-
-                        <p:commandButton icon="ui-icon-pencil" update=":dialogs:manage-topic-content :topics topic-content"
-                        oncomplete="PF('managetopicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
-                            <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
-                            <p:resetInput target="dialogs:manage-topic-content" />
-                        </p:commandButton>
+                        <p:toolbar styleClass="mi-toolbar">
+                            <p:toolbarGroup>
+                                <p:commandButton icon="ui-icon-pencil" update=":dialogs:manage-topic-content :topics topic-content"
+                                oncomplete="PF('managetopicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
+                                    <p:resetInput target="dialogs:manage-topic-content" />
+                                </p:commandButton>
+                                <p:commandButton icon="ui-icon-trash" update=":dialogs:manage-topic-content :topics topic-content"
+                                oncomplete="PF('deletetopicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
                     </h:panelGrid>
                     <div>
                         <p:dataTable id="dt-ideas-topic" widgetVar="dtIdeasByTopic" var="idea" value="#{ideasBean.selectedTopic.ideas}"
-                        reflow="true" styleClass="ideas-table"  selection="#{ideasBean.selectedIdeas}" filteredValue="#{ideasBean.filteredIdeas}"
+                        reflow="true" styleClass="ideas-table" selection="#{ideasBean.selectedIdeasInTopic}" filteredValue="#{ideasBean.filteredIdeasInTopic}"
                         rowKey="#{idea.ideaId}" paginator="true" rows="5" rowSelectMode="add" paginatorPosition="bottom">
                             <!-- Buscar ideas -->
                             <f:facet name="header">
@@ -198,7 +204,7 @@
                             </p:column>
                             <p:column exportable="false">
                                 <!--  Agrupar Ideas -->
-                                <p:commandButton icon="ui-icon-arrowreturnthick-1-w" update=":topics" oncomplete="PF('ungroupDialog').show()"
+                                <p:commandButton icon="ui-icon-arrowreturnthick-1-w" update=":topics dt-ideas-topic dialogs:topic-content" oncomplete="PF('ungroupDialog').show()"
                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
                                     <f:setPropertyActionListener value="#{idea}" target="#{ideasBean.selectedIdeaInTopic}" />
                                 </p:commandButton>
@@ -248,6 +254,15 @@
                 <p:commandButton value="Si" type="button" />
                 <p:commandButton value="No" type="button"/>
             </p:confirmDialog>
+
+            <p:confirmDialog widgetVar="deletetopicDialog" showEffect="fade" width="300"
+            message="¿Eliminar Tema? Es posible que el tema agrupe ideas" header="Confirmar">
+            <p:commandButton value="Si" actionListener="#{ideasBean.deleteSelectedTopic}"
+                process="@this" update=":topics :dialogs:topic-content :form "
+                oncomplete="PF('deletetopicDialog').hide()"/>
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
+                onclick="PF('deletetopicDialog').hide()" />
+        </p:confirmDialog> 
         
         </h:form>
     </div>

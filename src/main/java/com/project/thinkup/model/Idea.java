@@ -31,6 +31,7 @@ public class Idea {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<KeyWord> keyWords;
+    
 
     public Idea() {
     }

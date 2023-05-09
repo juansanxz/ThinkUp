@@ -27,7 +27,7 @@ public class Topic {
     private String description;
     private String title;
 
-	@OneToMany(targetEntity = Idea.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Idea.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "topic_id")
 	private List<Idea> ideas;
 
@@ -87,8 +87,9 @@ public class Topic {
         this.ideas = ideas;
     }
 
-    public boolean removeIdea(Idea Idea){
-        return ideas.remove(Idea);
+    public Topic removeIdea(Idea Idea){
+       ideas.remove(Idea);
+       return this;
     }
 
     @Override

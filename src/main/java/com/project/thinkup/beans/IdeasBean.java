@@ -33,6 +33,8 @@ public class IdeasBean {
     private String menuTopic;
     private List<Idea> selectedIdeas;
     private List<Idea> filteredIdeas;
+    private List<Idea> selectedIdeasInTopic;
+    private List<Idea> filteredIdeasInTopic;
 
     @Autowired
     IdeaService ideaService;
@@ -48,6 +50,22 @@ public class IdeasBean {
 
     public Idea getSelectedIdea() {
         return selectedIdea;
+    }
+
+    public List<Idea> getSelectedIdeasInTopic() {
+        return selectedIdeasInTopic;
+    }
+
+    public void setSelectedIdeasInTopic(List<Idea> selectedIdeasInTopic) {
+        this.selectedIdeasInTopic = selectedIdeasInTopic;
+    }
+
+    public List<Idea> getFilteredIdeasInTopic() {
+        return filteredIdeasInTopic;
+    }
+
+    public void setFilteredIdeasInTopic(List<Idea> filteredIdeasInTopic) {
+        this.filteredIdeasInTopic = filteredIdeasInTopic;
     }
 
     public Idea getSelectedIdeaInTopic() {
@@ -200,7 +218,7 @@ public class IdeasBean {
     public void ungroupIdea(){
         try{
             selectedTopic.removeIdea(selectedIdeaInTopic);
-            topicService.updateTopic(selectedTopic);
+            selectedTopic = topicService.updateTopic(selectedTopic);
             refresh();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "La idea se ha borrado del Tema correctamente","Agrupar idea");
@@ -213,6 +231,26 @@ public class IdeasBean {
             context.addMessage("anotherkey", msg);   
 
         }
+    }
+
+    public void deleteUser() {
+        try{
+            topicService.deleteTopic(selectedTopic.getTopicId());
+            this.selectedTopic = null;
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tema borrado con exito!", "Tema borrado con exito!");
+            context.addMessage("anotherkey", msg);
+
+        }catch(Exception e){
+            String message = e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, message, message);
+            context.addMessage("anotherkey", msg);
+
+
+        }
+
     }
 
     
