@@ -87,6 +87,10 @@ public class Topic {
         this.ideas = ideas;
     }
 
+    public boolean removeIdea(Idea Idea){
+        return ideas.remove(Idea);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -28,6 +28,7 @@ public class IdeasBean {
     private List<Idea> ideas;
     private List<Topic> topics;
     private Idea selectedIdea;
+    private Idea selectedIdeaInTopic;
     private Topic selectedTopic;
     private String menuTopic;
     private List<Idea> selectedIdeas;
@@ -47,6 +48,14 @@ public class IdeasBean {
 
     public Idea getSelectedIdea() {
         return selectedIdea;
+    }
+
+    public Idea getSelectedIdeaInTopic() {
+        return selectedIdeaInTopic;
+    }
+
+    public void setSelectedIdeaInTopic(Idea selectedIdeaInTopic) {
+        this.selectedIdeaInTopic = selectedIdeaInTopic;
     }
 
     public void setSelectedIdea(Idea selectedIdea) {
@@ -141,6 +150,7 @@ public class IdeasBean {
         }
         else {
             if(topicService.updateTopic(selectedTopic) != null){
+                RequestContext.getCurrentInstance().execute("PF('managetopicDialog').hide()");
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Tema actualizado con exito!","Tema modificado con exito");
                 context.addMessage("anotherkey", msg);
@@ -182,6 +192,24 @@ public class IdeasBean {
             RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al agrupar:" + e.getMessage(),"Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+        }
+    }
+
+    public void ungroupIdea(){
+        try{
+            selectedTopic.removeIdea(selectedIdeaInTopic);
+            topicService.updateTopic(selectedTopic);
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "La idea se ha borrado del Tema correctamente","Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+
+        }catch(Exception e){
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al borrar la idea del grupox:" + e.getMessage(),"Agrupar idea");
             context.addMessage("anotherkey", msg);   
 
         }

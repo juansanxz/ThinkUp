@@ -137,7 +137,7 @@
             <!--  Confirmación  -->    
                 <f:facet name="footer">
                     <p:commandButton value="Guardar"  actionListener="#{ideasBean.saveTopic}"
-                        update="manage-topic-content :form :topics" process="manage-topic-content  @this" oncomplete="PF('dtIdeas').filter()"/>
+                        update="manage-topic-content :form :topics topic-content" process="manage-topic-content  @this" oncomplete="PF('dtIdeas').filter()"/>
                     <p:commandButton value="Cancelar"  onclick="PF('managetopicDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>
@@ -150,10 +150,16 @@
                     <h:panelGrid columns="1" style="width : 100%">
                         <h:outputText value="Tema: #{ideasBean.selectedTopic.title}"/>
                         <h:outputText value="Descripción: #{ideasBean.selectedTopic.description}" />
+
+                        <p:commandButton icon="ui-icon-pencil" update=":dialogs:manage-topic-content :topics topic-content"
+                        oncomplete="PF('managetopicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
+                            <p:resetInput target="dialogs:manage-topic-content" />
+                        </p:commandButton>
                     </h:panelGrid>
                     <div>
                         <p:dataTable id="dt-ideas-topic" widgetVar="dtIdeasByTopic" var="idea" value="#{ideasBean.selectedTopic.ideas}"
-                        reflow="true" styleClass="ideas-table"
+                        reflow="true" styleClass="ideas-table"  selection="#{ideasBean.selectedIdeas}" filteredValue="#{ideasBean.filteredIdeas}"
                         rowKey="#{idea.ideaId}" paginator="true" rows="5" rowSelectMode="add" paginatorPosition="bottom">
                             <!-- Buscar ideas -->
                             <f:facet name="header">
@@ -163,7 +169,7 @@
                             </f:facet>
                             <f:facet name="header">
                                 <div class="idea-table-header">
-                                    <p:inputText id="globalFilter" onkeyup="PF('dtIdeas').filter()" placeholder="Buscar" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtIdeasByTopic').filter()" placeholder="Buscar" />
                                 </div>
                             </f:facet>
                             <!-- Buscar ideas -->
@@ -190,11 +196,18 @@
                             <p:column headerText="Estado" filterMatchMode="startsWith" filterBy="#{idea.status}" filterStyle="display:none">
                                 <h:outputText value="#{idea.status}" />
                             </p:column>
+                            <p:column exportable="false">
+                                <!--  Agrupar Ideas -->
+                                <p:commandButton icon="ui-icon-arrowreturnthick-1-w" update=":topics" oncomplete="PF('ungroupDialog').show()"
+                                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{idea}" target="#{ideasBean.selectedIdeaInTopic}" />
+                                </p:commandButton>
+                            </p:column>
+
                         </p:dataTable>
                     </div>
                 </p:outputPanel>
             </p:dialog> 
-
              <!--  Agrupar Ideas  -->
             <p:dialog header="Agrupar Idea" showEffect="fade" modal="true" widgetVar="grouptopicDialog"
                 responsive="true">
@@ -221,6 +234,15 @@
                 </f:facet>
                 <p:messages for="somekey"/>
             </p:dialog> 
+
+            <p:confirmDialog widgetVar="ungroupDialog" showEffect="fade" width="300"
+            message="¿Quitar la idea seleccionada del grupo?" header="Confirmar">
+                <p:commandButton value="Si" actionListener="#{ideasBean.ungroupIdea}"
+                    process="@this" update=":topics :dialogs:topic-content :form "
+                    oncomplete="PF('ungroupDialog').hide()" />
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
+                    onclick="PF('ungroupDialog').hide()" />
+            </p:confirmDialog> 
 
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Si" type="button" />
