@@ -71,7 +71,21 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  
+
+    background-color: #ffffff;
+}
+
+.card-topics {
+    text-align:center;
+    max-width:100%;
+    height: 20vh;
+    margin-top:2%;
+    margin-right:2%;
+    margin-left:2%;
+    margin-bottom: 2%;
+    border-radius: 5%;
+    justify-content: center;
+    align-items: center;
     background-color: #ffffff;
 }
 
@@ -134,10 +148,8 @@ body {
 
 }
 
-
 .back-Button {
     margin-top: 1%;
-
     background-color: gray; /* Color de fondo */
     color: white; /* Color del texto */
     padding: 10px 20px; /* Espaciado interno */
@@ -152,4 +164,11 @@ body {
 
 .ui-carousel-item  {
     text-align: center;
+    background: white;
 }
+
+.ui-carousel-header{
+    background: #fff4f4 -webkit-gradient(linear,left top,left bottom,from(rgba(255, 200, 200, 0.918)),to(rgb(94 38 38 / 0%)));
+}
+
+
