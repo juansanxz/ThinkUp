@@ -35,7 +35,7 @@
     background-color: gray;
 }
 
-/* Estilos para los botones de la columna izquierda */
+/* Estilos para los botones de la columna derecha */
 .right-column button {
     background-color: #990000;
     background-image: linear-gradient(to bottom, #990000, #990000);
@@ -69,7 +69,7 @@
     margin-bottom: 10px;
     padding: 10px;
     width: 150px;
-    background-color: #f44336;
+    background-color: #990000;
     color: white;
     border: none;
     border-radius: 5px;
@@ -82,7 +82,7 @@
     margin-bottom: 10px;
     padding: 10px;
     width: 150px;
-    background-color: #f44336;
+    background-color: #990000;
     color: white;
     border: none;
     border-radius: 5px;
@@ -202,6 +202,17 @@ a:active { color: red; }
     margin-top: 50px;
 }
 
+
+/* Estilos para los botones de la columna derecha */
+#like-button {
+    background-color: #990000;
+    background-image: linear-gradient(to bottom, gray, gray);
+    color: white;
+    text-shadow: none;
+    border: none;
+    cursor: pointer;
+}
+
 body {
     background-color: #990000;
     font-family: Ubuntu,sans-serif;
@@ -222,10 +233,9 @@ body {
 }
 
 .idea-on-display {
-    margin-top: 5%;
     display: block;
     width: 100%;
-    height: 75%; 
+    height: 90%; 
     box-sizing: border-box;
     overflow: auto; /* agregar scroll si hay demasiado contenido */
 }
@@ -233,17 +243,17 @@ body {
 .order-page {
     display: block;
     width: 100%;
-    height: 20%; /* ajustar la altura según el contenido del panel */
+    height: 10%; /* ajustar la altura según el contenido del panel */
     box-sizing: border-box;
 }
 
-#left-button {
+#back-button {
     width: 60%;
     margin: auto;
     display: block;
 }
 
-#right-button {
+#next-button {
     width: 60%;
     margin: auto;
     display: block;
