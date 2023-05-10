@@ -41,7 +41,7 @@
                         </p:commandButton>
                         <!-- Actualizar tabla de ideas -->
                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" update=":form :form:dt-ideas :topics " action="#{ideasBean.refresh}" 
-                        styleClass="ui-button-success" style="margin-right: .5rem" oncomplete="PF('dtIdeas').filter()" >
+                        styleClass="ui-button-success" style="margin-right: .5rem" oncomplete="PF('dtIdeas').filter(); PF('dtIdeasByTopic').filter()" >
                         </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
@@ -54,7 +54,7 @@
                     </h:panelGrid>
                     <div class="bottom">
                         <p:commandButton icon=" ui-icon-folder-open" update=":dialogs:topic-content"
-                            oncomplete="PF('topicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            oncomplete="PF('topicDialog').show(), PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{topic}" target="#{ideasBean.selectedTopic}" />
                         </p:commandButton>
                     </div>
@@ -106,7 +106,7 @@
                     </p:column>
                     <p:column exportable="false">
                         <!--  Agrupar Ideas -->
-                        <p:commandButton icon="ui-icon-plus" update=":dialogs:group-topic-content" oncomplete="PF('grouptopicDialog').show()"
+                        <p:commandButton icon="ui-icon-plus" update=":dialogs:group-topic-content" oncomplete="PF('grouptopicDialog').show();PF('dtIdeas').filter()"
                             styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{idea}" target="#{ideasBean.selectedIdea}" />
                             <p:resetInput target=":dialogs:group-topic-content" />
@@ -137,7 +137,7 @@
             <!--  Confirmación  -->    
                 <f:facet name="footer">
                     <p:commandButton value="Guardar"  actionListener="#{ideasBean.saveTopic}"
-                        update="manage-topic-content :form :topics topic-content" process="manage-topic-content  @this" oncomplete="PF('dtIdeas').filter()"/>
+                        update="manage-topic-content :form :topics topic-content" process="manage-topic-content  @this" oncomplete="PF('dtIdeas').filter(); PF('dtIdeasByTopic').filter()"/>
                     <p:commandButton value="Cancelar"  onclick="PF('managetopicDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>
@@ -153,12 +153,12 @@
                         <p:toolbar styleClass="mi-toolbar">
                             <p:toolbarGroup>
                                 <p:commandButton icon="ui-icon-pencil" update=":dialogs:manage-topic-content :topics topic-content"
-                                oncomplete="PF('managetopicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                oncomplete="PF('managetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                     <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
                                     <p:resetInput target="dialogs:manage-topic-content" />
                                 </p:commandButton>
                                 <p:commandButton icon="ui-icon-trash" update=":dialogs:manage-topic-content :topics topic-content"
-                                oncomplete="PF('deletetopicDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                oncomplete="PF('deletetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                 </p:commandButton>
                             </p:toolbarGroup>
                         </p:toolbar>
@@ -210,7 +210,7 @@
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
-                        <p:commandButton class="bottom" value="Regresar" oncomplete="PF('topicDialog').hide()" />
+                        <p:commandButton class="bottom" value="Regresar" oncomplete="PF('topicDialog').hide(); PF('dtIdeasByTopic').filter(); PF('dtIdeas').filter()" />
                     </div>
                 </p:outputPanel>
             </p:dialog> 
@@ -234,7 +234,7 @@
 
                 <f:facet name="footer">
                     <p:commandButton value="Guardar"  actionListener="#{ideasBean.groupIdea}"
-                        update="group-topic-content topic-content :form :form:dt-ideas :topics " process="group-topic-content @this" oncomplete="PF('dtIdeas').filter()"/>
+                        update="group-topic-content topic-content :form :form:dt-ideas :topics " process="group-topic-content @this" oncomplete="PF('dtIdeas').filter(); PF('dtIdeasByTopic').filter() "/>
                     <p:commandButton value="Cancelar"  onclick="PF('grouptopicDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>
@@ -245,7 +245,7 @@
             message="¿Quitar la idea seleccionada del grupo?" header="Confirmar">
                 <p:commandButton value="Si" actionListener="#{ideasBean.ungroupIdea}"
                     process="@this" update=":topics :dialogs:topic-content :form "
-                    oncomplete="PF('ungroupDialog').hide()" />
+                    oncomplete="PF('ungroupDialog').hide(); PF('dtIdeasByTopic').filter()" />
                 <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
                     onclick="PF('ungroupDialog').hide()" />
             </p:confirmDialog> 
@@ -259,7 +259,7 @@
             message="¿Eliminar Tema? Es posible que el tema agrupe ideas" header="Confirmar">
             <p:commandButton value="Si" actionListener="#{ideasBean.deleteSelectedTopic}"
                 process="@this" update=":topics :dialogs:topic-content :form "
-                oncomplete="PF('deletetopicDialog').hide(); PF('topicDialog').hide()"/>
+                oncomplete="PF('deletetopicDialog').hide(); PF('topicDialog').hide(); PF('dtIdeasByTopic').filter()"/>
             <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
                 onclick="PF('deletetopicDialog').hide()" />
         </p:confirmDialog> 
