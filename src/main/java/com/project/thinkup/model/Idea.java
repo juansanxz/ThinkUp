@@ -11,13 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
-import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -30,21 +23,15 @@ public class Idea {
     @Column(name = "creationDate")
     private LocalDate creationDate;
     private String status;
-    @Column(length = 15000)
+    @Column(length = 2000)
     private String description;
     private String title;
 
     @ManyToOne(targetEntity = User.class)
     User user;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<KeyWord> keyWords;
-
-    //Colección de likes
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
-    private List<Like> likes;
 
     public Idea() {
     }
@@ -55,17 +42,8 @@ public class Idea {
         status = Status.created;
         this.description = description;
         this.keyWords = keywords;
-        likes = new ArrayList<Like>();
     }
 
-    public void giveLike (Like likeToSet) {
-        likes.add(likeToSet);
-    }
-
-    public void quitLike (Like like) {
-		likes.remove(like);
-	}
-    
     public Long getIdeaId() {
         return ideaId;
     }
@@ -197,10 +175,6 @@ public class Idea {
 
     public User getUser() {
         return user;
-    }
-
-    public int getAmountOfLikes() {
-        return likes.size();
     }
 
 }

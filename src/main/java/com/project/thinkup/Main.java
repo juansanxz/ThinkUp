@@ -17,13 +17,11 @@ import org.springframework.context.annotation.DependsOn;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
-import com.project.thinkup.model.Like;
 import com.project.thinkup.model.Topic;
 import com.project.thinkup.model.User;
 import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.service.TopicService;
-import com.project.thinkup.service.LikeService;
 import com.project.thinkup.service.UserService;
 
 @SpringBootApplication
@@ -39,9 +37,6 @@ public class Main {
 	KeyWordService myKeyWordService;
 
 	@Autowired
-	LikeService myLikeService;
-  
-  @Autowired
 	TopicService myTopicService;
 
 	public static void main(String[] args) {
@@ -56,7 +51,6 @@ public class Main {
 			myIdeaService.deleteAllIdeas();
 			myUserService.deleteAllUsers();
 			myKeyWordService.deleteAllKeyWords();
-			myLikeService.deleteAllLikes();
 			myTopicService.deleteAllTopics();
 
 			System.out.println("Adding Admon...\n");
@@ -126,7 +120,6 @@ public class Main {
 			myIdeaService.addIdea(idea2);
 			myIdeaService.addIdea(idea3);
 
-
 			user.addIdea(idea1);
 			user.addIdea(idea2);
 			myUserService.updateUser(user);
@@ -139,7 +132,6 @@ public class Main {
 			myUserService.updateUser(user1);
 			idea3.setUser(user1);
 			myIdeaService.updateIdea(idea3);
-		
 
 			System.out.println("Adding new idea and adding to admon1...\n");
 			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
@@ -158,13 +150,7 @@ public class Main {
 			System.out.println("\nGetting ideas with active status....");
 			myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
 
-			System.out.println("\nGiving like to the idea4....");
-			Like like1 = new Like(idea4, user3);
-			myLikeService.addLike(like1);
-			user3.giveLike(like1);
-			idea4.giveLike(like1);
-			myUserService.updateUser(user3);
-			myIdeaService.updateIdea(idea4);
+			System.out.println("\nGetting ideas by user....");
 
 			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
