@@ -2,6 +2,10 @@ package com.project.thinkup.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +21,9 @@ import com.project.thinkup.repository.IdeaRepository;
 public class IdeaService {
 
     private final IdeaRepository ideaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public IdeaService(IdeaRepository ideaRepository) {
@@ -95,5 +102,10 @@ public class IdeaService {
     public List<Idea> getIdeasByUser(User user) {
         return ideaRepository.findByUser(user);
     }
+
+    public List<Idea> getAllIdeasWithoutTopic() {
+		TypedQuery<Idea> query = entityManager.createQuery("SELECT i FROM Idea i WHERE i.topic IS NULL", Idea.class);
+		return query.getResultList();
+	}
     
 }

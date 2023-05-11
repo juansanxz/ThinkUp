@@ -40,12 +40,16 @@ public class Idea {
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany()
     private List<KeyWord> keyWords;
-
+    
     //Colección de likes
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
+    @ManyToOne(targetEntity = Topic.class)
+    Topic topic;
+
+    
     public Idea() {
     }
 
@@ -62,10 +66,19 @@ public class Idea {
         likes.add(likeToSet);
     }
 
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
     public void quitLike (Like like) {
 		likes.remove(like);
 	}
     
+
     public Long getIdeaId() {
         return ideaId;
     }
@@ -172,7 +185,7 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() + "]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() +  ", Topic=" +  topic  +"]";
     }
 
     public String getTitle() {

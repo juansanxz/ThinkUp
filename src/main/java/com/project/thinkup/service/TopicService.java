@@ -20,9 +20,6 @@ public class TopicService {
 
 	private final TopicRepository topicRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
 	@Autowired
 	public TopicService(TopicRepository TopicRepository) {
 		this.topicRepository = TopicRepository;

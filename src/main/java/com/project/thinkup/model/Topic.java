@@ -27,12 +27,12 @@ public class Topic {
     private String description;
     private String title;
 
-	@OneToMany(targetEntity = Idea.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "topic_id")
+	@OneToMany(mappedBy = "topic", targetEntity = Idea.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<Idea> ideas;
 
 
     public Topic(){
+        this.creationDate = LocalDate.now();
     }
 
     public Topic(String title, String description) {
@@ -44,6 +44,7 @@ public class Topic {
 
     public void addIdea (Idea ideaToAdd) {
 		ideas.add(ideaToAdd);
+        ideaToAdd.setTopic(this);
 	}
 
     public Long getTopicId() {
@@ -86,6 +87,12 @@ public class Topic {
         this.ideas = ideas;
     }
 
+    public Topic removeIdea(Idea Idea){
+       ideas.remove(Idea);
+       Idea.setTopic(null);
+       return this;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -119,7 +126,7 @@ public class Topic {
 
     @Override
     public String toString() {
-        return "Topic [creationDate=" + creationDate + ", description=" + description + ", title=" + title + "]";
+        return "Topic [creationDate=" + creationDate + ", description=" + description + ", title=" + title +  "]";
     }
   
 
