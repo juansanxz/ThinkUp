@@ -193,7 +193,6 @@ public class IdeasBean {
         return results;
     }
     
-
     public void groupIdea() {
         try{
             Topic currentMenuTopic = topicService.getTopicByTitle(menuTopic);
@@ -276,8 +275,6 @@ public class IdeasBean {
             context.addMessage("anotherkey", msg);
         }
     }
-
-    
 }  
         
 
