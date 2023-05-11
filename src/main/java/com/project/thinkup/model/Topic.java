@@ -27,8 +27,7 @@ public class Topic {
     private String description;
     private String title;
 
-	@OneToMany(targetEntity = Idea.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JoinColumn(name = "topic_id")
+	@OneToMany(mappedBy = "topic", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Idea> ideas;
 
 
@@ -45,6 +44,7 @@ public class Topic {
 
     public void addIdea (Idea ideaToAdd) {
 		ideas.add(ideaToAdd);
+        ideaToAdd.setTopic(this);
 	}
 
     public Long getTopicId() {

@@ -173,6 +173,7 @@ public class Main {
 			topic1.addIdea(idea2);
 			topic1.addIdea(idea3);
 			myTopicService.updateTopic(topic1);
+			myIdeaService.updateIdea(idea4);
 
 			System.out.println("\nGetting ideas by topic....");
 			myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));

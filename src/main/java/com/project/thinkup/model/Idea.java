@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 import javax.persistence.OneToMany;
@@ -46,6 +47,11 @@ public class Idea {
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
+
+    @ManyToOne(targetEntity = Topic.class)
+    @JoinColumn(name = "topic_id")
+    Topic topic;
+
     public Idea() {
     }
 
@@ -66,6 +72,13 @@ public class Idea {
 		likes.remove(like);
 	}
     
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
 
     public Long getIdeaId() {
         return ideaId;
