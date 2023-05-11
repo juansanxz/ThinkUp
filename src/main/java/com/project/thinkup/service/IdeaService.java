@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.project.thinkup.model.Idea;
+import com.project.thinkup.model.User;
 import com.project.thinkup.repository.IdeaRepository;
 
 @Service
@@ -40,6 +41,11 @@ public class IdeaService {
         return pageable;
     }
 
+    public Page<Idea> getIdeasPageableByUser(int pageNumber, User user) {
+        Page<Idea> pageable = ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1));
+        return pageable;
+    }
+
     public Page<Idea> getAllIdeasOrdered(String column, String order, int pageNumber) {
         Direction orderBy;
         if (order.equals("asc")) {
@@ -50,6 +56,19 @@ public class IdeaService {
         Sort sort = Sort.by(orderBy, column);
 
         Page<Idea> pageable = ideaRepository.findAll(PageRequest.of(pageNumber, 1, sort));
+        return pageable;
+    }
+
+    public Page<Idea> getIdeasOrderedByUser(String column, String order, int pageNumber, User user) {
+        Direction orderBy;
+        if (order.equals("asc")) {
+            orderBy = Sort.Direction.ASC;
+        } else {
+            orderBy = Sort.Direction.DESC;
+        }
+        Sort sort = Sort.by(orderBy, column);
+
+        Page<Idea> pageable = ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1, sort));
         return pageable;
     }
 
@@ -73,5 +92,8 @@ public class IdeaService {
         return ideaRepository.findByStatus(status);
     }
 
+    public List<Idea> getIdeasByUser(User user) {
+        return ideaRepository.findByUser(user);
+    }
     
 }

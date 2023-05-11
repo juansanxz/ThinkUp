@@ -12,6 +12,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
+
 @Entity
 public class Idea {
 
@@ -22,16 +30,22 @@ public class Idea {
     @Column(name = "creationDate")
     private LocalDate creationDate;
     private String status;
+    @Column(length = 15000)
     private String description;
     private String title;
 
-    // @ManyToOne(cascade = { CascadeType.REMOVE })
-    // User user;
+    @ManyToOne(targetEntity = User.class)
+    User user;
 
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany()
     private List<KeyWord> keyWords;
     
+
+    //Colección de likes
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
+    private List<Like> likes;
 
     public Idea() {
     }
@@ -42,8 +56,17 @@ public class Idea {
         status = Status.created;
         this.description = description;
         this.keyWords = keywords;
+        likes = new ArrayList<Like>();
     }
 
+    public void giveLike (Like likeToSet) {
+        likes.add(likeToSet);
+    }
+
+    public void quitLike (Like like) {
+		likes.remove(like);
+	}
+    
     public Long getIdeaId() {
         return ideaId;
     }
@@ -77,6 +100,14 @@ public class Idea {
     }
 
     public void setKeyWords(ArrayList<KeyWord> keyWords) {
+        this.keyWords = keyWords;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setKeyWords(List<KeyWord> keyWords) {
         this.keyWords = keyWords;
     }
 
@@ -142,7 +173,7 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", title=" + title + ", keyWords=" + keyWords + "]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() + "]";
     }
 
     public String getTitle() {
@@ -154,15 +185,23 @@ public class Idea {
     }
 
     public String getStringKeyWords() {
-		String result = "";
-		for (int i = 0; i < keyWords.size(); i ++) {
-			if (i != keyWords.size() - 1) {
-				result += keyWords.get(i).getWord() + ", ";
-			} else {
-				result += keyWords.get(i).getWord();
-			}
-		}
-		return result;
-	}
+        String result = "";
+        for (int i = 0; i < keyWords.size(); i++) {
+            if (i != keyWords.size() - 1) {
+                result += keyWords.get(i).getWord() + ", ";
+            } else {
+                result += keyWords.get(i).getWord();
+            }
+        }
+        return result;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public int getAmountOfLikes() {
+        return likes.size();
+    }
 
 }

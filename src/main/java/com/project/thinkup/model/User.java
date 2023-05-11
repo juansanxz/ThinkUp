@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 public class User {
 
@@ -31,9 +34,14 @@ public class User {
 	private String role;
 	private String area;
 
-	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Idea> ideas;
+
+	//Colección de likes
+	@LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Like> likes;
 
 	public User() {
 	}
@@ -48,14 +56,23 @@ public class User {
 		this.role = role;
 		this.area = area;
 		this.ideas = new ArrayList<Idea>();
+		this.likes = new ArrayList<Like>();
 	}
 
 	public boolean isAdmin() {
 		return (role.equals("admin"));
 	}
 
-	public void addIdea (Idea ideaToAdd) {
+	public void addIdea(Idea ideaToAdd) {
 		ideas.add(ideaToAdd);
+	}
+
+	public void giveLike (Like like) {
+		likes.add(like);
+	}
+
+	public void quitLike (Like like) {
+		likes.remove(like);
 	}
 
 	@Override
