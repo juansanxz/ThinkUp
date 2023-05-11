@@ -49,6 +49,7 @@ public class Idea {
     @ManyToOne(targetEntity = Topic.class)
     Topic topic;
 
+    
     public Idea() {
     }
 
