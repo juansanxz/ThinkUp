@@ -334,10 +334,13 @@ public class ThinkUp {
 	}
 
 	public void addComment(String comment) {
-		Comment description = new Comment(currentIdea, currentUser.getUserId(), comment);
+		Comment description = new Comment(currentIdea, currentUser, comment);
 		myCommentService.addComment(description);
 		currentIdea.addComment(description);
 		myIdeaService.updateIdea(currentIdea);
 	}
 
+	public String getComments() {
+		return currentIdea.showComments();
+	}
 }

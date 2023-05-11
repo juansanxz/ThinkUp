@@ -23,17 +23,18 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ideaId")
     private Idea idea;
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
     @Column(length = 2000)
     private String description;
 
     public Comment() {
     }
 
-    public Comment(Idea idea, Long userId, String description) {
+    public Comment(Idea idea, User user, String description) {
         creationDate = LocalDate.now();
         this.idea = idea;
-        this.userId = userId;
+        this.user = user;
         this.description = description; 
     }
 
@@ -61,12 +62,12 @@ public class Comment {
         this.idea = idea;
     }
     
-    public Long getUser() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDescription() {
@@ -77,4 +78,11 @@ public class Comment {
         this.description = description;
     }
     
+    public String toString() {
+        String name = user.getFirstName();
+        String lastName = user.getLastName();
+        return name + " " + lastName + "\n" +
+                creationDate + "\n" + 
+                description + "\n";
+    }
 }

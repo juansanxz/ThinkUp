@@ -192,4 +192,12 @@ public class Idea {
     public void addComment(Comment comment) {
         comments.add(comment);
     }
+
+    public String showComments() {
+        String allComments = "";
+        for (Comment comment : comments){
+            allComments += comment.toString() + "\n";
+        }
+        return allComments;
+    }
 }
