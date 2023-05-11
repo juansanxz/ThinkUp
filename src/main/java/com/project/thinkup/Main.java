@@ -179,6 +179,8 @@ public class Main {
 
 			System.out.println("\nGetting topic....");
 			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
+
+
 		};
 	}
 

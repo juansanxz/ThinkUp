@@ -41,7 +41,6 @@ public class Idea {
     @ManyToMany()
     private List<KeyWord> keyWords;
     
-
     //Colección de likes
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
@@ -67,6 +66,7 @@ public class Idea {
 		likes.remove(like);
 	}
     
+
     public Long getIdeaId() {
         return ideaId;
     }
