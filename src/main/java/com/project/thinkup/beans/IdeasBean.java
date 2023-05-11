@@ -199,6 +199,7 @@ public class IdeasBean {
             Topic currentMenuTopic = topicService.getTopicByTitle(menuTopic);
             currentMenuTopic.addIdea(selectedIdea);
             topicService.updateTopic(currentMenuTopic);
+            ideaService.updateIdea(selectedIdea);
             refresh();
             RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
             FacesContext context = FacesContext.getCurrentInstance();

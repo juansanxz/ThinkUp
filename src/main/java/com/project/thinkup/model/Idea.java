@@ -46,6 +46,9 @@ public class Idea {
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
+    @ManyToOne(targetEntity = Topic.class)
+    Topic topic;
+
 
     public Idea() {
     }
@@ -61,6 +64,14 @@ public class Idea {
 
     public void giveLike (Like likeToSet) {
         likes.add(likeToSet);
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
     public void quitLike (Like like) {
@@ -174,7 +185,7 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() + "]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() +  ", Topic=" +  topic  +"]";
     }
 
     public String getTitle() {

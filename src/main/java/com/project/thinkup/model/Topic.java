@@ -27,8 +27,7 @@ public class Topic {
     private String description;
     private String title;
 
-	@OneToMany(targetEntity = Idea.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JoinColumn(name = "topic_id")
+	@OneToMany(mappedBy = "topic", targetEntity = Idea.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<Idea> ideas;
 
 
@@ -45,6 +44,7 @@ public class Topic {
 
     public void addIdea (Idea ideaToAdd) {
 		ideas.add(ideaToAdd);
+        ideaToAdd.setTopic(this);
 	}
 
     public Long getTopicId() {
@@ -125,7 +125,7 @@ public class Topic {
 
     @Override
     public String toString() {
-        return "Topic [creationDate=" + creationDate + ", description=" + description + ", title=" + title + "]";
+        return "Topic [creationDate=" + creationDate + ", description=" + description + ", title=" + title +  "]";
     }
   
 
