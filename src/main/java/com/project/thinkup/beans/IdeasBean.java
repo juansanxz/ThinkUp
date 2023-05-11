@@ -247,12 +247,34 @@ public class IdeasBean {
         }catch(Exception e){
             String message = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, message, message);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, message, message);
             context.addMessage("anotherkey", msg);
 
 
         }
 
+    }
+
+    public void groupSelectedIdeas() {
+        try{
+            Topic currentMenuTopic = topicService.getTopicByTitle(menuTopic);
+            for(Idea idea: this.selectedIdeas){
+                currentMenuTopic.addIdea(idea);
+                ideaService.updateIdea(idea);
+            }
+            topicService.updateTopic(currentMenuTopic);
+            this.selectedIdeas = null;
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ideas agrupadas con exito!", "Ideas agrupadas con exito!");
+            context.addMessage("anotherkey", msg);
+
+        }catch(Exception e){
+            String message = e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, message + " Error al agrupar Ideas al tema", message);
+            context.addMessage("anotherkey", msg);
+        }
     }
 
     

@@ -36,7 +36,7 @@
                         </p:commandButton>
                         <!-- Botón Agrupar Ideas-->
                         <p:commandButton id="group-ideas-button" value="#{ideasBean.groupButtonMessage}"
-                        icon="ui-icon-folder-collapsed" oncomplete="PF('deleteideasDialog').show()"
+                        icon="ui-icon-folder-collapsed" oncomplete="PF('groupIdeastopicDialog').show()"
                         styleClass="ui-button-danger" disabled="#{!ideasBean.hasSelectedIdeas()}" process="@this">
                         </p:commandButton>
                         <!-- Actualizar tabla de ideas -->
@@ -214,7 +214,7 @@
                     </div>
                 </p:outputPanel>
             </p:dialog> 
-             <!--  Agrupar Ideas  -->
+             <!--  Agrupar Idea  -->
             <p:dialog header="Agrupar Idea" showEffect="fade" modal="true" widgetVar="grouptopicDialog"
                 responsive="true">
                 <p:outputPanel id="group-topic-content" class="ui-fluid">
@@ -240,7 +240,29 @@
                 </f:facet>
                 <p:messages for="somekey"/>
             </p:dialog> 
-
+             <!--  Agrupar Ideas  -->
+            <p:dialog header="Agrupar Ideas" showEffect="fade" modal="true" widgetVar="groupIdeastopicDialog"
+            responsive="true">
+                <p:outputPanel id="group-ideas-topic-content" class="ui-fluid">
+                    <p:outputPanel>
+                        <div class="field">
+                            <p:outputLabel value="#{ideasBean.groupButtonMessage}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="inputTopicForIdeas">Tema:</p:outputLabel>
+                            <p:autoComplete id="inputTopicForIdeas" value="#{ideasBean.menuTopic}" completeMethod="#{ideasBean.complete}"  dropdown="true" required="true" />
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar"  actionListener="#{ideasBean.groupSelectedIdeas}" oncomplete="PF('groupIdeastopicDialog').hide(),PF('dtIdeas').filter(); "
+                        update="group-ideas-topic-content topic-content :form :form:dt-ideas :topics " process="group-ideas-topic-content @this" />
+                    <p:commandButton value="Cancelar"  onclick="PF('groupIdeastopicDialog').hide()"
+                        class="ui-button-secondary" type="button" />
+                </f:facet>
+                <p:messages for="somekey"/>
+            </p:dialog> 
+            <!--  Quitar una Idea de un grupo  -->
             <p:confirmDialog widgetVar="ungroupDialog" showEffect="fade" width="300"
             message="¿Quitar la idea seleccionada del grupo?" header="Confirmar">
                 <p:commandButton value="Si" actionListener="#{ideasBean.ungroupIdea}"
