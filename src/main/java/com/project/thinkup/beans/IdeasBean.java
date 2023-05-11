@@ -44,7 +44,7 @@ public class IdeasBean {
 
     @PostConstruct
     public void init() {
-        this.ideas = ideaService.getAllIdeas();
+        this.ideas = ideaService.getAllIdeasWithoutTopic();
         this.topics = topicService.getAllTopics();
     }
 
@@ -130,7 +130,7 @@ public class IdeasBean {
     }
 
     public void refresh() {
-        this.ideas = ideaService.getAllIdeas();
+        this.ideas = ideaService.getAllIdeasWithoutTopic();
         this.topics = topicService.getAllTopics();
     }
 
@@ -220,6 +220,7 @@ public class IdeasBean {
         try{
             selectedTopic.removeIdea(selectedIdeaInTopic);
             selectedTopic = topicService.updateTopic(selectedTopic);
+            ideaService.updateIdea(selectedIdeaInTopic);
             refresh();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "La idea se ha borrado del Tema correctamente","Agrupar idea");

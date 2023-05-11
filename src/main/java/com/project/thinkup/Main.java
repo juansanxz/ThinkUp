@@ -169,11 +169,12 @@ public class Main {
 			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
 			topic1.addIdea(idea4);
-			topic1.addIdea(idea1);
 			topic1.addIdea(idea2);
 			topic1.addIdea(idea3);
 			myTopicService.updateTopic(topic1);
 			myIdeaService.updateIdea(idea4);
+			myIdeaService.updateIdea(idea2);
+			myIdeaService.updateIdea(idea3);
 
 
 			System.out.println("\nGetting ideas by topic....");
@@ -184,6 +185,9 @@ public class Main {
 
 			System.out.println("\nGetting topic....");
 			topic1.getIdeas().forEach(item -> System.out.println(item.getTitle()));
+
+			System.out.println("\nGetting Ideas Without Topic....");
+			myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
 			
 
 

@@ -89,6 +89,7 @@ public class Topic {
 
     public Topic removeIdea(Idea Idea){
        ideas.remove(Idea);
+       Idea.setTopic(null);
        return this;
     }
 
