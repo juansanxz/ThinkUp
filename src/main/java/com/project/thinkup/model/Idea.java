@@ -16,6 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 public class Idea {
 
@@ -33,11 +36,12 @@ public class Idea {
     @ManyToOne(targetEntity = User.class)
     User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
     private List<KeyWord> keyWords;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-	@JoinColumn(name = "commentId")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
 	private List<Comment> comments;
 
     public Idea() {
@@ -191,13 +195,5 @@ public class Idea {
 
     public void addComment(Comment comment) {
         comments.add(comment);
-    }
-
-    public String showComments() {
-        String allComments = "";
-        for (Comment comment : comments){
-            allComments += comment.toString() + "\n";
-        }
-        return allComments;
     }
 }

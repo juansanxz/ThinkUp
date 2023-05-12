@@ -20,11 +20,13 @@ public class Comment {
 
     @Column(name = "creationDate")
     private LocalDate creationDate;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ideaId")
+
+    @ManyToOne(targetEntity = Idea.class)
     private Idea idea;
-    @ManyToOne(fetch = FetchType.LAZY)
+    
+    @ManyToOne(targetEntity = User.class)
     private User user;
+    
     @Column(length = 2000)
     private String description;
 

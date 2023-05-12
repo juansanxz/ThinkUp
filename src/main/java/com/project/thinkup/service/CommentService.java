@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.project.thinkup.model.Comment;
+import com.project.thinkup.model.Idea;
 import com.project.thinkup.repository.CommentRepository;
 
 @Service
@@ -32,5 +33,9 @@ public class CommentService {
 
     public List<Comment> getAllComments() {
         return commentRepository.findAll();
+    }
+
+    public List<Comment> getCommentByIdeaId(Idea idea){
+        return commentRepository.findByIdea(idea);
     }
 }

@@ -11,6 +11,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.springframework.data.domain.Page;
+import org.hibernate.Hibernate;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -336,11 +337,22 @@ public class ThinkUp {
 	public void addComment(String comment) {
 		Comment description = new Comment(currentIdea, currentUser, comment);
 		myCommentService.addComment(description);
-		currentIdea.addComment(description);
-		myIdeaService.updateIdea(currentIdea);
+		//currentIdea.addComment(description);
+		//myIdeaService.updateIdea(currentIdea);
 	}
 
 	public String getComments() {
-		return currentIdea.showComments();
+		List<Comment> comments = myCommentService.getCommentByIdeaId(currentIdea);
+		String allComments = showComments(comments);
+		return allComments;
+		//return currentIdea.showComments();
 	}
+
+	public String showComments(List<Comment> comments) {
+        String allComments = "";
+        for (Comment comment : comments){
+            allComments += comment.toString() + "\n";
+        }
+        return allComments;
+    }
 }

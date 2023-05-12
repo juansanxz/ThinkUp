@@ -126,6 +126,12 @@ public class Main {
 			myIdeaService.addIdea(idea2);
 			myIdeaService.addIdea(idea3);
 
+			/**System.out.println("Adding Admon's comment...\n");
+			Comment comment = new Comment(idea1, user6, "prueba de comentario");
+
+			myCommentService.addComment(comment);**/
+
+
 			user.addIdea(idea1);
 			user.addIdea(idea2);
 			myUserService.updateUser(user);
