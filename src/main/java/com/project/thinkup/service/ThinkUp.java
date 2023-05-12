@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.project.thinkup.beans.LoginBean;
@@ -138,18 +140,18 @@ public class ThinkUp {
 	}
 
 	private Page<Idea> getIdeasDisordered() {
-		if(onProfile){
+		if (onProfile) {
 			return myIdeaService.getIdeasPageableByUser(currentIdeaPage, currentUser);
-		} else{
+		} else {
 			return myIdeaService.getAllIdeasPageable(currentIdeaPage);
 		}
-		
+
 	}
 
 	private Page<Idea> getIdeasInOrder() {
-		if(onProfile){
+		if (onProfile) {
 			return myIdeaService.getIdeasOrderedByUser(columnOrder, orderBy, currentIdeaPage, currentUser);
-		} else{
+		} else {
 			return myIdeaService.getAllIdeasOrdered(columnOrder, orderBy, currentIdeaPage);
 		}
 	}
@@ -164,7 +166,7 @@ public class ThinkUp {
 	}
 
 	// Verifica si la currentIdea tiene like del currentUser
-	private void verifyLiked () {
+	private void verifyLiked() {
 		if (myLikeService.getLikeByIdeaUser(currentIdea, currentUser) != null) {
 			currentIdeaLike = true;
 		} else {
@@ -251,47 +253,36 @@ public class ThinkUp {
 		// return null;
 	}
 
-	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en que página está
-	public void redirection() throws IOException{
-		if(!onProfile) {
+	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en
+	// que página está
+	public void redirection() throws IOException {
+		//resetOrder();
+		if (!onProfile) {
 			setOnProfile(true);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
 		} else {
 			setOnProfile(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
 		}
-		
 	}
 
 	// Dar like
-	public void giveLike () {
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void giveLike() {
 		if (currentIdeaLike) {
+			// lo quiero eliminar
 			Like likeToDelete = myLikeService.getLikeByIdeaUser(currentIdea, currentUser);
+			myLikeService.deleteLike(likeToDelete.getLikeId());
 
-			myLikeService.deleteLike(myLikeService.getLikeByIdeaUser(currentIdea, currentUser).getLikeId());
-			
-			// Eliminar likes de los arreglos de usuario y de idea
-			currentIdea.quitLike(likeToDelete);
-			currentUser.quitLike(likeToDelete);
-
-			currentIdeaLike = false;
 		} else {
-			// Creación de like
+			// lo quiero crear
 			Like likeToSet = new Like(currentIdea, currentUser);
-
-			// Agregando like a la base de datos
 			myLikeService.addLike(likeToSet);
-
-			// Agregando like al usuario que lo creó
-			currentUser.giveLike(likeToSet);
-
-			// Agregando like a la idea
-			currentIdea.giveLike(likeToSet);
-			currentIdeaLike = true;
 		}
+		currentIdeaLike = !currentIdeaLike;
 	}
 
-	public int getAmountOfLikes () {
+	public int getAmountOfLikes() {
 		return myLikeService.getLikeByIdea(currentIdea).size();
 	}
 
@@ -303,8 +294,6 @@ public class ThinkUp {
 		return currentUser;
 	}
 
-
-
 	public Idea getCurrentIdea() {
 		return currentIdea;
 	}
@@ -313,23 +302,22 @@ public class ThinkUp {
 		return currentUser.isAdmin();
 	}
 
-	//Determina si tiene o no ideas el usuario actual, para saber si mostrar o no  
-	//el panelgrid que se encarga de contenerlas
-	public boolean userHasIdeas(){
-		if(currentUser.getIdeas().size()==0){
+	// Determina si tiene o no ideas el usuario actual, para saber si mostrar o no
+	// el panelgrid que se encarga de contenerlas
+	public boolean userHasIdeas() {
+		if (currentUser.getIdeas().size() == 0) {
 			return false;
 		}
 		return true;
 	}
 
-	
-	//Cuando se da click a boton de perfil, para cambiar atributo onProfile a true
-	//Cuando se da click a boton de logo, para cambiar atributo onProfile a false
+	// Cuando se da click a boton de perfil, para cambiar atributo onProfile a true
+	// Cuando se da click a boton de logo, para cambiar atributo onProfile a false
 	public void setOnProfile(boolean onProfile) {
 		this.onProfile = onProfile;
 		resetOrder();
 	}
-	
+
 	public boolean isOnProfile() {
 		return onProfile;
 	}
@@ -367,12 +355,12 @@ public class ThinkUp {
 	}
 
 	public int getAmountOfIdeas() {
-		if(onProfile) { 
+		if (onProfile) {
 			return myIdeaService.getIdeasByUser(currentUser).size();
 		} else {
 			return myIdeaService.getAllIdeas().size();
 		}
-		
+
 	}
 
 	public boolean getCurrentIdeaLike() {

@@ -14,7 +14,7 @@
           <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
         </div>
         <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
-        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}" />
+        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}" update="currentIdeaLike"/>
         <p:commandButton value="Estadísticas" action="#{thinkUp.setOnProfile('false')}"/>
         <p:commandButton value="Configuración" action="#{thinkUp.setOnProfile('false')}"/>
         <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />

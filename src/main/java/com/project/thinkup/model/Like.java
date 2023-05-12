@@ -55,5 +55,12 @@ public class Like {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return "Like [likeId=" + likeId + ", idea=" + idea + ", user=" + user + "]";
+    }
+
+    
+
     
 }
