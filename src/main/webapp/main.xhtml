@@ -95,7 +95,7 @@
                   <p:column>
                     <p:commandButton id="back-button" icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="like-button back-button next-button idea-content page currentIdeaLike" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>
                   </p:column>           
-
+                  
                   <p:column>
                     <div class="idea-on-display"> 
                       <h:panelGrid id="idea-content" columns="1" layout="grid" width="100%" >
@@ -119,6 +119,7 @@
 
                   <p:column>
                     <p:commandButton id="next-button" icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="like-button back-button next-button idea-content currentIdeaLike page" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>           
+
                   </p:column>
 
                 </h:panelGrid>

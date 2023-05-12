@@ -2,6 +2,7 @@ package com.project.thinkup.beans;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -27,9 +28,13 @@ public class IdeasBean {
     private List<Idea> ideas;
     private List<Topic> topics;
     private Idea selectedIdea;
+    private Idea selectedIdeaInTopic;
     private Topic selectedTopic;
+    private String menuTopic;
     private List<Idea> selectedIdeas;
     private List<Idea> filteredIdeas;
+    private List<Idea> selectedIdeasInTopic;
+    private List<Idea> filteredIdeasInTopic;
 
     @Autowired
     IdeaService ideaService;
@@ -39,7 +44,7 @@ public class IdeasBean {
 
     @PostConstruct
     public void init() {
-        this.ideas = ideaService.getAllIdeas();
+        this.ideas = ideaService.getAllIdeasWithoutTopic();
         this.topics = topicService.getAllTopics();
     }
 
@@ -47,8 +52,40 @@ public class IdeasBean {
         return selectedIdea;
     }
 
+    public List<Idea> getSelectedIdeasInTopic() {
+        return selectedIdeasInTopic;
+    }
+
+    public void setSelectedIdeasInTopic(List<Idea> selectedIdeasInTopic) {
+        this.selectedIdeasInTopic = selectedIdeasInTopic;
+    }
+
+    public List<Idea> getFilteredIdeasInTopic() {
+        return filteredIdeasInTopic;
+    }
+
+    public void setFilteredIdeasInTopic(List<Idea> filteredIdeasInTopic) {
+        this.filteredIdeasInTopic = filteredIdeasInTopic;
+    }
+
+    public Idea getSelectedIdeaInTopic() {
+        return selectedIdeaInTopic;
+    }
+
+    public void setSelectedIdeaInTopic(Idea selectedIdeaInTopic) {
+        this.selectedIdeaInTopic = selectedIdeaInTopic;
+    }
+
     public void setSelectedIdea(Idea selectedIdea) {
         this.selectedIdea = selectedIdea;
+    }
+
+    public String getMenuTopic() {
+        return menuTopic;
+    }
+
+    public void setMenuTopic(String menuTopic) {
+        this.menuTopic = menuTopic;
     }
 
     public List<Idea> getFilteredIdeas() {
@@ -93,7 +130,7 @@ public class IdeasBean {
     }
 
     public void refresh() {
-        this.ideas = ideaService.getAllIdeas();
+        this.ideas = ideaService.getAllIdeasWithoutTopic();
         this.topics = topicService.getAllTopics();
     }
 
@@ -131,6 +168,7 @@ public class IdeasBean {
         }
         else {
             if(topicService.updateTopic(selectedTopic) != null){
+                RequestContext.getCurrentInstance().execute("PF('managetopicDialog').hide()");
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Tema actualizado con exito!","Tema modificado con exito");
                 context.addMessage("anotherkey", msg);
@@ -144,6 +182,102 @@ public class IdeasBean {
         }
     }  
 
+    public List<String> complete(String query) {
+        List<String> results = new ArrayList<String>();
+        for (Topic topic : topics) {
+            String title = topic.getTitle();
+            if (title.toLowerCase().startsWith(query.toLowerCase())) {
+                results.add(title);
+            }
+        }
+        return results;
+    }
+    
+    public void groupIdea() {
+        try{
+            Topic currentMenuTopic = topicService.getTopicByTitle(menuTopic);
+            currentMenuTopic.addIdea(selectedIdea);
+            topicService.updateTopic(currentMenuTopic);
+            ideaService.updateIdea(selectedIdea);
+            refresh();
+            RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Idea agregada con exito al tema" + menuTopic,"Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+
+        }catch(Exception e){
+            RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al agrupar:" + e.getMessage(),"Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+        }
+    }
+
+    public void ungroupIdea(){
+        try{
+            selectedTopic.removeIdea(selectedIdeaInTopic);
+            selectedTopic = topicService.updateTopic(selectedTopic);
+            ideaService.updateIdea(selectedIdeaInTopic);
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "La idea se ha borrado del Tema correctamente","Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+
+        }catch(Exception e){
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al borrar la idea del grupox:" + e.getMessage(),"Agrupar idea");
+            context.addMessage("anotherkey", msg);   
+
+        }
+    }
+
+    public void deleteSelectedTopic() {
+        try{
+            topicService.deleteTopic(selectedTopic.getTopicId());
+            this.selectedTopic = null;
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tema borrado con exito!", "Tema borrado con exito!");
+            context.addMessage("anotherkey", msg);
+
+        }catch(Exception e){
+            String message = e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, message, message);
+            context.addMessage("anotherkey", msg);
+
+
+        }
+
+    }
+
+    public void groupSelectedIdeas() {
+        try{
+            Topic currentMenuTopic = topicService.getTopicByTitle(menuTopic);
+            for(Idea idea: this.selectedIdeas){
+                currentMenuTopic.addIdea(idea);
+                ideaService.updateIdea(idea);
+            }
+            topicService.updateTopic(currentMenuTopic);
+            this.selectedIdeas = null;
+            refresh();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ideas agrupadas con exito!", "Ideas agrupadas con exito!");
+            context.addMessage("anotherkey", msg);
+
+        }catch(Exception e){
+            String message = e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, message + " Error al agrupar Ideas al tema", message);
+            context.addMessage("anotherkey", msg);
+        }
+    }
+}  
+        
+
 
     
-}
+
