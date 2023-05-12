@@ -93,7 +93,7 @@
                 <h:panelGrid id="idea-display-grid" columns="3" columnClasses="col-1,col-2,col-3">
                 
                   <p:column>
-                    <p:commandButton id="left-button" icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="idea-content page" styleClass="ui-button" />
+                    <p:commandButton id="left-button" icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="idea-content page panelOfComments" styleClass="ui-button" />
                   </p:column>           
 
                   <p:column>
@@ -106,15 +106,15 @@
                         <p:outputLabel value="#{thinkUp.getCurrentIdea().getStringKeyWords()}" />
                       </h:panelGrid>
                     </div>
-                    <div class="interactions" style="margin-right: 0.5%; text-align: right;">
+                    <div class="interactions">
                       <p:commandButton icon=" ui-icon-comment" type="button" onclick="showComments();"/>
                     </div>
-                    <div class="comments">
-                      <p:dialog header="Comentarios" widgetVar="comments" modal="true" showEffect="fade" hideEffect="fade">
+                    <div class="comments" >
+                      <p:dialog header="Comentarios" widgetVar="comments" modal="true" showEffect="fade" hideEffect="fade" id="panelOfComments">
                         <h:form>
-                          <h:panelGrid columns="1">
+                          <h:panelGrid columns="1" >
                             <p:outputLabel id="allComments" value="#{thinkUp.getComments()}" style="white-space: pre-line;"/>
-                            <p:inputText id="comment" binding="#{description}" />
+                            <p:inputText id="comment" binding="#{description}"/>
                             <p:commandButton value="Comentar" action="#{thinkUp.addComment(description.value)}" update="allComments"/>
                           </h:panelGrid>  
                         </h:form>
@@ -130,7 +130,7 @@
                   </p:column>
 
                   <p:column>
-                    <p:commandButton id="right-button" icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="idea-content page" styleClass="ui-button" style="width: 60%;"/>           
+                    <p:commandButton id="right-button" icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="idea-content page panelOfComments" styleClass="ui-button" style="width: 60%;"/>           
                   </p:column>
 
                 </h:panelGrid>

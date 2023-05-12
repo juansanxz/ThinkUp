@@ -53,6 +53,7 @@ function borrarInfoIdea() {
    }
 }
 
+
 function borrarInput() {
    var inputs = document.getElementsByTagName("input");
       for (var i = 0; i < inputs.length; i++) {
@@ -61,6 +62,7 @@ function borrarInput() {
          }
       }
 }
+
 
 function hasMessages() {
    return !!$('.ui-messages-error').length;
