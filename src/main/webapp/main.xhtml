@@ -115,7 +115,7 @@
                           <h:panelGrid columns="1" >
                             <p:outputLabel id="allComments" value="#{thinkUp.getComments()}" style="white-space: pre-line;"/>
                             <p:inputText id="comment" binding="#{description}"/>
-                            <p:commandButton value="Comentar" action="#{thinkUp.addComment(description.value)}" update="allComments"/>
+                            <p:commandButton value="Comentar" action="#{thinkUp.addComment(description.value)}" update="allComments" oncomplete="cleanComment();"/>
                           </h:panelGrid>  
                         </h:form>
                       </p:dialog>
