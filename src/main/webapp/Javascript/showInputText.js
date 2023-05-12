@@ -99,7 +99,9 @@ function cambiarColorLikeInverse () {
 }
 
 $(document).ready(function() {
-   if (window.location.href.indexOf("?nocache") > -1) {
+   console.log("Estoy entrando");
+   if (window.location.href.indexOf("?nocache") > -1 || window.location.href.indexOf("&nocache") > -1) {
+      console.log("Cambiaré color");
       var buttonLike = document.getElementById("like-button");
       cambiarColorLikeInverse();
    }

@@ -256,14 +256,14 @@ public class ThinkUp {
 	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en
 	// que página está
 	public void redirection() throws IOException {
+		//resetOrder();
 		if (!onProfile) {
 			setOnProfile(true);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
 		} else {
 			setOnProfile(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
 		}
-
 	}
 
 	// Dar like
