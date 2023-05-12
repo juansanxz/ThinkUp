@@ -64,6 +64,7 @@ public class Idea {
 
     public void quitLike (Like like) {
 		likes.remove(like);
+        System.out.println("DELETED");
 	}
     
     public Long getIdeaId() {

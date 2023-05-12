@@ -2,12 +2,15 @@ package com.project.thinkup.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.User;
@@ -72,6 +75,7 @@ public class IdeaService {
         return pageable;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public Idea updateIdea(Idea idea) {
         if (ideaRepository.existsByIdeaId(idea.getIdeaId())) {
             return ideaRepository.save(idea);
