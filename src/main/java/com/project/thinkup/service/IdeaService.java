@@ -2,12 +2,18 @@ package com.project.thinkup.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.User;
@@ -17,6 +23,9 @@ import com.project.thinkup.repository.IdeaRepository;
 public class IdeaService {
 
     private final IdeaRepository ideaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public IdeaService(IdeaRepository ideaRepository) {
@@ -72,6 +81,7 @@ public class IdeaService {
         return pageable;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public Idea updateIdea(Idea idea) {
         if (ideaRepository.existsByIdeaId(idea.getIdeaId())) {
             return ideaRepository.save(idea);
@@ -95,5 +105,10 @@ public class IdeaService {
     public List<Idea> getIdeasByUser(User user) {
         return ideaRepository.findByUser(user);
     }
+
+    public List<Idea> getAllIdeasWithoutTopic() {
+		TypedQuery<Idea> query = entityManager.createQuery("SELECT i FROM Idea i WHERE i.topic IS NULL", Idea.class);
+		return query.getResultList();
+	}
     
 }

@@ -13,6 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -29,7 +36,7 @@ public class Idea {
     @Column(name = "creationDate")
     private LocalDate creationDate;
     private String status;
-    @Column(length = 2000)
+    @Column(length = 15000)
     private String description;
     private String title;
 
@@ -37,8 +44,18 @@ public class Idea {
     User user;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany
+    @ManyToMany()
     private List<KeyWord> keyWords;
+    
+    //Colección de likes
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
+    private List<Like> likes;
+
+    @ManyToOne(targetEntity = Topic.class)
+    Topic topic;
+
+    
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
@@ -55,6 +72,12 @@ public class Idea {
         this.keyWords = keywords;
         this.comments = new ArrayList<Comment>();
     }
+
+    public void quitLike (Like like) {
+		likes.remove(like);
+        System.out.println("DELETED");
+	}
+    
 
     public Long getIdeaId() {
         return ideaId;
@@ -162,7 +185,7 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() + "]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() +  ", Topic=" +  topic  +"]";
     }
 
     public String getTitle() {
@@ -187,6 +210,10 @@ public class Idea {
 
     public User getUser() {
         return user;
+    }
+
+    public int getAmountOfLikes() {
+        return likes.size();
     }
 
     public List<Comment> getComments() {

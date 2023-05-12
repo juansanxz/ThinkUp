@@ -15,6 +15,8 @@ import org.hibernate.Hibernate;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.project.thinkup.beans.LoginBean;
@@ -22,6 +24,7 @@ import com.project.thinkup.model.User;
 import com.project.thinkup.model.Comment;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
+import com.project.thinkup.model.Like;
 
 @ManagedBean
 @Component
@@ -46,12 +49,15 @@ public class ThinkUp {
 	@Autowired
 	KeyWordService myKeyWordService;
 	@Autowired
+	LikeService myLikeService;
+	@Autowired
 	CommentService myCommentService;
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
 	private String columnOrder;
 	private String orderBy;
+	private boolean currentIdeaLike;
 	private boolean onProfile;
 
 	public ThinkUp() {
@@ -59,6 +65,7 @@ public class ThinkUp {
 		stringKeyWords = new ArrayList<String>();
 		currentIdeaPage = -1;
 		inOrder = false;
+		currentIdeaLike = false;
 		onProfile = false;
 	}
 
@@ -70,7 +77,8 @@ public class ThinkUp {
 	public String login(String username, String password) {
 		if (loginBean.login(username, password)) {
 			currentUser = loginBean.getUser();
-			return "main.xhtml?faces-redirect=true";
+			resetOrder();
+			return "main.xhtml?faces-redirect=true&nocache=" + Math.random();
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo",
@@ -83,8 +91,6 @@ public class ThinkUp {
 	public void editIdeaStatus(String newStatus) {
 		currentIdea.setStatus(newStatus);
 		myIdeaService.updateIdea(currentIdea);
-		// currentIdeaPage -= 1;
-		// changeIdea("next");
 	}
 
 	// Cambia de idea dependiendo si es a la izquierda o a la derecha, y depende si
@@ -92,7 +98,6 @@ public class ThinkUp {
 	public void changeIdea(String way) {
 		changeNumberOfPage(way);
 		try {
-			// Page<Idea> ideaPage = myIdeaService.getAllIdeasPageable(currentIdeaPage);
 			Page<Idea> ideaPage;
 			if (inOrder == true) {
 				ideaPage = getIdeasInOrder();
@@ -102,6 +107,7 @@ public class ThinkUp {
 
 			List<Idea> allIdeas = ideaPage.getContent();
 			currentIdea = allIdeas.get(0);
+			verifyLiked();
 		} catch (Exception e) {
 			if (way.equals("next")) {
 				currentIdeaPage -= 1;
@@ -138,18 +144,18 @@ public class ThinkUp {
 	}
 
 	private Page<Idea> getIdeasDisordered() {
-		if(onProfile){
+		if (onProfile) {
 			return myIdeaService.getIdeasPageableByUser(currentIdeaPage, currentUser);
-		} else{
+		} else {
 			return myIdeaService.getAllIdeasPageable(currentIdeaPage);
 		}
-		
+
 	}
 
 	private Page<Idea> getIdeasInOrder() {
-		if(onProfile){
+		if (onProfile) {
 			return myIdeaService.getIdeasOrderedByUser(columnOrder, orderBy, currentIdeaPage, currentUser);
-		} else{
+		} else {
 			return myIdeaService.getAllIdeasOrdered(columnOrder, orderBy, currentIdeaPage);
 		}
 	}
@@ -160,6 +166,15 @@ public class ThinkUp {
 			currentIdeaPage += 1;
 		} else if (way.equals("back")) {
 			currentIdeaPage -= 1;
+		}
+	}
+
+	// Verifica si la currentIdea tiene like del currentUser
+	private void verifyLiked() {
+		if (myLikeService.getLikeByIdeaUser(currentIdea, currentUser) != null) {
+			currentIdeaLike = true;
+		} else {
+			currentIdeaLike = false;
 		}
 	}
 
@@ -242,16 +257,37 @@ public class ThinkUp {
 		// return null;
 	}
 
-	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en que página está
-	public void redirection() throws IOException{
-		if(!onProfile) {
+	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en
+	// que página está
+	public void redirection() throws IOException {
+		//resetOrder();
+		if (!onProfile) {
 			setOnProfile(true);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
 		} else {
 			setOnProfile(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
 		}
-		
+	}
+
+	// Dar like
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void giveLike() {
+		if (currentIdeaLike) {
+			// lo quiero eliminar
+			Like likeToDelete = myLikeService.getLikeByIdeaUser(currentIdea, currentUser);
+			myLikeService.deleteLike(likeToDelete.getLikeId());
+
+		} else {
+			// lo quiero crear
+			Like likeToSet = new Like(currentIdea, currentUser);
+			myLikeService.addLike(likeToSet);
+		}
+		currentIdeaLike = !currentIdeaLike;
+	}
+
+	public int getAmountOfLikes() {
+		return myLikeService.getLikeByIdea(currentIdea).size();
 	}
 
 	public String getUserName() {
@@ -262,8 +298,6 @@ public class ThinkUp {
 		return currentUser;
 	}
 
-
-
 	public Idea getCurrentIdea() {
 		return currentIdea;
 	}
@@ -272,23 +306,22 @@ public class ThinkUp {
 		return currentUser.isAdmin();
 	}
 
-	//Determina si tiene o no ideas el usuario actual, para saber si mostrar o no  
-	//el panelgrid que se encarga de contenerlas
-	public boolean userHasIdeas(){
-		if(currentUser.getIdeas().size()==0){
+	// Determina si tiene o no ideas el usuario actual, para saber si mostrar o no
+	// el panelgrid que se encarga de contenerlas
+	public boolean userHasIdeas() {
+		if (currentUser.getIdeas().size() == 0) {
 			return false;
 		}
 		return true;
 	}
 
-	
-	//Cuando se da click a boton de perfil, para cambiar atributo onProfile a true
-	//Cuando se da click a boton de logo, para cambiar atributo onProfile a false
+	// Cuando se da click a boton de perfil, para cambiar atributo onProfile a true
+	// Cuando se da click a boton de logo, para cambiar atributo onProfile a false
 	public void setOnProfile(boolean onProfile) {
 		this.onProfile = onProfile;
 		resetOrder();
 	}
-	
+
 	public boolean isOnProfile() {
 		return onProfile;
 	}
@@ -326,14 +359,17 @@ public class ThinkUp {
 	}
 
 	public int getAmountOfIdeas() {
-		if(onProfile) { 
+		if (onProfile) {
 			return myIdeaService.getIdeasByUser(currentUser).size();
 		} else {
 			return myIdeaService.getAllIdeas().size();
 		}
-		
+
 	}
 
+	public boolean getCurrentIdeaLike() {
+		return currentIdeaLike;
+	}
 	public void addComment(String comment) {
 		Comment description = new Comment(currentIdea, currentUser, comment);
 		myCommentService.addComment(description);

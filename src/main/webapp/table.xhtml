@@ -108,7 +108,6 @@
                             styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{user}" target="#{crudUserBean.selectedUser}" />
                             <p:resetInput target=":dialogs:manage-user-content" />
-
                         </p:commandButton>
                         <!--  Eliminar Usuarios  -->
                         <p:commandButton class="ui-button-warning rounded-button" icon="ui-icon-trash" update=":dialogs:manage-user-content :form :form:dt-users"
