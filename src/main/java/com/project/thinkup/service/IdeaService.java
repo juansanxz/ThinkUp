@@ -108,7 +108,7 @@ public class IdeaService {
     public Page<Idea> getAllIdeasByStatuses(String[] statuses, int pageNumber) {
         List<Idea> statuslist = new ArrayList<>();
         for (String status : statuses) {
-            Page<Idea> ideasForStatus = ideaRepository.findByStatus(status,PageRequest.of(pageNumber, 1));
+            Page<Idea> ideasForStatus = ideaRepository.findByStatus(status, PageRequest.of(pageNumber, 1));
             for (Idea idea : ideasForStatus.getContent()) {
                 statuslist.add(idea);
             }
@@ -116,23 +116,13 @@ public class IdeaService {
         return new PageImpl<>(statuslist);
     }
 
-    public Page<Idea> getAllIdeasByKeyWords(String[] keywords, int pageNumber) {
-        List<Idea> keywordlist = new ArrayList<>();
-        for (String keyword : keywords) {
-            
-        }
-        return ;
-    }
-
-    
-
     public List<Idea> getIdeasByUser(User user) {
         return ideaRepository.findByUser(user);
     }
 
     public List<Idea> getAllIdeasWithoutTopic() {
-		TypedQuery<Idea> query = entityManager.createQuery("SELECT i FROM Idea i WHERE i.topic IS NULL", Idea.class);
-		return query.getResultList();
-	}
-    
+        TypedQuery<Idea> query = entityManager.createQuery("SELECT i FROM Idea i WHERE i.topic IS NULL", Idea.class);
+        return query.getResultList();
+    }
+
 }

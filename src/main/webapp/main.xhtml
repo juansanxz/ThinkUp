@@ -73,12 +73,11 @@
           <h:form>
             <h:panelGrid columns="1">
               <p:messages for="addKeyWord1" id="keyword-filter"/>
-              <p:outputLabel for="valorPopUp1" value="Inserte la key word: " />
+              <p:outputLabel for="valorPopUp1" value="Inserte la key word para buscar: " />
               <p:inputText id="valorPopUp1" binding="#{keyWord1}"/>
               <p:outputLabel id="keyword-place1" value="#{thinkUp.getStringKeyWordsfilter()}" />
               <p:commandButton value="Agregar" action="#{thinkUp.listkeywordIdeasBy(keyWord1.value)}"  update="keyword-filter keyword-place1 valorPopUp1"/>
-              <c:set var="varName" value="#{thinkUp.getkeywordlist()}" />
-              <p:commandButton value="Enviar" action="#{thinkUp.filterIdeasBy(varName)}" onclick="hidePopUpSearchOption2();" update="manage-check idea-display-grid"/>
+              <p:commandButton value="Enviar"  onclick="hidePopUpSearchOption2();refreshKeywords();" update="keyword-place1 manage-check idea-display-grid PopUpSearchOption2"/>
             </h:panelGrid>  
           </h:form>  
         </p:dialog>  

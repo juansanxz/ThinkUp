@@ -191,6 +191,10 @@ public class ThinkUp {
 
 	}
 
+	private void refreshKeywords() {
+		keywordsFilter = new ArrayList<>();
+	}
+
 	private Page<Idea> getIdeasInOrder() {
 		if (onProfile) {
 			return myIdeaService.getIdeasOrderedByUser(columnOrder, orderBy, currentIdeaPage, currentUser);
