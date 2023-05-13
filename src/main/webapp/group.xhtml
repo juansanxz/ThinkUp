@@ -160,9 +160,9 @@
                                     <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
                                     <p:resetInput target="dialogs:manage-topic-content" />
                                 </p:commandButton>
-                                <p:commandButton icon="ui-icon-trash" update=":dialogs:manage-topic-content :topics topic-content"
+                                <!--<p:commandButton icon="ui-icon-trash" update=":dialogs:manage-topic-content :topics topic-content"
                                 oncomplete="PF('deletetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
-                                </p:commandButton>
+                                </p:commandButton> -->
                             </p:toolbarGroup>
                         </p:toolbar>
                     </h:panelGrid>
