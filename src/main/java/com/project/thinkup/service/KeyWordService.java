@@ -2,6 +2,7 @@ package com.project.thinkup.service;
 
 import java.util.List;
 
+import org.primefaces.push.annotation.PushEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,4 +50,5 @@ public class KeyWordService {
         keyWordRepository.deleteAll();
         ;
     }
+
 }

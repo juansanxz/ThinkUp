@@ -51,10 +51,12 @@ public class ThinkUp {
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
+	private boolean filter;
 	private String columnOrder;
 	private String orderBy;
 	private boolean currentIdeaLike;
 	private boolean onProfile;
+	private String[] Filter;
 
 	public ThinkUp() {
 		currentKeyWords = new ArrayList<KeyWord>();
@@ -97,10 +99,13 @@ public class ThinkUp {
 			Page<Idea> ideaPage;
 			if (inOrder == true) {
 				ideaPage = getIdeasInOrder();
+			} else if(filter){
+				ideaPage = getIdeasFilter();
+			} else if(filter && inOrder){
+				ideaPage = getIdeasFilterInOrder();
 			} else {
 				ideaPage = getIdeasDisordered();
 			}
-
 			List<Idea> allIdeas = ideaPage.getContent();
 			currentIdea = allIdeas.get(0);
 			verifyLiked();
@@ -111,6 +116,14 @@ public class ThinkUp {
 				currentIdeaPage += 1;
 			}
 		}
+	}
+
+	private Page<Idea> getIdeasFilter() {
+		return myIdeaService.getAllIdeasByStatuses(Filter, currentIdeaPage);
+	}
+
+	private Page<Idea> getIdeasFilterInOrder() {
+		return null;
 	}
 
 	// Si el usuario desea reiniciar el orden por el que lo estaba haciendo
@@ -138,6 +151,21 @@ public class ThinkUp {
 				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
 		context.addMessage("anotherkey", msg);
 	}
+
+	public void filterIdeasBy(String[] typelist) {
+		if (currentIdeaPage != -1) {
+			currentIdeaPage = -1;
+		}
+		filter = true;
+		Filter = typelist;
+		changeIdea("next");
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
+		context.addMessage("anotherkey", msg);
+	}
+
+
 
 	private Page<Idea> getIdeasDisordered() {
 		if (onProfile) {
@@ -366,4 +394,15 @@ public class ThinkUp {
 	public boolean getCurrentIdeaLike() {
 		return currentIdeaLike;
 	}
+
+	public void showw(String[] MyArray){
+		for(int i=0;i<=MyArray.length-1;i++){
+			System.out.println("MyArray ["+i+"]: "+MyArray[i]+"");
+		}
+	}
+
+	public List<KeyWord> getAllKeywords() {
+		return myKeyWordService.getAllKeyWords();
+	}
+
 }

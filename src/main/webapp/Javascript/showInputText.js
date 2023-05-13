@@ -106,3 +106,28 @@ $(document).ready(function() {
       cambiarColorLikeInverse();
    }
 });
+
+function showPopUpSearch() {
+   PF('PopUpSearch').show();
+}
+
+function hidePopUpSearch() {
+   PF('PopUpSearch').hide();
+}
+
+
+function showPopUpSearchOption1() {
+   PF('PopUpSearchOption1').show();
+}
+
+function hidePopUpSearchOption1() {
+   PF('PopUpSearchOption1').hide();
+}
+
+function showPopUpSearchOption2() {
+   PF('PopUpSearchOption2').show();
+}
+
+function hidePopUpSearchOption2() {
+   PF('PopUpSearchOption2').hide();
+}
