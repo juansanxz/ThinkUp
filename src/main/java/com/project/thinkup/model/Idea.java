@@ -223,4 +223,8 @@ public class Idea {
     public void addComment(Comment comment) {
         comments.add(comment);
     }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
 }
