@@ -1,5 +1,6 @@
 package com.project.thinkup.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -18,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.User;
 import com.project.thinkup.repository.IdeaRepository;
+
+import javassist.expr.NewArray;
 
 @Service
 public class IdeaService {
@@ -95,12 +99,32 @@ public class IdeaService {
 
     public void deleteAllIdeas() {
         ideaRepository.deleteAll();
-        ;
     }
 
     public List<Idea> getAllIdeasByStatus(String status) {
         return ideaRepository.findByStatus(status);
     }
+
+    public Page<Idea> getAllIdeasByStatuses(String[] statuses, int pageNumber) {
+        List<Idea> statuslist = new ArrayList<>();
+        for (String status : statuses) {
+            Page<Idea> ideasForStatus = ideaRepository.findByStatus(status,PageRequest.of(pageNumber, 1));
+            for (Idea idea : ideasForStatus.getContent()) {
+                statuslist.add(idea);
+            }
+        }
+        return new PageImpl<>(statuslist);
+    }
+
+    public Page<Idea> getAllIdeasByKeyWords(String[] keywords, int pageNumber) {
+        List<Idea> keywordlist = new ArrayList<>();
+        for (String keyword : keywords) {
+            
+        }
+        return ;
+    }
+
+    
 
     public List<Idea> getIdeasByUser(User user) {
         return ideaRepository.findByUser(user);

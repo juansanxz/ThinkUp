@@ -114,9 +114,6 @@
                     </p:column>
                 </p:dataTable>
             </div>
-            <div class="bottom">
-                <h:commandButton class="back-Button" value="Regresar" action="main.xhtml?faces-redirect=true"/>
-            </div>
         </h:form>
     <!--  Ventanas-->
     </div>
@@ -159,6 +156,9 @@
                                 oncomplete="PF('managetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                     <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
                                     <p:resetInput target="dialogs:manage-topic-content" />
+                                </p:commandButton>
+                                <p:commandButton icon="ui-icon-trash" update=":dialogs:manage-topic-content :topics topic-content"
+                                oncomplete="PF('deletetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                 </p:commandButton>
                             </p:toolbarGroup>
                         </p:toolbar>
@@ -287,6 +287,9 @@
         </p:confirmDialog> 
         
         </h:form>
+    </div>
+    <div class="bottom">
+        <h:commandButton class="back-Button" value="Regresar" action="main.xhtml?faces-redirect=true"/>
     </div>
 </h:body>
 </html>

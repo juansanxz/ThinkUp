@@ -35,6 +35,7 @@ public class ThinkUp {
 	// para disminuir la cantidad de consultas a la DB
 	private ArrayList<KeyWord> currentKeyWords;
 	private ArrayList<String> stringKeyWords;
+	private ArrayList<String> keywordsFilter;
 
 	@Autowired
 	LoginBean loginBean;
@@ -51,10 +52,12 @@ public class ThinkUp {
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
+	private boolean filter;
 	private String columnOrder;
 	private String orderBy;
 	private boolean currentIdeaLike;
 	private boolean onProfile;
+	private String[] Filter;
 
 	public ThinkUp() {
 		currentKeyWords = new ArrayList<KeyWord>();
@@ -63,6 +66,7 @@ public class ThinkUp {
 		inOrder = false;
 		currentIdeaLike = false;
 		onProfile = false;
+		keywordsFilter = new ArrayList<>();
 	}
 
 	@PostConstruct
@@ -97,10 +101,13 @@ public class ThinkUp {
 			Page<Idea> ideaPage;
 			if (inOrder == true) {
 				ideaPage = getIdeasInOrder();
+			} else if (filter) {
+				ideaPage = getIdeasFilter();
+			} else if (filter && inOrder) {
+				ideaPage = getIdeasFilterInOrder();
 			} else {
 				ideaPage = getIdeasDisordered();
 			}
-
 			List<Idea> allIdeas = ideaPage.getContent();
 			currentIdea = allIdeas.get(0);
 			verifyLiked();
@@ -111,6 +118,14 @@ public class ThinkUp {
 				currentIdeaPage += 1;
 			}
 		}
+	}
+
+	private Page<Idea> getIdeasFilter() {
+		return myIdeaService.getAllIdeasByStatuses(Filter, currentIdeaPage);
+	}
+
+	private Page<Idea> getIdeasFilterInOrder() {
+		return null;
 	}
 
 	// Si el usuario desea reiniciar el orden por el que lo estaba haciendo
@@ -137,6 +152,34 @@ public class ThinkUp {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
 		context.addMessage("anotherkey", msg);
+	}
+
+	public void filterIdeasBy(String[] typelist) {
+		if (currentIdeaPage != -1) {
+			currentIdeaPage = -1;
+		}
+		filter = true;
+		Filter = typelist;
+		changeIdea("next");
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
+		context.addMessage("anotherkey", msg);
+	}
+
+	public void listkeywordIdeasBy(String type) {
+		if (type.isBlank()) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Está vacía la KeyWord",
+					"No se");
+			context.addMessage("addKeyWord", msg);
+		} else {
+			keywordsFilter.add(type);
+		}
+	}
+
+	public List<String> getkeywordlist() {
+		return keywordsFilter;
 	}
 
 	private Page<Idea> getIdeasDisordered() {
@@ -256,13 +299,15 @@ public class ThinkUp {
 	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en
 	// que página está
 	public void redirection() throws IOException {
-		//resetOrder();
+		// resetOrder();
 		if (!onProfile) {
 			setOnProfile(true);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
 		} else {
 			setOnProfile(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
 		}
 	}
 
@@ -342,6 +387,18 @@ public class ThinkUp {
 		return result;
 	}
 
+	public String getStringKeyWordsfilter() {
+		String result = "";
+		for (int i = 0; i < keywordsFilter.size(); i++) {
+			if (i != keywordsFilter.size() - 1) {
+				result += keywordsFilter.get(i) + ", ";
+			} else {
+				result += keywordsFilter.get(i);
+			}
+		}
+		return result;
+	}
+
 	public int getCurrentIdeaPage() {
 		return currentIdeaPage;
 	}
@@ -366,4 +423,15 @@ public class ThinkUp {
 	public boolean getCurrentIdeaLike() {
 		return currentIdeaLike;
 	}
+
+	public void showw(String[] MyArray) {
+		for (int i = 0; i <= MyArray.length - 1; i++) {
+			System.out.println("MyArray [" + i + "]: " + MyArray[i] + "");
+		}
+	}
+
+	public List<KeyWord> getAllKeywords() {
+		return myKeyWordService.getAllKeyWords();
+	}
+
 }

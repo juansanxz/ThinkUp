@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core">
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
   <h:head>
     <title>ThinkUp</title>
     <link rel="stylesheet" type="text/css" href="Content/main.css" />
@@ -13,7 +13,7 @@
         <div>
           <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
         </div>
-        <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
+        <p:commandButton icon="ui-icon-search" type="button" onclick="showPopUpSearch();"/>
         <p:commandButton value="Perfil" action="#{thinkUp.redirection()}" update="currentIdeaLike"/>
         <p:commandButton value="Estadísticas" action="#{thinkUp.setOnProfile('false')}"/>
         <p:commandButton value="Configuración" action="#{thinkUp.setOnProfile('false')}"/>
@@ -49,7 +49,56 @@
                         <p:outputLabel value="La idea fue creada con éxito" />
                     </h:form>
               </p:dialog>
+        </h:form>
+        
+
+        <p:dialog id="PopUpSearchOption1" widgetVar="PopUpSearchOption1" modal="true" header="Busqueda por estado">
+            
+          <p:outputPanel id="manage-check"> 
+            <h:form>
+              <p:selectManyCheckbox binding="#{CheckOption}">
+                <f:selectItem itemLabel="Creada" itemValue="Creada" />
+                <f:selectItem itemLabel="En análisis" itemValue="En análisis" />
+                <f:selectItem itemLabel="Aprobada" itemValue="Aprobada" />
+                <f:selectItem itemLabel="Rechazada" itemValue="Rechazada" />
+                <f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />
+              </p:selectManyCheckbox>
+             
+              <p:commandButton value="Enviar" action="#{thinkUp.filterIdeasBy(CheckOption.value)}" onclick="hidePopUpSearchOption1();" update="manage-check idea-display-grid"/>
             </h:form>
+          </p:outputPanel>
+        </p:dialog>
+        
+        <p:dialog id="PopUpSearchOption2" widgetVar="PopUpSearchOption2" modal="true" header="Busqueda por keyword">
+          <h:form>
+            <h:panelGrid columns="1">
+              <p:messages for="addKeyWord1" id="keyword-filter"/>
+              <p:outputLabel for="valorPopUp1" value="Inserte la key word: " />
+              <p:inputText id="valorPopUp1" binding="#{keyWord1}"/>
+              <p:outputLabel id="keyword-place1" value="#{thinkUp.getStringKeyWordsfilter()}" />
+              <p:commandButton value="Agregar" action="#{thinkUp.listkeywordIdeasBy(keyWord1.value)}"  update="keyword-filter keyword-place1 valorPopUp1"/>
+              <c:set var="varName" value="#{thinkUp.getkeywordlist()}" />
+              <p:commandButton value="Enviar" action="#{thinkUp.filterIdeasBy(varName)}" onclick="hidePopUpSearchOption2();" update="manage-check idea-display-grid"/>
+            </h:panelGrid>  
+          </h:form>  
+        </p:dialog>  
+
+        <div class="search">
+          <h:form>
+            <p:dialog id="PopUpSearch" header="Busqueda" widgetVar="PopUpSearch" modal="true" showEffect="fade" hideEffect="fade">            
+              <p:outputPanel id="manage-search"> 
+                
+                  <p:outputLabel value="Seleccione el tipo de busqueda" />
+                  
+                  <div class="search-b">
+                    <p:commandButton id="popupButton" value="Buscar por estado" onclick="hidePopUpSearch(); showPopUpSearchOption1();"/>
+                    <p:commandButton id="popupButton2" value="Buscar por KeyWord" onclick="hidePopUpSearch(); showPopUpSearchOption2();"/>
+                  </div>
+              </p:outputPanel>
+            </p:dialog>
+          </h:form>
+        </div>
+
         <p:messages for="somekey" id="no-idea-created"/>
         <div class="publications">
             <h:form>
@@ -83,7 +132,7 @@
                           <f:selectItem itemLabel="En análisis" itemValue="En análisis" />
                           <f:selectItem itemLabel="Aprobada" itemValue="Aprobada" />
                           <f:selectItem itemLabel="Rechazada" itemValue="Rechazada" />
-                          <f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />
+                          
                         </p:selectOneRadio>
                         <p:commandButton value="Guardar" action="#{thinkUp.editIdeaStatus(statusOption.value)}" onclick="ocultaPopUpStatus();"  update="idea-content"/>
                         </h:form>
