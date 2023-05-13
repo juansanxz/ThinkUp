@@ -227,4 +227,12 @@ public class Idea {
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
+
+    public void giveLike(Like likeToSet) {
+        likes.add(likeToSet);
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
 }
