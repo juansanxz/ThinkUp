@@ -93,7 +93,7 @@
                 <h:inputHidden id="currentIdeaLike" value="#{thinkUp.getCurrentIdeaLike()}" />
                 <h:panelGrid id="idea-display-grid" columns="3" columnClasses="col-1,col-2,col-3">
                   <p:column>
-                    <p:commandButton id="back-button" icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="like-button back-button next-button idea-content page currentIdeaLike panelOfComments" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>
+                    <p:commandButton id="back-button" icon="ui-icon-triangle-1-w" action="#{thinkUp.changeIdea('back')}" update="like-button back-button next-button idea-content page currentIdeaLike panelOfComments numberOfLikes" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>
                   </p:column>           
                   
                   <p:column>
@@ -132,7 +132,7 @@
                   </p:column>
 
                   <p:column>
-                    <p:commandButton id="next-button" icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="like-button back-button next-button idea-content currentIdeaLike page panelOfComments" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>           
+                    <p:commandButton id="next-button" icon="ui-icon-triangle-1-e" action="#{thinkUp.changeIdea('next')}" update="like-button back-button next-button idea-content currentIdeaLike page panelOfComments numberOfLikes" oncomplete="cambiarColorLikeInverse();" styleClass="ui-button"/>           
 
                   </p:column>
 
