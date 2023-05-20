@@ -14,15 +14,24 @@
           <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
         </div>
         <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
-        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}" update="currentIdeaLike"/>
-        <p:button value="Estadísticas" action="#{thinkUp.setOnProfile('false')}" outcome="group.xhtml"/>
+        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}"/>
+        <p:button value="Estadísticas" action="#{thinkUp.setOnProfile('false')}" outcome="statistics.xhtml"/>
         <p:button value="Administrar ideas" outcome="group.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
       </div>
       <div class="right-column">
+        <h1> Estadísticas </h1>
+        <hr/>
+
+        <h3> Estadísticas por área </h3>
+        <hr/>
         
-        
+        <h3> Estadísticas por dependencias </h3>
+        <hr/>
+
+        <h3> Estadísticas por estado </h3>
+        <hr/>
       </div>
     </div>
     <!-- Agregamos el archivo JS para el comportamiento del pop-up -->

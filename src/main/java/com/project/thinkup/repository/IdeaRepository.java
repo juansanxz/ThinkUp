@@ -22,4 +22,7 @@ public interface IdeaRepository extends JpaRepository<Idea, Long> {
     @Query("SELECT COUNT(i) FROM Idea i WHERE i.user.area = :areaName")
     Long countIdeasByUserArea(@Param("areaName") String areaName);
 
+    @Query("SELECT COUNT(i) FROM Idea i WHERE i.status = :state")
+    Long countByState(@Param("state") String state);
+
 }
