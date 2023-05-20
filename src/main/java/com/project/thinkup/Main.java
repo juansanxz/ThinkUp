@@ -195,6 +195,8 @@ public class Main {
 			System.out.println("\nGetting Ideas Without Topic....");
 			myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
 			
+			Long ideasByArea = myIdeaService.countIdeasByUserArea("estudiante");
+			System.out.println(ideasByArea);
 
 
 

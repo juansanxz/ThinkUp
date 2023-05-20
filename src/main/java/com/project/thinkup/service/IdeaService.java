@@ -111,4 +111,7 @@ public class IdeaService {
 		return query.getResultList();
 	}
     
+    public Long countIdeasByUserArea(String areaName) {
+        return ideaRepository.countIdeasByUserArea(areaName);
+    }
 }

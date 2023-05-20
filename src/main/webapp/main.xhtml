@@ -109,7 +109,7 @@
                     <div class="interactions">
                       <p:outputLabel value="#{thinkUp.getAmountOfLikes()}" id="numberOfLikes"/>
                       <p:commandButton id="like-button" icon="ui-icon-heart" action="#{thinkUp.giveLike()}" update="idea-content like-button numberOfLikes" oncomplete="cambiarColorLike('#{thinkUp.getCurrentIdeaLike()}');"/>
-                      <p:commandButton icon=" ui-icon-comment" type="button" onclick="showComments();"/>
+                      <p:commandButton icon=" ui-icon-comment" type="button" onclick="showComments();" />
                     </div>
                     <div class="comments" >
                       <p:dialog header="Comentarios" widgetVar="comments" modal="true" showEffect="fade" hideEffect="fade" id="panelOfComments">
