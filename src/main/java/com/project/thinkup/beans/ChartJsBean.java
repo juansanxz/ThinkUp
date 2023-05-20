@@ -62,6 +62,7 @@ public class ChartJsBean {
         externos.set("Externos", ideasByExternos);
 
 
+
         modelArea.addSeries(student);
         modelArea.addSeries(teacher);
         modelArea.addSeries(adminis);
