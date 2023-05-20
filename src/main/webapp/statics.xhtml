@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core">
+  <h:head>
+    <title>ThinkUp</title>
+    <link rel="stylesheet" type="text/css" href="Content/main.css" />
+    <script src="Javascript/showInputText.js"></script>
+  </h:head>
+  <h:body>
+    <div class="container">
+      <div class="left-column">
+        <div>
+          <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
+        </div>
+        <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
+        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}" update="currentIdeaLike"/>
+        <p:button value="Estadísticas" action="#{thinkUp.setOnProfile('false')}" outcome="group.xhtml"/>
+        <p:button value="Administrar ideas" outcome="group.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
+        <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
+        <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
+      </div>
+      <div class="right-column">
+        
+        
+      </div>
+    </div>
+    <!-- Agregamos el archivo JS para el comportamiento del pop-up -->
+	<script type="text/javascript" src="Javascript/showInputText.js"></script>
+    <!-- Solo para poder subir los cambios-->
+  </h:body>
+</html>
