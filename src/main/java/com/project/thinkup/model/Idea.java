@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 import javax.persistence.OneToMany;
@@ -19,6 +21,10 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Idea {
@@ -50,6 +56,11 @@ public class Idea {
     Topic topic;
 
     
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
+	private List<Comment> comments;
+
     public Idea() {
     }
 
@@ -59,19 +70,7 @@ public class Idea {
         status = Status.created;
         this.description = description;
         this.keyWords = keywords;
-        likes = new ArrayList<Like>();
-    }
-
-    public void giveLike (Like likeToSet) {
-        likes.add(likeToSet);
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+        this.comments = new ArrayList<Comment>();
     }
 
     public void quitLike (Like like) {
@@ -217,4 +216,23 @@ public class Idea {
         return likes.size();
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public void giveLike(Like likeToSet) {
+        likes.add(likeToSet);
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
 }

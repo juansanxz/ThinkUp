@@ -19,7 +19,7 @@
             </div>
             <p:commandButton icon="ui-icon-search" />
             <p:commandButton value="Estadísticas" />
-            <p:commandButton value="Configuración" />
+            <p:button value="Administrar ideas" outcome="group.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
             <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml"
                 rendered="#{thinkUp.isAdminCurrentUser()}" />
             <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}" />
@@ -95,9 +95,23 @@
                             <p:outputLabel value="#{thinkUp.getCurrentIdea().getStatus()}" />
                             <p:outputLabel value="#{thinkUp.getCurrentIdea().getDescription()}" />
                             <p:outputLabel value="#{thinkUp.getCurrentIdea().getStringKeyWords()}" />
-                            <p:commandButton id="like-button" icon="ui-icon-heart" action="#{thinkUp.giveLike()}" update="idea-content like-button" oncomplete="cambiarColorLike('#{thinkUp.getCurrentIdeaLike()}');"/>
-                            <p:outputLabel value="#{thinkUp.getAmountOfLikes()}" />
                           </h:panelGrid>
+                        </div>
+                        <div class="interactions">
+                          <p:outputLabel value="#{thinkUp.getAmountOfLikes()}" id="numberOfLikes"/>
+                          <p:commandButton id="like-button" icon="ui-icon-heart" action="#{thinkUp.giveLike()}" update="idea-content like-button numberOfLikes" oncomplete="cambiarColorLike('#{thinkUp.getCurrentIdeaLike()}');"/>
+                          <p:commandButton icon=" ui-icon-comment" type="button" onclick="showComments();"/>
+                        </div>
+                        <div class="comments" >
+                          <p:dialog header="Comentarios" widgetVar="comments" modal="true" showEffect="fade" hideEffect="fade" id="panelOfComments">
+                            <h:form>
+                              <h:panelGrid columns="1" >
+                                <p:outputLabel id="allComments" value="#{thinkUp.getComments()}" style="white-space: pre-line;"/>
+                                <p:inputText id="comment" binding="#{description}"/>
+                                <p:commandButton value="Comentar" action="#{thinkUp.addComment(description.value)}" update="allComments" oncomplete="cleanComment();"/>
+                              </h:panelGrid>  
+                            </h:form>
+                          </p:dialog>
                         </div>
                         <div class="order-page">
                           <h:panelGrid columns="2" layout="grid" width="100%">

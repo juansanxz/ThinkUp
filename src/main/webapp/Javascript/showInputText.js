@@ -7,8 +7,12 @@ function ocultaPopUpOrden() {
 }
 
 function mostrarPopUp() {
-    PF('popUp').show();
- }
+   PF('popUp').show();
+}
+
+function showComments() {
+   PF('comments').show();
+}
 
 function ocultaPopUp() {
    if (validateErrorMessageIsMine()) {
@@ -38,20 +42,30 @@ function mostrarPopUpIdea() {
 function borrarInfoIdea() {
    var inputs = document.getElementsByTagName("input");
    for (var i = 0; i < inputs.length; i++) {
-       if (inputs[i].type === "text") {
-           inputs[i].value = "";
-       }
+      if (inputs[i].type === "text") {
+         inputs[i].value = "";
+      }
    }
 }
 
+
 function borrarInput() {
    var inputs = document.getElementsByTagName("input");
-        for (var i = 0; i < inputs.length; i++) {
-            if (inputs[i].type === "text" && inputs[i].id.indexOf("valorPopUp") !== -1) {
-                inputs[i].value = "";
-            }
-        }
- }
+      for (var i = 0; i < inputs.length; i++) {
+         if (inputs[i].type === "text" && inputs[i].id.indexOf("valorPopUp") !== -1) {
+            inputs[i].value = "";
+         }
+      }
+}
+
+function cleanComment() {
+   var inputs = document.getElementsByTagName("input");
+      for (var i = 0; i < inputs.length; i++) {
+         if (inputs[i].type === "text" && inputs[i].id.indexOf("comment") !== -1) {
+            inputs[i].value = "";
+         }
+      }
+}
 
 function hasMessages() {
    return !!$('.ui-messages-error').length;
@@ -60,7 +74,7 @@ function hasMessages() {
 function getMessagesId() {
    var $errorMessages = $('.ui-messages-error');
    if ($errorMessages.length) {
-       return $errorMessages.first().parent().attr('id');
+      return $errorMessages.first().parent().attr('id');
    }
    return null;
 }

@@ -260,3 +260,13 @@ body {
     display: block;
 }
 
+.interactions {
+    margin-right: 0.5%; 
+    text-align: right;
+}
+
+#panelOfComments {
+    width: 1000px !important;
+    height: 800px !important;
+    overflow: auto;
+}

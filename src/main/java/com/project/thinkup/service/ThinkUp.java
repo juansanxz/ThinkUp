@@ -11,6 +11,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.springframework.data.domain.Page;
+import org.hibernate.Hibernate;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.project.thinkup.beans.LoginBean;
 import com.project.thinkup.model.User;
+import com.project.thinkup.model.Comment;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
 import com.project.thinkup.model.Like;
@@ -48,6 +50,8 @@ public class ThinkUp {
 	KeyWordService myKeyWordService;
 	@Autowired
 	LikeService myLikeService;
+	@Autowired
+	CommentService myCommentService;
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
@@ -366,4 +370,25 @@ public class ThinkUp {
 	public boolean getCurrentIdeaLike() {
 		return currentIdeaLike;
 	}
+	public void addComment(String comment) {
+		Comment description = new Comment(currentIdea, currentUser, comment);
+		myCommentService.addComment(description);
+		//currentIdea.addComment(description);
+		//myIdeaService.updateIdea(currentIdea);
+	}
+
+	public String getComments() {
+		List<Comment> comments = myCommentService.getCommentByIdeaId(currentIdea);
+		String allComments = showComments(comments);
+		return allComments;
+		//return currentIdea.showComments();
+	}
+
+	public String showComments(List<Comment> comments) {
+        String allComments = "";
+        for (Comment comment : comments){
+            allComments += comment.toString() + "\n";
+        }
+        return allComments;
+    }
 }
