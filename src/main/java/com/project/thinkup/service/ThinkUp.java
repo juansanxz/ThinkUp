@@ -52,7 +52,8 @@ public class ThinkUp {
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
-	private boolean filter;
+	private boolean filterStatus;
+	private boolean filterKeyword;
 	private String columnOrder;
 	private String orderBy;
 	private boolean currentIdeaLike;
@@ -101,9 +102,10 @@ public class ThinkUp {
 			Page<Idea> ideaPage;
 			if (inOrder == true) {
 				ideaPage = getIdeasInOrder();
-			} else if (filter) {
+			} else if (filterStatus || filterKeyword) {
+				System.out.println("entre");
 				ideaPage = getIdeasFilter();
-			} else if (filter && inOrder) {
+			} else if ((filterStatus || filterKeyword) && inOrder) {
 				ideaPage = getIdeasFilterInOrder();
 			} else {
 				ideaPage = getIdeasDisordered();
@@ -121,7 +123,13 @@ public class ThinkUp {
 	}
 
 	private Page<Idea> getIdeasFilter() {
-		return myIdeaService.getAllIdeasByStatuses(Filter, currentIdeaPage);
+		if (filterStatus) {
+			System.out.println("malestado");
+			return myIdeaService.getAllIdeasByStatuses(Filter, currentIdeaPage);
+		} else {
+			System.out.println("key");
+			return myIdeaService.getAllIdeasByKeyword(Filter, currentIdeaPage);
+		}
 	}
 
 	private Page<Idea> getIdeasFilterInOrder() {
@@ -133,7 +141,10 @@ public class ThinkUp {
 		if (currentIdeaPage != -1) {
 			currentIdeaPage = -1;
 		}
+		refreshKeywords();
 		inOrder = false;
+		filterStatus = false;
+		filterKeyword = false;
 		changeIdea("next");
 	}
 
@@ -154,11 +165,19 @@ public class ThinkUp {
 		context.addMessage("anotherkey", msg);
 	}
 
-	public void filterIdeasBy(String[] typelist) {
+	public void filterIdeasBy(String[] typelist, String type) {
 		if (currentIdeaPage != -1) {
 			currentIdeaPage = -1;
 		}
-		filter = true;
+		if (type.equals("estado")) {
+			filterStatus = true;
+			filterKeyword = false;
+		} else if (type.equals("keyword")) {
+			System.out.println("key");
+			filterStatus = false;
+			filterKeyword = true;
+		}
+
 		Filter = typelist;
 		changeIdea("next");
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -179,7 +198,15 @@ public class ThinkUp {
 	}
 
 	public List<String> getkeywordlist() {
+		System.out.println("algo");
 		return keywordsFilter;
+	}
+
+	public void constructFilterIdeas() {
+		System.out.println("sientre");
+		String[] ideasList = keywordsFilter.toArray(new String[0]);
+		System.out.println(keywordsFilter);
+		filterIdeasBy(ideasList, "keyword");
 	}
 
 	private Page<Idea> getIdeasDisordered() {

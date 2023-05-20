@@ -19,8 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.User;
+import com.project.thinkup.model.KeyWord;
+import com.project.thinkup.model.KeyWordService;
 import com.project.thinkup.repository.IdeaRepository;
+import com.project.thinkup.repository.KeyWordRepository;
 
+import javassist.compiler.ast.Keyword;
 import javassist.expr.NewArray;
 
 @Service
@@ -114,6 +118,39 @@ public class IdeaService {
             }
         }
         return new PageImpl<>(statuslist);
+    }
+
+    public Page<Idea> getAllIdeasByKeyword(String[] Keywords, int pageNumber) {
+
+        List<Idea> keywordslist = new ArrayList<>();
+        Page<Idea> allideas = getAllIdeasPageable(pageNumber);
+
+        System.out.println("getallodeas");
+        for (Idea idea : allideas) {
+
+            List<KeyWord> keys = idea.getKeyWords();
+            System.out.println(keys);
+            boolean Status = false;
+
+            for (String keyword : Keywords) {
+                System.out.println("entre");
+                KeyWord key = KeyWordService.getKeyWord(keyword);
+                System.out.println(key);
+
+                for (KeyWord keyword_a : keys) {
+                    System.out.println(keyword_a);
+                    if (key.equals(keyword_a)) {
+                        Status = true;
+                    }
+                }
+                System.out.println(Status);
+            }
+            if (Status) {
+                keywordslist.add(idea);
+            }
+        }
+        System.out.println(keywordslist);
+        return new PageImpl<>(keywordslist);
     }
 
     public List<Idea> getIdeasByUser(User user) {

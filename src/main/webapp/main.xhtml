@@ -64,7 +64,7 @@
                 <f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />
               </p:selectManyCheckbox>
              
-              <p:commandButton value="Enviar" action="#{thinkUp.filterIdeasBy(CheckOption.value)}" onclick="hidePopUpSearchOption1();" update="manage-check idea-display-grid"/>
+              <p:commandButton value="Enviar" action="#{thinkUp.filterIdeasBy(CheckOption.value,'estado')}" onclick="hidePopUpSearchOption1();" update="manage-check idea-display-grid"/>
             </h:form>
           </p:outputPanel>
         </p:dialog>
@@ -77,7 +77,7 @@
               <p:inputText id="valorPopUp1" binding="#{keyWord1}"/>
               <p:outputLabel id="keyword-place1" value="#{thinkUp.getStringKeyWordsfilter()}" />
               <p:commandButton value="Agregar" action="#{thinkUp.listkeywordIdeasBy(keyWord1.value)}"  update="keyword-filter keyword-place1 valorPopUp1"/>
-              <p:commandButton value="Enviar"  onclick="hidePopUpSearchOption2();refreshKeywords();" update="keyword-place1 manage-check idea-display-grid PopUpSearchOption2"/>
+              <p:commandButton value="Enviar"  action="#{thinkUp.constructFilterIdeas()}" onclick="hidePopUpSearchOption2()" update="keyword-place1 manage-check idea-display-grid PopUpSearchOption2"/>
             </h:panelGrid>  
           </h:form>  
         </p:dialog>  
@@ -92,6 +92,7 @@
                   <div class="search-b">
                     <p:commandButton id="popupButton" value="Buscar por estado" onclick="hidePopUpSearch(); showPopUpSearchOption1();"/>
                     <p:commandButton id="popupButton2" value="Buscar por KeyWord" onclick="hidePopUpSearch(); showPopUpSearchOption2();"/>
+                    <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="hidePopUpSearch();" update="idea-content PopUpSearchOption1 manage-check"/>
                   </div>
               </p:outputPanel>
             </p:dialog>
