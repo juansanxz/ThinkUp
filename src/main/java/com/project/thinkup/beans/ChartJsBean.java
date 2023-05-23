@@ -35,38 +35,24 @@ public class ChartJsBean {
 
     @PostConstruct
     public void init() {
-        createModelArea();
+        this.modelArea = createModelArea();
 
     }
 
-    private void createModelArea(){
+    private BarChartModel createModelArea(){
         modelArea = new BarChartModel();
-        ChartSeries student = new ChartSeries();
-        student.setLabel("Estudiantes");
+        ChartSeries areas = new ChartSeries();
+        areas.setLabel("Areas");
         Long ideasByStudent = ideaService.countIdeasByUserArea("estudiante");
-        student.set("Estudiantes", ideasByStudent);
-
-        ChartSeries teacher = new ChartSeries();
-        teacher.setLabel("Profesores");
-        Long ideasByTeacher = ideaService.countIdeasByUserArea("profesor");
-        teacher.set("Profesores", ideasByTeacher);
-
-        ChartSeries adminis = new ChartSeries();
-        adminis.setLabel("Administrativos");
         Long ideasByAdminis = ideaService.countIdeasByUserArea("administrativo");
-        adminis.set("Profesores", ideasByAdminis);
-
-        ChartSeries externos = new ChartSeries();
-        externos.setLabel("Externo");
         Long ideasByExternos = ideaService.countIdeasByUserArea("externo");
-        externos.set("Externos", ideasByExternos);
+        Long ideasByTeacher = ideaService.countIdeasByUserArea("profesor");
+        areas.set("Profesores", ideasByTeacher);
+        areas.set("Externos", ideasByExternos);
+        areas.set("Administrativos", ideasByAdminis);
+        areas.set("Estudiantes", ideasByStudent);
 
-
-
-        modelArea.addSeries(student);
-        modelArea.addSeries(teacher);
-        modelArea.addSeries(adminis);
-        modelArea.addSeries(externos);
+        modelArea.addSeries(areas);
 
         modelArea.setTitle("Estadísticas por área");
         modelArea.setLegendPosition("ne");
@@ -78,7 +64,11 @@ public class ChartJsBean {
         yAxis.setLabel("Ideas");
         yAxis.setMin(0);
         yAxis.setMax(5);
-       
+        return modelArea;
+    }
+
+    public BarChartModel refreshModelArea() {
+        return createModelArea();
     }
 
 
