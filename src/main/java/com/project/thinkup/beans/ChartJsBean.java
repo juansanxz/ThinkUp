@@ -9,6 +9,7 @@ import com.project.thinkup.service.IdeaService;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.BarChartSeries;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartSeries;
@@ -41,12 +42,14 @@ public class ChartJsBean {
 
     private BarChartModel createModelArea(){
         modelArea = new BarChartModel();
-        ChartSeries areas = new ChartSeries();
+        BarChartSeries areas = new BarChartSeries();
         areas.setLabel("Areas");
         Long ideasByStudent = ideaService.countIdeasByUserArea("estudiante");
         Long ideasByAdminis = ideaService.countIdeasByUserArea("administrativo");
         Long ideasByExternos = ideaService.countIdeasByUserArea("externo");
         Long ideasByTeacher = ideaService.countIdeasByUserArea("profesor");
+
+
         areas.set("Profesores", ideasByTeacher);
         areas.set("Externos", ideasByExternos);
         areas.set("Administrativos", ideasByAdminis);
@@ -59,11 +62,15 @@ public class ChartJsBean {
        
         Axis xAxis = modelArea.getAxis(AxisType.X);
         xAxis.setLabel("Areas");
-       
+    
         Axis yAxis = modelArea.getAxis(AxisType.Y);
         yAxis.setLabel("Ideas");
         yAxis.setMin(0);
-        yAxis.setMax(5);
+        yAxis.setTickInterval("1");
+
+        modelArea.setExtender(null);
+
+
         return modelArea;
     }
 

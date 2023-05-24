@@ -4,28 +4,38 @@
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core">
   <h:head>
     <title>ThinkUp</title>
+    <link rel="stylesheet" type="text/css" href="Content/statistics.css" />
     <script src="Javascript/showInputText.js"></script>
   </h:head>
   <h:body>
     <div class="container">
       <div class="left-column">
         <div>
-          <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
+          <h:form>
+            <h:commandLink action="#{thinkUp.redirection()}">
+              <h:graphicImage class="circular-image" value="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
+            </h:commandLink>
+          </h:form>
         </div>
-        <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
+        <p:commandButton icon="ui-icon-search" />
         <p:commandButton value="Perfil" action="#{thinkUp.redirection()}"/>
-        <p:button value="Estadísticas" action="#{thinkUp.setOnProfile('false')}" outcome="group.xhtml"/>
+        <p:button value="Estadísticas" outcome="statistics.xhtml" rendered="true" />
         <p:button value="Administrar ideas" outcome="group.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
       </div>
       <div class="right-column">
-        <p:commandButton value="Actualizar" icon="ui-icon-refresh" update=":chartArea " 
-        styleClass="ui-button-success" style="margin-right: .5rem" >
-        </p:commandButton>
+        <h1> Estadísticas </h1>
+        <hr/>
         <div class="ChartJsArea">
-          <p:chart id="chartArea" type="bar" model="#{chartJsBean.refreshModelArea()}"/>
+          <p:chart id="chartArea" type="bar" model="#{chartJsBean.refreshModelArea()}" responsive="true" />
         </div>
+        
+        <h3> Estadísticas por dependencias </h3>
+        <hr/>
+
+        <h3> Estadísticas por estado </h3>
+        <hr/>
       </div>
     </div>
 
