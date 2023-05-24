@@ -97,6 +97,7 @@ public class IdeasBean {
     }
 
     public List<Idea> getIdeas() {
+        this.ideas = ideaService.getAllIdeasWithoutTopic();
         return ideas;
     }
 
@@ -110,6 +111,7 @@ public class IdeasBean {
 
     
     public List<Topic> getTopics() {
+        this.topics = topicService.getAllTopics();
         return topics;
     }
 
@@ -236,6 +238,10 @@ public class IdeasBean {
 
     public void deleteSelectedTopic() {
         try{
+            for(Idea ideaInTopic: selectedTopic.getIdeas()){
+                ideaInTopic.setTopic(null);
+                ideaService.updateIdea(ideaInTopic);
+            }
             topicService.deleteTopic(selectedTopic.getTopicId());
             this.selectedTopic = null;
             refresh();

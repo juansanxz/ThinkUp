@@ -19,7 +19,6 @@
         </div>
         <p:commandButton icon="ui-icon-search" />
         <p:commandButton value="Perfil" action="#{thinkUp.redirection()}"/>
-        <p:button value="Estadísticas" outcome="statistics.xhtml" rendered="true" />
         <p:button value="Administrar ideas" outcome="group.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
@@ -30,10 +29,6 @@
         <div class="ChartJsArea">
           <p:chart id="chartArea" type="bar" model="#{chartJsBean.refreshModelArea()}" responsive="true" />
         </div>
-        
-        <h3> Estadísticas por dependencias </h3>
-        <hr/>
-
         <h3> Estadísticas por estado </h3>
         <hr/>
       </div>
