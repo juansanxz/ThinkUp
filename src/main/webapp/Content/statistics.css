@@ -4,7 +4,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: #990000
+    background-color: #990000;
 }
 
 /* Estilos para la columna izquierda */
@@ -93,10 +93,10 @@
 .right-column {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 80%;
     height: 100vh;
     background-color: white;
+    text-align: center;
 }
 
 /* Estilos para los espacios de texto en la columna derecha */

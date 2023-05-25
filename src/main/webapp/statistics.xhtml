@@ -4,14 +4,18 @@
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://java.sun.com/jsf/core">
   <h:head>
     <title>ThinkUp</title>
-    <link rel="stylesheet" type="text/css" href="Content/main.css" />
+    <link rel="stylesheet" type="text/css" href="Content/statistics.css" />
     <script src="Javascript/showInputText.js"></script>
   </h:head>
   <h:body>
     <div class="container">
       <div class="left-column">
         <div>
-          <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
+          <h:form>
+            <h:commandLink action="#{thinkUp.redirection()}">
+              <h:graphicImage class="circular-image" value="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
+            </h:commandLink>
+          </h:form>
         </div>
         <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
         <p:commandButton value="Perfil" action="#{thinkUp.redirection()}"/>
@@ -23,17 +27,14 @@
       <div class="right-column">
         <h1> Estadísticas </h1>
         <hr/>
-
-        <h3> Estadísticas por área </h3>
-        <hr/>
-        
-        <h3> Estadísticas por dependencias </h3>
-        <hr/>
-
+        <div class="ChartJsArea">
+          <p:chart id="chartArea" type="bar" model="#{chartJsBean.refreshModelArea()}" responsive="true" />
+        </div>
         <h3> Estadísticas por estado </h3>
         <hr/>
       </div>
     </div>
+
     <!-- Agregamos el archivo JS para el comportamiento del pop-up -->
 	<script type="text/javascript" src="Javascript/showInputText.js"></script>
     <!-- Solo para poder subir los cambios-->

@@ -55,8 +55,6 @@ public class Idea {
     @ManyToOne(targetEntity = Topic.class)
     Topic topic;
 
-    
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
 	private List<Comment> comments;
