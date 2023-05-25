@@ -112,15 +112,15 @@ public class Main {
 			KeyWord keyWord3 = new KeyWord("Aupn");
 			myKeyWordService.addKeyWord(keyWord3);
 
-			List<KeyWord> keyWords1 = new ArrayList<KeyWord>();
+			List<KeyWord> keyWords1 = new ArrayList<>();
 			keyWords1.add(keyWord1);
 			keyWords1.add(keyWord2);
 
-			List<KeyWord> keyWords2 = new ArrayList<KeyWord>();
+			List<KeyWord> keyWords2 = new ArrayList<>();
 			keyWords2.add(keyWord1);
 			keyWords2.add(keyWord3);
 
-			List<KeyWord> keyWords3 = new ArrayList<KeyWord>();
+			List<KeyWord> keyWords3 = new ArrayList<>();
 			keyWords3.add(keyWord2);
 
 			//Adding Admon's ideas...
@@ -158,13 +158,13 @@ public class Main {
 			myIdeaService.updateIdea(idea4);
 
 			//Getting all Users....
-			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
+			//myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
 
 			//Getting all ideas....
-			myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
+			//myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
 
 			//Getting ideas with active status....
-			myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
+			//myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
 
 			//Giving like to the idea4....
 			Like like1 = new Like(idea4, user3);
@@ -186,16 +186,16 @@ public class Main {
 
 
 			//Getting ideas by topic....
-			myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
+			//myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
 
 			//Getting topic....
-			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
+			//myTopicService.getAllTopics().forEach(item -> System.out.println(item));
 
 			//Getting topic....
-			topic1.getIdeas().forEach(item -> System.out.println(item.getTitle()));
+			//topic1.getIdeas().forEach(item -> System.out.println(item.getTitle()));
 
 			//Getting Ideas Without Topic....
-			myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
+			//myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
 			
 
 
