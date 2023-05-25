@@ -54,7 +54,7 @@ public class Main {
 	}
 
 	@Bean(name = "database")
-	public CommandLineRunner run() {
+	public CommandLineRunner run() throws Exception {
 		return (args) -> {
 			System.out.println("Deleting tables's content...\n");
 			myIdeaService.deleteAllIdeas();
