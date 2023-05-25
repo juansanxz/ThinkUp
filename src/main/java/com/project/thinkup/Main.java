@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.webapp.FacesServlet;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,15 +158,6 @@ public class Main {
 			idea4.setUser(user1);
 			myIdeaService.updateIdea(idea4);
 
-			//Getting all Users....
-			//myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
-
-			//Getting all ideas....
-			//myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
-
-			//Getting ideas with active status....
-			//myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
-
 			//Giving like to the idea4....
 			Like like1 = new Like(idea4, user3);
 			myLikeService.addLike(like1);
@@ -183,34 +175,17 @@ public class Main {
 			myIdeaService.updateIdea(idea4);
 			myIdeaService.updateIdea(idea2);
 			myIdeaService.updateIdea(idea3);
-
-
-			//Getting ideas by topic....
-			//myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
-
-			//Getting topic....
-			//myTopicService.getAllTopics().forEach(item -> System.out.println(item));
-
-			//Getting topic....
-			//topic1.getIdeas().forEach(item -> System.out.println(item.getTitle()));
-
-			//Getting Ideas Without Topic....
-			//myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
-			
-
-
-
 		};
 	}
 
 	@Bean
 	@DependsOn({ "database" })
-	ServletRegistrationBean jsfServletRegistration(ServletContext servletContext) {
+	ServletRegistrationBean<Servlet> jsfServletRegistration(ServletContext servletContext) {
 		// spring boot only works if this is set
 		servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
 
 		// registration
-		ServletRegistrationBean srb = new ServletRegistrationBean();
+		ServletRegistrationBean<Servlet> srb = new ServletRegistrationBean<>();
 		srb.setServlet(new FacesServlet());
 		srb.setUrlMappings(Arrays.asList("*.xhtml"));
 		srb.setLoadOnStartup(1);
