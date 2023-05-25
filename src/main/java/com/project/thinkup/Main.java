@@ -20,7 +20,6 @@ import com.project.thinkup.model.KeyWord;
 import com.project.thinkup.model.Like;
 import com.project.thinkup.model.Topic;
 import com.project.thinkup.model.User;
-import com.project.thinkup.model.Comment;
 import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.service.TopicService;
@@ -55,7 +54,7 @@ public class Main {
 	}
 
 	@Bean(name = "database")
-	public CommandLineRunner run() throws Exception {
+	public CommandLineRunner run() {
 		return (args) -> {
 			System.out.println("Deleting tables's content...\n");
 			myIdeaService.deleteAllIdeas();
