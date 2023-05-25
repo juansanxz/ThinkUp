@@ -48,6 +48,9 @@ public class Main {
 	@Autowired
 	CommentService myCommentService;
 
+	public static final String ACTIVO = "activo";
+	public static final String ESTUDIANTE = "estudiante"; 
+
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 
@@ -65,36 +68,36 @@ public class Main {
 			myCommentService.deleteAllComments();
 
 			//Adding Admon...
-			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user);
 
-			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user1);
 
-			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user2);
 			
 
-			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user3);
 
-			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user4);
 
-			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user5);
 
-			User user6 = new User("Jorge", "Useche", "jorge.useche@gmail.com", "123", "activo", "user",
+			User user6 = new User("Jorge", "Useche", "jorge.useche@gmail.com", "123", ACTIVO, "user",
 					"profesor");
 			myUserService.addUser(user6);
 
-			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo",
+			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", ACTIVO,
 					"admin",
 					"administrativo");
 			myUserService.addUser(admon);
