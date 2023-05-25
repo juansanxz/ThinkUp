@@ -54,9 +54,9 @@ public class Main {
 	}
 
 	@Bean(name = "database")
-	public CommandLineRunner run() throws Exception {
+	public CommandLineRunner run() {
 		return (args) -> {
-			System.out.println("Deleting tables's content...\n");
+			//Deleting tables's content...
 			myIdeaService.deleteAllIdeas();
 			myUserService.deleteAllUsers();
 			myKeyWordService.deleteAllKeyWords();
@@ -64,7 +64,7 @@ public class Main {
 			myTopicService.deleteAllTopics();
 			myCommentService.deleteAllComments();
 
-			System.out.println("Adding Admon...\n");
+			//Adding Admon...
 			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
 					"estudiante");
 			myUserService.addUser(user);
@@ -99,7 +99,7 @@ public class Main {
 					"administrativo");
 			myUserService.addUser(admon);
 
-			System.out.println("Adding keywords...\n");
+			//Adding keywords...
 			KeyWord keyWord1 = new KeyWord("Redes");
 			myKeyWordService.addKeyWord(keyWord1);
 
@@ -120,7 +120,7 @@ public class Main {
 			List<KeyWord> keyWords3 = new ArrayList<KeyWord>();
 			keyWords3.add(keyWord2);
 
-			System.out.println("Adding Admon's ideas...\n");
+			//Adding Admon's ideas...
 			Idea idea1 = new Idea("Titulo1", "Proyecto de redes", keyWords1);
 
 			Idea idea2 = new Idea("Titulo2", "Proyecto de ciclos", keyWords2);
@@ -146,7 +146,7 @@ public class Main {
 			myIdeaService.updateIdea(idea3);
 		
 
-			System.out.println("Adding new idea and adding to admon1...\n");
+			//Adding new idea and adding to admon1...
 			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
 			myIdeaService.addIdea(idea4);
 			user1.addIdea(idea4);
@@ -154,16 +154,16 @@ public class Main {
 			idea4.setUser(user1);
 			myIdeaService.updateIdea(idea4);
 
-			System.out.println("\nGetting all Users....");
+			//Getting all Users....
 			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
 
-			System.out.println("\nGetting all ideas....");
+			//Getting all ideas....
 			myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
 
-			System.out.println("\nGetting ideas with active status....");
+			//Getting ideas with active status....
 			myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
 
-			System.out.println("\nGiving like to the idea4....");
+			//Giving like to the idea4....
 			Like like1 = new Like(idea4, user3);
 			myLikeService.addLike(like1);
 			user3.giveLike(like1);
@@ -182,16 +182,16 @@ public class Main {
 			myIdeaService.updateIdea(idea3);
 
 
-			System.out.println("\nGetting ideas by topic....");
+			//Getting ideas by topic....
 			myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
 
-			System.out.println("\nGetting topic....");
+			//Getting topic....
 			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
 
-			System.out.println("\nGetting topic....");
+			//Getting topic....
 			topic1.getIdeas().forEach(item -> System.out.println(item.getTitle()));
 
-			System.out.println("\nGetting Ideas Without Topic....");
+			//Getting Ideas Without Topic....
 			myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
 			
 
