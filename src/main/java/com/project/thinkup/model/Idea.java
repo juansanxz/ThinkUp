@@ -58,7 +58,7 @@ public class Idea {
     public Idea(String title, String description, List<KeyWord> keywords) {
         this.title = title;
         this.creationDate = LocalDate.now();
-        status = Status.created;
+        status = Status.CREATED;
         this.description = description;
         this.keyWords = keywords;
         this.comments = new ArrayList<>();

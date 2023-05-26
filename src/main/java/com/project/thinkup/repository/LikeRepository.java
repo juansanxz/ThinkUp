@@ -12,8 +12,6 @@ import com.project.thinkup.model.User;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
-    //List<Like> findByIdea(Idea idea);
-    //List<Like> findByUser(User user);
     Like findByIdeaAndUser (Idea idea, User user);
     List<Like> findByIdea (Idea idea);
 }

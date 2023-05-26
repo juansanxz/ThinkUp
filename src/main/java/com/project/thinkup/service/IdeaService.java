@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,13 +46,11 @@ public class IdeaService {
     }
 
     public Page<Idea> getAllIdeasPageable(int pageNumber) {
-        Page<Idea> pageable = ideaRepository.findAll(PageRequest.of(pageNumber, 1));
-        return pageable;
+        return ideaRepository.findAll(PageRequest.of(pageNumber, 1));
     }
 
     public Page<Idea> getIdeasPageableByUser(int pageNumber, User user) {
-        Page<Idea> pageable = ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1));
-        return pageable;
+        return ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1));
     }
 
     public Page<Idea> getAllIdeasOrdered(String column, String order, int pageNumber) {
@@ -65,8 +62,7 @@ public class IdeaService {
         }
         Sort sort = Sort.by(orderBy, column);
 
-        Page<Idea> pageable = ideaRepository.findAll(PageRequest.of(pageNumber, 1, sort));
-        return pageable;
+        return ideaRepository.findAll(PageRequest.of(pageNumber, 1, sort));
     }
 
     public Page<Idea> getIdeasOrderedByUser(String column, String order, int pageNumber, User user) {
@@ -78,8 +74,7 @@ public class IdeaService {
         }
         Sort sort = Sort.by(orderBy, column);
 
-        Page<Idea> pageable = ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1, sort));
-        return pageable;
+        return ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1, sort));
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

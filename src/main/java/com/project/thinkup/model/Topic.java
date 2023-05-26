@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
@@ -39,7 +38,7 @@ public class Topic {
         this.creationDate = LocalDate.now();
         this.description = description;
         this.title = title;
-        this.ideas = new ArrayList<Idea>();
+        this.ideas = new ArrayList<>();
     }
 
     public void addIdea (Idea ideaToAdd) {
@@ -87,9 +86,9 @@ public class Topic {
         this.ideas = ideas;
     }
 
-    public Topic removeIdea(Idea Idea){
-       ideas.remove(Idea);
-       Idea.setTopic(null);
+    public Topic removeIdea(Idea idea){
+       ideas.remove(idea);
+       idea.setTopic(null);
        return this;
     }
 
