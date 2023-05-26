@@ -161,10 +161,6 @@ public class Main {
 			//Giving like to the idea4....
 			Like like1 = new Like(idea4, user3);
 			myLikeService.addLike(like1);
-			//user3.giveLike(like1);
-			//idea4.giveLike(like1);
-			//myUserService.updateUser(user3);
-			//myIdeaService.updateIdea(idea4);
 
 			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
@@ -175,23 +171,6 @@ public class Main {
 			myIdeaService.updateIdea(idea4);
 			myIdeaService.updateIdea(idea2);
 			myIdeaService.updateIdea(idea3);
-
-			System.out.println("\nGetting ideas by topic....");
-			myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
-
-			System.out.println("\nGetting topic....");
-			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
-
-			System.out.println("\nGetting topic....");
-			topic1.getIdeas().forEach(item -> System.out.println(item.getTitle()));
-
-			System.out.println("\nGetting Ideas Without Topic....");
-			myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
-			
-			Long ideasByArea = myIdeaService.countIdeasByUserArea("estudiante");
-			System.out.println(ideasByArea);
-
-
 		};
 	}
 
