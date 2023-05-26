@@ -259,15 +259,27 @@ public class ThinkUp {
 
 	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en
 	// que página está
-	public void redirection() throws IOException {
+	public void redirection(String site) throws IOException {
 		//resetOrder();
-		if (!onProfile) {
+		if(site.equals("Profile")){
+			setOnProfile(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
+		} else if(site.equals("Stats")){
+			setOnProfile(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("statistics.xhtml");
+		} else if(site.equals("Main")){
+			setOnProfile(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
+		}
+
+		/** if (!onProfile) {
 			setOnProfile(true);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
 		} else {
 			setOnProfile(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
-		}
+			System.out.println("ok");
+		} **/
 	}
 
 	// Dar like

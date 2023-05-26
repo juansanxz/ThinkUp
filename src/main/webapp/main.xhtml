@@ -14,8 +14,8 @@
           <img class= "circular-image" src="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
         </div>
         <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
-        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}" update="currentIdeaLike"/>
-        <p:commandButton value="Estadísticas" action="#{thinkUp.setOnProfile('false')}"/>
+        <p:commandButton value="Perfil" action="#{thinkUp.redirection('Profile')}" update="currentIdeaLike"/>
+        <p:commandButton value="Estadísticas" action="#{thinkUp.redirection('Stats')}"/>
         <p:button value="Administrar ideas" outcome="group.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
@@ -109,7 +109,7 @@
                     <div class="interactions">
                       <p:outputLabel value="#{thinkUp.getAmountOfLikes()}" id="numberOfLikes"/>
                       <p:commandButton id="like-button" icon="ui-icon-heart" action="#{thinkUp.giveLike()}" update="idea-content like-button numberOfLikes" oncomplete="cambiarColorLike('#{thinkUp.getCurrentIdeaLike()}');"/>
-                      <p:commandButton icon=" ui-icon-comment" type="button" onclick="showComments();"/>
+                      <p:commandButton icon=" ui-icon-comment" type="button" onclick="showComments();" />
                     </div>
                     <div class="comments" >
                       <p:dialog header="Comentarios" widgetVar="comments" modal="true" showEffect="fade" hideEffect="fade" id="panelOfComments">

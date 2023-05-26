@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,4 +111,11 @@ public class IdeaService {
 		return query.getResultList();
 	}
     
+    public Long countIdeasByUserArea(String areaName) {
+        return ideaRepository.countIdeasByUserArea(areaName);
+    }
+
+    public Long countByState(String state) {
+        return ideaRepository.countByState(state);
+    }
 }

@@ -175,6 +175,23 @@ public class Main {
 			myIdeaService.updateIdea(idea4);
 			myIdeaService.updateIdea(idea2);
 			myIdeaService.updateIdea(idea3);
+
+			System.out.println("\nGetting ideas by topic....");
+			myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
+
+			System.out.println("\nGetting topic....");
+			myTopicService.getAllTopics().forEach(item -> System.out.println(item));
+
+			System.out.println("\nGetting topic....");
+			topic1.getIdeas().forEach(item -> System.out.println(item.getTitle()));
+
+			System.out.println("\nGetting Ideas Without Topic....");
+			myIdeaService.getAllIdeasWithoutTopic().forEach(item -> System.out.println(item.getTitle()));
+			
+			Long ideasByArea = myIdeaService.countIdeasByUserArea("estudiante");
+			System.out.println(ideasByArea);
+
+
 		};
 	}
 
