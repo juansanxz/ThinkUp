@@ -57,7 +57,7 @@ public class ThinkUp {
 	private boolean currentIdeaLike;
 	private boolean onProfile;
 	private String[] filter;
-	private Page<Idea> ideaPage;
+	public static final String SOMEKEY = "somekey";
 
 	private static final String NOSE = "No se";
 
@@ -85,7 +85,7 @@ public class ThinkUp {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo",
 					NOSE);
-			context.addMessage("somekey", msg);
+			context.addMessage(SOMEKEY, msg);
 			return null;
 		}
 	}
@@ -273,7 +273,7 @@ public class ThinkUp {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta información",
 						NOSE);
-			context.addMessage("somekey", msg);
+			context.addMessage(SOMEKEY, msg);
 		} else {
 			// Agregar las keyword a la base de datos
 			for (String keyWord : stringKeyWords) {
@@ -405,7 +405,7 @@ public class ThinkUp {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"No hay ideas con el filtro seleccionado", "Orden");
-			context.addMessage("somekey", msg);
+			context.addMessage(SOMEKEY, msg);
 		}
 	
 	}
