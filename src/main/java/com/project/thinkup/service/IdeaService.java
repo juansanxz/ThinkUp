@@ -117,6 +117,6 @@ public class IdeaService {
     }
 
     public Long countByState(String state) {
-        return ideaRepository.countIdeasByUserArea(state);
+        return ideaRepository.countByState(state);
     }
 }

@@ -37,7 +37,42 @@ public class ChartJsBean {
     @PostConstruct
     public void init() {
         this.modelArea = createModelArea();
+        this.modelStatus = createModelStatus();
+    }
 
+    private BarChartModel createModelStatus() {
+        modelStatus = new BarChartModel();
+        BarChartSeries status = new BarChartSeries();
+        status.setLabel("Estados");
+
+        Long createdIdeas = ideaService.countByState("Creada");
+        Long inAnalisysIdeas = ideaService.countByState("En análisis");
+        Long approvedIdeas = ideaService.countByState("Aprobada");
+        Long rejectedIdeas = ideaService.countByState("Rechazada");
+        Long finishedIdeas = ideaService.countByState("Finalizada");
+
+        status.set("Creadas", createdIdeas);
+        status.set("En análisis", inAnalisysIdeas);
+        status.set("Aprobadas", approvedIdeas);
+        status.set("Rechazadas", rejectedIdeas);
+        status.set("Finalizada", finishedIdeas);
+
+        modelStatus.addSeries(status);
+
+        modelStatus.setTitle("Estadisticas por estado");
+        modelStatus.setLegendPosition("ne");
+
+        Axis xAxis = modelStatus.getAxis(AxisType.X);
+        xAxis.setLabel("Estados");
+    
+        Axis yAxis = modelStatus.getAxis(AxisType.Y);
+        yAxis.setLabel("Ideas");
+        yAxis.setMin(0);
+        yAxis.setTickInterval("1");
+
+        modelStatus.setExtender(null);
+
+        return modelStatus;
     }
 
     private BarChartModel createModelArea(){
@@ -76,6 +111,10 @@ public class ChartJsBean {
 
     public BarChartModel refreshModelArea() {
         return createModelArea();
+    }
+
+    public BarChartModel refreshModelStatus() {
+        return createModelStatus();
     }
 
 

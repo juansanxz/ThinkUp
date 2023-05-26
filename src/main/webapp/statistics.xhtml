@@ -12,14 +12,13 @@
       <div class="left-column">
         <div>
           <h:form>
-            <h:commandLink action="#{thinkUp.redirection()}">
+            <h:commandLink action="#{thinkUp.redirection('Main')}">
               <h:graphicImage class="circular-image" value="Content/Images/logo.png" alt="Logo" width="200" height="200"/>
             </h:commandLink>
           </h:form>
         </div>
         <p:commandButton icon="ui-icon-search" action="#{thinkUp.setOnProfile('false')}"/>
-        <p:commandButton value="Perfil" action="#{thinkUp.redirection()}"/>
-        <p:button value="Estadísticas" action="#{thinkUp.setOnProfile('false')}" outcome="statistics.xhtml"/>
+        <p:commandButton value="Perfil" action="#{thinkUp.redirection('Profile')}"/>
         <p:button value="Administrar ideas" outcome="group.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:button id="elemento-autenticado" value="Administrar Usuarios" outcome="table.xhtml" rendered="#{thinkUp.isAdminCurrentUser()}" />
         <p:commandButton value="Cerrar sesión" action="#{thinkUp.logOut()}"/>
@@ -30,7 +29,9 @@
         <div class="ChartJsArea">
           <p:chart id="chartArea" type="bar" model="#{chartJsBean.refreshModelArea()}" responsive="true" />
         </div>
-        <h3> Estadísticas por estado </h3>
+        <div class="ChartJsArea">
+          <p:chart id="chartStatus" type="bar" model="#{chartJsBean.refreshModelStatus()}" responsive="true" />
+        </div>
         <hr/>
       </div>
     </div>
