@@ -21,7 +21,6 @@ import org.springframework.web.context.annotation.ApplicationScope;
 import com.project.thinkup.beans.LoginBean;
 import com.project.thinkup.model.User;
 import com.project.thinkup.model.Comment;
-import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
 import com.project.thinkup.model.Like;
@@ -57,7 +56,7 @@ public class ThinkUp {
 	private String orderBy;
 	private boolean currentIdeaLike;
 	private boolean onProfile;
-	private String[] Filter;
+	private String[] filter;
 	private Page<Idea> ideaPage;
 
 	private static final String NOSE = "No se";
@@ -127,10 +126,10 @@ public class ThinkUp {
 	private Page<Idea> getIdeasFilter() {
 		if (filterStatus) {
 		
-			return myIdeaService.getAllIdeasByStatuses(Filter, currentIdeaPage);
+			return myIdeaService.getAllIdeasByStatuses(filter, currentIdeaPage);
 		} else {
 		
-			return myIdeaService.getAllIdeasByKeyword(Filter, currentIdeaPage);
+			return myIdeaService.getAllIdeasByKeyword(filter, currentIdeaPage);
 		}
 	}
 
@@ -157,6 +156,8 @@ public class ThinkUp {
 			currentIdeaPage = -1;
 		}
 		inOrder = true;
+		filterKeyword = false;
+		filterStatus = false;
 		columnOrder = column;
 		orderBy = order;
 		changeIdea("next");
@@ -174,13 +175,14 @@ public class ThinkUp {
 		if (type.equals("estado")) {
 			filterStatus = true;
 			filterKeyword = false;
+			
 		} else if (type.equals("keyword")) {
-		
 			filterStatus = false;
 			filterKeyword = true;
 		}
 
-		Filter = typelist;
+		filter = typelist;
+		areThereIdeasWithThatFilter();
 		changeIdea("next");
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -396,6 +398,19 @@ public class ThinkUp {
 		return userIdea;
 	}
 
+	// Determina si hay ideas al buscar por un filtro determinado (estado o palabra clave), para saber si mostrar o no
+	// el panelgrid que se encarga de contenerlas
+	public void areThereIdeasWithThatFilter() {
+		if (filter != null && ((filterStatus && myIdeaService.getAllByKey(filter).isEmpty()) || (filterKeyword && myIdeaService.getAllBysta(filter).isEmpty()))) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"No hay ideas con el filtro seleccionado", "Orden");
+			context.addMessage("somekey", msg);
+		}
+	
+	}
+
+
 	// Cuando se da click a boton de perfil, para cambiar atributo onProfile a true
 	// Cuando se da click a boton de logo, para cambiar atributo onProfile a false
 	public void setOnProfile(boolean onProfile) {
@@ -455,11 +470,10 @@ public class ThinkUp {
 		if (onProfile) {
 			return myIdeaService.getIdeasByUser(currentUser).size();
 		} else {
-		
 			if (filterKeyword) {
-				return myIdeaService.getAllByKey(Filter).size();
+				return myIdeaService.getAllByKey(filter).size();
 			}else if(filterStatus){
-				return myIdeaService.getAllBysta(Filter).size();
+				return myIdeaService.getAllBysta(filter).size();
 
 			}else{
 				return myIdeaService.getAllIdeas().size();
