@@ -73,7 +73,6 @@ public class IdeaServiceTest {
         assertTrue(true);
     }
 
-
     @Test
     public void IdeaStatusIsSuccessfullyChanged() {
         idea.setStatus(Status.PENDING);
