@@ -7,11 +7,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 import javax.persistence.OneToMany;
@@ -19,12 +17,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Idea {
@@ -68,13 +61,12 @@ public class Idea {
         status = Status.created;
         this.description = description;
         this.keyWords = keywords;
-        this.comments = new ArrayList<Comment>();
-        this.likes = new ArrayList<Like>();
+        this.comments = new ArrayList<>();
+        this.likes = new ArrayList<>();
     }
 
     public void quitLike (Like like) {
 		likes.remove(like);
-        System.out.println("DELETED");
 	}
     
 
@@ -108,10 +100,6 @@ public class Idea {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setKeyWords(ArrayList<KeyWord> keyWords) {
-        this.keyWords = keyWords;
     }
 
     public void setUser(User user) {

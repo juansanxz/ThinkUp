@@ -21,14 +21,13 @@ public class LoginBean {
     public boolean login(String username, String password) {
         // Buscamos el usuario en la base de datos
         user = userService.getUserByEmail(username);
+        boolean userLogged = false;
         // Verificamos que el usuario exista y que la contraseña sea correcta
         if (user != null  && user.getPassword().equals(password)) {
             // Redirigimos al usuario a la página de inicio
-            return true;
-        } else {        
-            // Mantenemos al usuario en la página de login
-            return false;
+            userLogged = true;
         }
+        return userLogged;
     }
     
     public User updateUser () {
