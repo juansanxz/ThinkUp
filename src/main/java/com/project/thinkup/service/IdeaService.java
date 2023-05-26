@@ -96,7 +96,6 @@ public class IdeaService {
 
     public void deleteAllIdeas() {
         ideaRepository.deleteAll();
-        ;
     }
 
     public List<Idea> getAllIdeasByStatus(String status) {

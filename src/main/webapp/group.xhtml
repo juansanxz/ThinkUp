@@ -160,9 +160,6 @@
                                     <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
                                     <p:resetInput target="dialogs:manage-topic-content" />
                                 </p:commandButton>
-                                <p:commandButton icon="ui-icon-trash" update=":form :form:dt-ideas :topics :dialogs:manage-topic-content topic-content"
-                                oncomplete="PF('deletetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
-                                </p:commandButton>
                             </p:toolbarGroup>
                         </p:toolbar>
                     </h:panelGrid>
@@ -291,6 +288,5 @@
         
         </h:form>
     </div>
-    
 </h:body>
 </html>

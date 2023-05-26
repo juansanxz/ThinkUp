@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.webapp.FacesServlet;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ import com.project.thinkup.model.KeyWord;
 import com.project.thinkup.model.Like;
 import com.project.thinkup.model.Topic;
 import com.project.thinkup.model.User;
-import com.project.thinkup.model.Comment;
 import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.service.TopicService;
@@ -49,15 +49,18 @@ public class Main {
 	@Autowired
 	CommentService myCommentService;
 
+	public static final String ACTIVO = "activo";
+	public static final String ESTUDIANTE = "estudiante"; 
+
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 
 	}
 
 	@Bean(name = "database")
-	public CommandLineRunner run() throws Exception {
+	public CommandLineRunner run() {
 		return (args) -> {
-			System.out.println("Deleting tables's content...\n");
+			//Deleting tables's content...
 			myIdeaService.deleteAllIdeas();
 			myUserService.deleteAllUsers();
 			myKeyWordService.deleteAllKeyWords();
@@ -65,42 +68,42 @@ public class Main {
 			myTopicService.deleteAllTopics();
 			myCommentService.deleteAllComments();
 
-			System.out.println("Adding Admon...\n");
-			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", "activo", "user",
-					"estudiante");
+			//Adding Admon...
+			User user = new User("andres", "oñate", "andrescamiloquimbayo@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user);
 
-			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user1 = new User("juan", "sanchez", "juansanchez@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user1);
 
-			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user2 = new User("Mateo", "Olaya", "mateo.olaya@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user2);
 			
 
-			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user3 = new User("Santiago", "Arevalo", "santiago.arevalo@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user3);
 
-			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user4 = new User("Alejandro", "Huertas", "alejandro.huertas@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user4);
 
-			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", "activo", "user",
-					"estudiante");
+			User user5 = new User("Juan", "Poveda", "juan.poveda@gmail.com", "123", ACTIVO, "user",
+					ESTUDIANTE);
 			myUserService.addUser(user5);
 
-			User user6 = new User("Jorge", "Useche", "jorge.useche@gmail.com", "123", "activo", "user",
+			User user6 = new User("Jorge", "Useche", "jorge.useche@gmail.com", "123", ACTIVO, "user",
 					"profesor");
 			myUserService.addUser(user6);
 
-			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", "activo",
+			User admon = new User("Administrador", "Administrador", "administrador@gmail.com", "admin123", ACTIVO,
 					"admin",
 					"administrativo");
 			myUserService.addUser(admon);
 
-			System.out.println("Adding keywords...\n");
+			//Adding keywords...
 			KeyWord keyWord1 = new KeyWord("Redes");
 			myKeyWordService.addKeyWord(keyWord1);
 
@@ -110,18 +113,18 @@ public class Main {
 			KeyWord keyWord3 = new KeyWord("Aupn");
 			myKeyWordService.addKeyWord(keyWord3);
 
-			List<KeyWord> keyWords1 = new ArrayList<KeyWord>();
+			List<KeyWord> keyWords1 = new ArrayList<>();
 			keyWords1.add(keyWord1);
 			keyWords1.add(keyWord2);
 
-			List<KeyWord> keyWords2 = new ArrayList<KeyWord>();
+			List<KeyWord> keyWords2 = new ArrayList<>();
 			keyWords2.add(keyWord1);
 			keyWords2.add(keyWord3);
 
-			List<KeyWord> keyWords3 = new ArrayList<KeyWord>();
+			List<KeyWord> keyWords3 = new ArrayList<>();
 			keyWords3.add(keyWord2);
 
-			System.out.println("Adding Admon's ideas...\n");
+			//Adding Admon's ideas...
 			Idea idea1 = new Idea("Titulo1", "Proyecto de redes", keyWords1);
 
 			Idea idea2 = new Idea("Titulo2", "Proyecto de ciclos", keyWords2);
@@ -147,7 +150,7 @@ public class Main {
 			myIdeaService.updateIdea(idea3);
 		
 
-			System.out.println("Adding new idea and adding to admon1...\n");
+			//Adding new idea and adding to admon1...
 			Idea idea4 = new Idea("Titulo4", "Idea adicional", keyWords3);
 			myIdeaService.addIdea(idea4);
 			user1.addIdea(idea4);
@@ -155,22 +158,13 @@ public class Main {
 			idea4.setUser(user1);
 			myIdeaService.updateIdea(idea4);
 
-			System.out.println("\nGetting all Users....");
-			myUserService.getAllUsers().forEach(configuration -> System.out.println(configuration));
-
-			System.out.println("\nGetting all ideas....");
-			myIdeaService.getAllIdeas().forEach(item -> System.out.println(item));
-
-			System.out.println("\nGetting ideas with active status....");
-			myIdeaService.getAllIdeasByStatus("Creada").forEach(item -> System.out.println(item));
-
-			System.out.println("\nGiving like to the idea4....");
+			//Giving like to the idea4....
 			Like like1 = new Like(idea4, user3);
 			myLikeService.addLike(like1);
-			user3.giveLike(like1);
+			//user3.giveLike(like1);
 			//idea4.giveLike(like1);
-			myUserService.updateUser(user3);
-			myIdeaService.updateIdea(idea4);
+			//myUserService.updateUser(user3);
+			//myIdeaService.updateIdea(idea4);
 
 			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
@@ -181,7 +175,6 @@ public class Main {
 			myIdeaService.updateIdea(idea4);
 			myIdeaService.updateIdea(idea2);
 			myIdeaService.updateIdea(idea3);
-
 
 			System.out.println("\nGetting ideas by topic....");
 			myTopicService.getIdeasByTopicId(topic1.getTopicId()).forEach(item -> System.out.println(item));
@@ -197,7 +190,6 @@ public class Main {
 			
 			Long ideasByArea = myIdeaService.countIdeasByUserArea("estudiante");
 			System.out.println(ideasByArea);
-
 
 
 		};

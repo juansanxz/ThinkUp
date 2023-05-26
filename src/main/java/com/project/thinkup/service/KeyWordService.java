@@ -47,6 +47,5 @@ public class KeyWordService {
 
     public void deleteAllKeyWords() {
         keyWordRepository.deleteAll();
-        ;
     }
 }
