@@ -184,15 +184,16 @@ public class Idea {
     }
 
     public String getStringKeyWords() {
-        String result = "";
+        StringBuilder result = new StringBuilder("");
         for (int i = 0; i < keyWords.size(); i++) {
             if (i != keyWords.size() - 1) {
-                result += keyWords.get(i).getWord() + ", ";
+                result.append(keyWords.get(i).getWord());
+                result.append(", ");
             } else {
-                result += keyWords.get(i).getWord();
+                result.append(keyWords.get(i).getWord());
             }
         }
-        return result;
+        return result.toString();
     }
 
     public User getUser() {
