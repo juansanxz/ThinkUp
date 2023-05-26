@@ -7,7 +7,4 @@ public class Status {
     public static final String APPROVED = "Aprobada";
     public static final String REJECTED = "Rechazada";
     public static final String DONE = "Finalizada";
-
-    public Status () {
-    }
 }
