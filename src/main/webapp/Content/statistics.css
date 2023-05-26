@@ -77,18 +77,6 @@
     cursor: pointer;
 }
 
-/* Estilos para el botón inferior de la columna izquierda */
-.bottom-button {
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 150px;
-    background-color: #990000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
 /* Estilos para la columna derecha */
 .right-column {
     display: flex;
@@ -216,7 +204,7 @@ a:active { color: red; }
 body {
     background-color: #990000;
     font-family: Ubuntu,sans-serif;
-};
+}
 
 .col-1 {
     width: 10%;

@@ -131,10 +131,6 @@ public class ThinkUp {
 		}
 	}
 
-	private Page<Idea> getIdeasFilterInOrder() {
-		return null;
-	}
-
 	// Si el usuario desea reiniciar el orden por el que lo estaba haciendo
 	public void resetOrder() {
 		if (currentIdeaPage != -1) {
@@ -430,27 +426,27 @@ public class ThinkUp {
 	}
 
 	public String getStringKeyWordsNice() {
-		String result = "";
+		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < stringKeyWords.size(); i++) {
 			if (i != stringKeyWords.size() - 1) {
-				result += stringKeyWords.get(i) + ", ";
+				result.append(stringKeyWords.get(i) + ", ");
 			} else {
-				result += stringKeyWords.get(i);
+				result.append(stringKeyWords.get(i));
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 	public String getStringKeyWordsfilter() {
-		String result = "";
+		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < keywordsFilter.size(); i++) {
 			if (i != keywordsFilter.size() - 1) {
-				result += keywordsFilter.get(i) + ", ";
+				result.append(keywordsFilter.get(i) + ", ");
 			} else {
-				result += keywordsFilter.get(i);
+				result.append(keywordsFilter.get(i));
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 	public int getCurrentIdeaPage() {
@@ -494,11 +490,11 @@ public class ThinkUp {
 	}
 
 	public String showComments(List<Comment> comments) {
-        String allComments = "";
+        StringBuilder allComments = new StringBuilder("");
         for (Comment comment : comments){
-            allComments += comment.toString() + "\n";
+            allComments.append(comment.toString() + "\n");
         }
-        return allComments;
+        return allComments.toString();
     }
 
 	public List<KeyWord> getAllKeywords() {
