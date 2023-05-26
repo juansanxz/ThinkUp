@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.User;
 import com.project.thinkup.model.KeyWord;
-import com.project.thinkup.model.KeyWordService;
+import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.repository.KeyWordRepository;
 
@@ -31,6 +31,7 @@ import javassist.expr.NewArray;
 public class IdeaService {
 
     private final IdeaRepository ideaRepository;
+    
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -120,41 +121,64 @@ public class IdeaService {
         return new PageImpl<>(statuslist);
     }
 
-    public Page<Idea> getAllIdeasByKeyword(String[] Keywords, int pageNumber) {
-
+    public Page<Idea> getAllIdeasByKeywordss(String[] Keywords, int pageNumber) {
         List<Idea> keywordslist = new ArrayList<>();
-        Page<Idea> allideas = getAllIdeasPageable(pageNumber);
-
-        System.out.println("getallodeas");
-        for (Idea idea : allideas) {
-
-            List<KeyWord> keys = idea.getKeyWords();
-            System.out.println(keys);
-            boolean Status = false;
-
-            for (String keyword : Keywords) {
-                System.out.println("entre");
-                KeyWord key = KeyWordService.getKeyWord(keyword);
-                System.out.println(key);
-
-                for (KeyWord keyword_a : keys) {
-                    System.out.println(keyword_a);
-                    if (key.equals(keyword_a)) {
-                        Status = true;
+        for (String keyword : Keywords) {
+            Page<Idea> ideasForKeyword = ideaRepository.findByKeyword(keyword, PageRequest.of(pageNumber, 1));
+            for (Idea idea : ideasForKeyword) {
+                List<KeyWord> keys = idea.getKeyWords();
+                boolean flag = false;
+                for(KeyWord keyw : keys){
+                    if (keyw.getWord().toUpperCase().equals(keyword.toUpperCase())) {
+                        flag = true;
                     }
                 }
-                System.out.println(Status);
-            }
-            if (Status) {
-                keywordslist.add(idea);
+                if(flag){
+                    keywordslist.add(idea);
+                }
             }
         }
-        System.out.println(keywordslist);
         return new PageImpl<>(keywordslist);
+    }
+
+    public Page<Idea> getAllIdeasByKeyword(String[] Keywords, int pageNumber) {
+        List<Idea> statuslist = new ArrayList<>();
+        for (String keyword : Keywords) {
+            Page<Idea> ideasForKeyword = ideaRepository.findByKeyword(keyword, PageRequest.of(pageNumber, 1));
+            for (Idea idea : ideasForKeyword.getContent()) {
+                System.out.println(idea.getTitle());
+                statuslist.add(idea);
+            }
+        }
+        System.out.println(new PageImpl<>(statuslist).getContent());
+        return new PageImpl<>(statuslist);
     }
 
     public List<Idea> getIdeasByUser(User user) {
         return ideaRepository.findByUser(user);
+    }
+
+    public List<Idea> getAllByKey(String[] Keywords) {
+        List<Idea> ideas= new ArrayList<>();
+        for (String keyword : Keywords) {
+            List<Idea> temp = ideaRepository.findByKeyword(keyword);
+            for (Idea ide : temp) {
+                
+                boolean flag = true;
+                for (Idea idd : ideas) {
+                    if(ide.getIdeaId().equals(idd.getIdeaId())){
+                        flag=false;
+                    }
+                    
+                }
+                if(flag){
+                    ideas.add(ide);
+                }
+                
+            }
+        }
+        System.out.println(ideas);
+        return ideas;
     }
 
     public List<Idea> getAllIdeasWithoutTopic() {

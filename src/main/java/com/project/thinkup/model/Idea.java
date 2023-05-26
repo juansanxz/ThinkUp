@@ -39,7 +39,7 @@ public class Idea {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany()
-    private List<KeyWord> keyWords;
+    List<KeyWord> keyWords;
 
     // Colección de likes
     @LazyCollection(LazyCollectionOption.FALSE)

@@ -20,6 +20,7 @@ import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.project.thinkup.beans.LoginBean;
 import com.project.thinkup.model.User;
+import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
 import com.project.thinkup.model.Like;
@@ -59,6 +60,7 @@ public class ThinkUp {
 	private boolean currentIdeaLike;
 	private boolean onProfile;
 	private String[] Filter;
+	private Page<Idea> ideaPage;
 
 	public ThinkUp() {
 		currentKeyWords = new ArrayList<KeyWord>();
@@ -103,7 +105,7 @@ public class ThinkUp {
 			if (inOrder == true) {
 				ideaPage = getIdeasInOrder();
 			} else if (filterStatus || filterKeyword) {
-				System.out.println("entre");
+			
 				ideaPage = getIdeasFilter();
 			} else if ((filterStatus || filterKeyword) && inOrder) {
 				ideaPage = getIdeasFilterInOrder();
@@ -124,10 +126,10 @@ public class ThinkUp {
 
 	private Page<Idea> getIdeasFilter() {
 		if (filterStatus) {
-			System.out.println("malestado");
+		
 			return myIdeaService.getAllIdeasByStatuses(Filter, currentIdeaPage);
 		} else {
-			System.out.println("key");
+		
 			return myIdeaService.getAllIdeasByKeyword(Filter, currentIdeaPage);
 		}
 	}
@@ -173,7 +175,7 @@ public class ThinkUp {
 			filterStatus = true;
 			filterKeyword = false;
 		} else if (type.equals("keyword")) {
-			System.out.println("key");
+		
 			filterStatus = false;
 			filterKeyword = true;
 		}
@@ -198,15 +200,13 @@ public class ThinkUp {
 	}
 
 	public List<String> getkeywordlist() {
-		System.out.println("algo");
 		return keywordsFilter;
 	}
 
 	public void constructFilterIdeas() {
-		System.out.println("sientre");
 		String[] ideasList = keywordsFilter.toArray(new String[0]);
-		System.out.println(keywordsFilter);
 		filterIdeasBy(ideasList, "keyword");
+		refreshKeywords();
 	}
 
 	private Page<Idea> getIdeasDisordered() {
@@ -446,9 +446,14 @@ public class ThinkUp {
 		if (onProfile) {
 			return myIdeaService.getIdeasByUser(currentUser).size();
 		} else {
-			return myIdeaService.getAllIdeas().size();
+		
+			if (filterStatus || filterKeyword) {
+				return myIdeaService.getAllByKey(Filter).size();
+			}
+			else{
+				return myIdeaService.getAllIdeas().size();
+			}
 		}
-
 	}
 
 	public boolean getCurrentIdeaLike() {

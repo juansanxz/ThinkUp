@@ -70,18 +70,17 @@
         </p:dialog>
         
         <p:dialog id="PopUpSearchOption2" widgetVar="PopUpSearchOption2" modal="true" header="Busqueda por keyword">
-          <h:form>
+          <h:form class="post1" id="form1">
             <h:panelGrid columns="1">
               <p:messages for="addKeyWord1" id="keyword-filter"/>
               <p:outputLabel for="valorPopUp1" value="Inserte la key word para buscar: " />
               <p:inputText id="valorPopUp1" binding="#{keyWord1}"/>
               <p:outputLabel id="keyword-place1" value="#{thinkUp.getStringKeyWordsfilter()}" />
               <p:commandButton value="Agregar" action="#{thinkUp.listkeywordIdeasBy(keyWord1.value)}"  update="keyword-filter keyword-place1 valorPopUp1"/>
-              <p:commandButton value="Enviar"  action="#{thinkUp.constructFilterIdeas()}" onclick="hidePopUpSearchOption2()" update="keyword-place1 manage-check idea-display-grid PopUpSearchOption2"/>
+              <p:commandButton value="Enviar"  action="#{thinkUp.constructFilterIdeas()}" onclick="hidePopUpSearchOption2()" update="form1:keyword-place1 PopUpSearchOption2 manage-check idea-display-grid PopUpSearchOption2 valorPopUp1 keyword-place1"/>
             </h:panelGrid>  
           </h:form>  
         </p:dialog>  
-
         <div class="search">
           <h:form>
             <p:dialog id="PopUpSearch" header="Busqueda" widgetVar="PopUpSearch" modal="true" showEffect="fade" hideEffect="fade">            
@@ -92,7 +91,7 @@
                   <div class="search-b">
                     <p:commandButton id="popupButton" value="Buscar por estado" onclick="hidePopUpSearch(); showPopUpSearchOption1();"/>
                     <p:commandButton id="popupButton2" value="Buscar por KeyWord" onclick="hidePopUpSearch(); showPopUpSearchOption2();"/>
-                    <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="hidePopUpSearch();" update="idea-content PopUpSearchOption1 manage-check"/>
+                    <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="hidePopUpSearch();" update="idea-content PopUpSearchOption1 manage-check page"/>
                   </div>
               </p:outputPanel>
             </p:dialog>
