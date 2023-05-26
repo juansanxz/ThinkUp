@@ -1,5 +1,6 @@
 package com.project.thinkup.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -17,12 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.User;
+import com.project.thinkup.model.KeyWord;
+import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.repository.IdeaRepository;
+import com.project.thinkup.repository.KeyWordRepository;
+
+import javassist.compiler.ast.Keyword;
+import javassist.expr.NewArray;
 
 @Service
 public class IdeaService {
 
     private final IdeaRepository ideaRepository;
+    
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -97,8 +106,62 @@ public class IdeaService {
         return ideaRepository.findByStatus(status);
     }
 
+    public Page<Idea> getAllIdeasByStatuses(String[] statuses, int pageNumber) {
+        List<Idea> statuslist = new ArrayList<>();
+        for (String status : statuses) {
+            Page<Idea> ideasForStatus = ideaRepository.findByStatus(status, PageRequest.of(pageNumber, 1));
+            for (Idea idea : ideasForStatus.getContent()) {
+                statuslist.add(idea);
+            }
+        }
+        return new PageImpl<>(statuslist);
+    }
+
+    public Page<Idea> getAllIdeasByKeyword(String[] Keywords, int pageNumber) {
+        List<Idea> statuslist = new ArrayList<>();
+        for (String keyword : Keywords) {
+            Page<Idea> ideasForKeyword = ideaRepository.findByKeyword(keyword, PageRequest.of(pageNumber, 1));
+            for (Idea idea : ideasForKeyword.getContent()) {
+           
+                statuslist.add(idea);
+            }
+        }
+        return new PageImpl<>(statuslist);
+    }
+
     public List<Idea> getIdeasByUser(User user) {
         return ideaRepository.findByUser(user);
+    }
+
+    public List<Idea> getAllByKey(String[] Keywords) {
+        List<Idea> ideas= new ArrayList<>();
+        for (String keyword : Keywords) {
+            List<Idea> temp = ideaRepository.findByKeyword(keyword);
+            for (Idea ide : temp) {
+                
+                boolean flag = true;
+                for (Idea idd : ideas) {
+                    if(ide.getIdeaId().equals(idd.getIdeaId())){
+                        flag=false;
+                    }   
+                }
+                if(flag){
+                    ideas.add(ide);
+                }
+            }
+        }
+        return ideas;
+    }
+
+    public List<Idea> getAllBysta(String[] statuses) {
+        List<Idea> ideas= new ArrayList<>();
+        for (String status : statuses) {
+            List<Idea> temp = ideaRepository.findByStatus(status);
+            for (Idea idd : temp) {
+                ideas.add(idd);
+            }
+        }
+        return ideas;
     }
 
     public List<Idea> getAllIdeasWithoutTopic() {
@@ -113,4 +176,6 @@ public class IdeaService {
     public Long countByState(String state) {
         return ideaRepository.countByState(state);
     }
+        
 }
+

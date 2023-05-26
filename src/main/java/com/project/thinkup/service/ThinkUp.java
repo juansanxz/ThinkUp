@@ -21,6 +21,7 @@ import org.springframework.web.context.annotation.ApplicationScope;
 import com.project.thinkup.beans.LoginBean;
 import com.project.thinkup.model.User;
 import com.project.thinkup.model.Comment;
+import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
 import com.project.thinkup.model.Like;
@@ -31,6 +32,7 @@ import com.project.thinkup.model.Like;
 public class ThinkUp {
 	private ArrayList<KeyWord> currentKeyWords;
 	private ArrayList<String> stringKeyWords;
+	private ArrayList<String> keywordsFilter;
 
 	@Autowired
 	LoginBean loginBean;
@@ -49,10 +51,14 @@ public class ThinkUp {
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
+	private boolean filterStatus;
+	private boolean filterKeyword;
 	private String columnOrder;
 	private String orderBy;
 	private boolean currentIdeaLike;
 	private boolean onProfile;
+	private String[] Filter;
+	private Page<Idea> ideaPage;
 
 	private static final String NOSE = "No se";
 
@@ -63,6 +69,7 @@ public class ThinkUp {
 		inOrder = false;
 		currentIdeaLike = false;
 		onProfile = false;
+		keywordsFilter = new ArrayList<>();
 	}
 
 	@PostConstruct
@@ -97,10 +104,14 @@ public class ThinkUp {
 			Page<Idea> ideaPage;
 			if (inOrder) {
 				ideaPage = getIdeasInOrder();
+			} else if (filterStatus || filterKeyword) {
+			
+				ideaPage = getIdeasFilter();
+			} else if ((filterStatus || filterKeyword) && inOrder) {
+				ideaPage = getIdeasFilterInOrder();
 			} else {
 				ideaPage = getIdeasDisordered();
 			}
-
 			List<Idea> allIdeas = ideaPage.getContent();
 			currentIdea = allIdeas.get(0);
 			verifyLiked();
@@ -113,12 +124,29 @@ public class ThinkUp {
 		}
 	}
 
+	private Page<Idea> getIdeasFilter() {
+		if (filterStatus) {
+		
+			return myIdeaService.getAllIdeasByStatuses(Filter, currentIdeaPage);
+		} else {
+		
+			return myIdeaService.getAllIdeasByKeyword(Filter, currentIdeaPage);
+		}
+	}
+
+	private Page<Idea> getIdeasFilterInOrder() {
+		return null;
+	}
+
 	// Si el usuario desea reiniciar el orden por el que lo estaba haciendo
 	public void resetOrder() {
 		if (currentIdeaPage != -1) {
 			currentIdeaPage = -1;
 		}
+		refreshKeywords();
 		inOrder = false;
+		filterStatus = false;
+		filterKeyword = false;
 		changeIdea("next");
 	}
 
@@ -139,6 +167,48 @@ public class ThinkUp {
 		context.addMessage("anotherkey", msg);
 	}
 
+	public void filterIdeasBy(String[] typelist, String type) {
+		if (currentIdeaPage != -1) {
+			currentIdeaPage = -1;
+		}
+		if (type.equals("estado")) {
+			filterStatus = true;
+			filterKeyword = false;
+		} else if (type.equals("keyword")) {
+		
+			filterStatus = false;
+			filterKeyword = true;
+		}
+
+		Filter = typelist;
+		changeIdea("next");
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
+		context.addMessage("anotherkey", msg);
+	}
+
+	public void listkeywordIdeasBy(String type) {
+		if (type.isBlank()) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Está vacía la KeyWord",
+					"No se");
+			context.addMessage("addKeyWord", msg);
+		} else {
+			keywordsFilter.add(type);
+		}
+	}
+
+	public List<String> getkeywordlist() {
+		return keywordsFilter;
+	}
+
+	public void constructFilterIdeas() {
+		String[] ideasList = keywordsFilter.toArray(new String[0]);
+		filterIdeasBy(ideasList, "keyword");
+		refreshKeywords();
+	}
+
 	private Page<Idea> getIdeasDisordered() {
 		if (onProfile) {
 			return myIdeaService.getIdeasPageableByUser(currentIdeaPage, currentUser);
@@ -146,6 +216,10 @@ public class ThinkUp {
 			return myIdeaService.getAllIdeasPageable(currentIdeaPage);
 		}
 
+	}
+
+	private void refreshKeywords() {
+		keywordsFilter = new ArrayList<>();
 	}
 
 	private Page<Idea> getIdeasInOrder() {
@@ -267,7 +341,8 @@ public class ThinkUp {
 
 		/** if (!onProfile) {
 			setOnProfile(true);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
 		} else {
 			setOnProfile(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
@@ -352,6 +427,18 @@ public class ThinkUp {
 		return result;
 	}
 
+	public String getStringKeyWordsfilter() {
+		String result = "";
+		for (int i = 0; i < keywordsFilter.size(); i++) {
+			if (i != keywordsFilter.size() - 1) {
+				result += keywordsFilter.get(i) + ", ";
+			} else {
+				result += keywordsFilter.get(i);
+			}
+		}
+		return result;
+	}
+
 	public int getCurrentIdeaPage() {
 		return currentIdeaPage;
 	}
@@ -368,9 +455,16 @@ public class ThinkUp {
 		if (onProfile) {
 			return myIdeaService.getIdeasByUser(currentUser).size();
 		} else {
-			return myIdeaService.getAllIdeas().size();
-		}
+		
+			if (filterKeyword) {
+				return myIdeaService.getAllByKey(Filter).size();
+			}else if(filterStatus){
+				return myIdeaService.getAllBysta(Filter).size();
 
+			}else{
+				return myIdeaService.getAllIdeas().size();
+			}
+		}
 	}
 
 	public boolean getCurrentIdeaLike() {
@@ -393,4 +487,9 @@ public class ThinkUp {
         }
         return allComments;
     }
+
+	public List<KeyWord> getAllKeywords() {
+		return myKeyWordService.getAllKeyWords();
+	}
+
 }
