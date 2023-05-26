@@ -11,7 +11,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.springframework.data.domain.Page;
-import org.hibernate.Hibernate;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,11 +29,6 @@ import com.project.thinkup.model.Like;
 @Component
 @ApplicationScope
 public class ThinkUp {
-
-	// Preguntar si la aplicación la pueden estar usando al tiempo varias personas,
-	// si si, creo que toca quitar los contenedores de users y de ideas
-	// y que todo se haga a través de consultas a la DB, sino si se pueden dejar
-	// para disminuir la cantidad de consultas a la DB
 	private ArrayList<KeyWord> currentKeyWords;
 	private ArrayList<String> stringKeyWords;
 
@@ -60,9 +54,11 @@ public class ThinkUp {
 	private boolean currentIdeaLike;
 	private boolean onProfile;
 
+	private static final String NOSE = "No se";
+
 	public ThinkUp() {
-		currentKeyWords = new ArrayList<KeyWord>();
-		stringKeyWords = new ArrayList<String>();
+		currentKeyWords = new ArrayList<>();
+		stringKeyWords = new ArrayList<>();
 		currentIdeaPage = -1;
 		inOrder = false;
 		currentIdeaLike = false;
@@ -82,7 +78,7 @@ public class ThinkUp {
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo",
-					"No se");
+					NOSE);
 			context.addMessage("somekey", msg);
 			return null;
 		}
@@ -99,7 +95,7 @@ public class ThinkUp {
 		changeNumberOfPage(way);
 		try {
 			Page<Idea> ideaPage;
-			if (inOrder == true) {
+			if (inOrder) {
 				ideaPage = getIdeasInOrder();
 			} else {
 				ideaPage = getIdeasDisordered();
@@ -200,7 +196,7 @@ public class ThinkUp {
 		if (title.isBlank() || description.isBlank() || stringKeyWords.isEmpty()) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta información",
-					"No se");
+						NOSE);
 			context.addMessage("somekey", msg);
 		} else {
 			// Agregar las keyword a la base de datos
@@ -233,7 +229,7 @@ public class ThinkUp {
 		if (stringKeyWord.isBlank()) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Está vacía la KeyWord",
-					"No se");
+						NOSE);
 			context.addMessage("addKeyWord", msg);
 		} else {
 			stringKeyWords.add(stringKeyWord);
@@ -253,14 +249,11 @@ public class ThinkUp {
 		} catch (Exception e) {
 		}
 		setOnProfile(false);
-
-		// return null;
 	}
 
 	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en
 	// que página está
 	public void redirection(String site) throws IOException {
-		//resetOrder();
 		if(site.equals("Profile")){
 			setOnProfile(true);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
@@ -321,10 +314,11 @@ public class ThinkUp {
 	// Determina si tiene o no ideas el usuario actual, para saber si mostrar o no
 	// el panelgrid que se encarga de contenerlas
 	public boolean userHasIdeas() {
-		if (currentUser.getIdeas().size() == 0) {
-			return false;
+		boolean userIdea = true;
+		if (currentUser.getIdeas().isEmpty()) {
+			userIdea = false;
 		}
-		return true;
+		return userIdea;
 	}
 
 	// Cuando se da click a boton de perfil, para cambiar atributo onProfile a true
@@ -342,7 +336,7 @@ public class ThinkUp {
 		return currentIdea.getTitle();
 	}
 
-	public ArrayList<String> getStringKeyWords() {
+	public List<String> getStringKeyWords() {
 		return stringKeyWords;
 	}
 
@@ -385,15 +379,11 @@ public class ThinkUp {
 	public void addComment(String comment) {
 		Comment description = new Comment(currentIdea, currentUser, comment);
 		myCommentService.addComment(description);
-		//currentIdea.addComment(description);
-		//myIdeaService.updateIdea(currentIdea);
 	}
 
 	public String getComments() {
 		List<Comment> comments = myCommentService.getCommentByIdeaId(currentIdea);
-		String allComments = showComments(comments);
-		return allComments;
-		//return currentIdea.showComments();
+		return showComments(comments);
 	}
 
 	public String showComments(List<Comment> comments) {
