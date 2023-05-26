@@ -19,13 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.User;
-import com.project.thinkup.model.KeyWord;
-import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.repository.IdeaRepository;
-import com.project.thinkup.repository.KeyWordRepository;
 
-import javassist.compiler.ast.Keyword;
-import javassist.expr.NewArray;
 
 @Service
 public class IdeaService {

@@ -89,7 +89,7 @@
                   <p:outputLabel value="Seleccione el tipo de busqueda" />
                   
                   <div class="search-b">
-                    <p:commandButton id="popupButton" value="Buscar por estado" onclick="hidePopUpSearch(); showPopUpSearchOption1();"/>
+                    <p:commandButton id="popupButton" value="Buscar por estado" onclick="hidePopUpSearch(); showPopUpSearchOption1(); "/>
                     <p:commandButton id="popupButton2" value="Buscar por KeyWord" onclick="hidePopUpSearch(); showPopUpSearchOption2();"/>
                     <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="hidePopUpSearch();" update="idea-content PopUpSearchOption1 manage-check page"/>
                   </div>
@@ -117,8 +117,8 @@
                           <f:selectItem itemLabel="Ascendente" itemValue="asc" />
                           <f:selectItem itemLabel="Descendente" itemValue="desc" />
                         </p:selectOneRadio>
-                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" update="manage-ordenar idea-content :form"/>
-                        <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="idea-content"/>
+                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" update="manage-ordenar idea-content :form page"/>
+                        <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="idea-content page"/>
                 </p:outputPanel>
               </p:dialog>
             </h:form>
