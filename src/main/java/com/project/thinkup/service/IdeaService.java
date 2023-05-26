@@ -121,36 +121,15 @@ public class IdeaService {
         return new PageImpl<>(statuslist);
     }
 
-    public Page<Idea> getAllIdeasByKeywordss(String[] Keywords, int pageNumber) {
-        List<Idea> keywordslist = new ArrayList<>();
-        for (String keyword : Keywords) {
-            Page<Idea> ideasForKeyword = ideaRepository.findByKeyword(keyword, PageRequest.of(pageNumber, 1));
-            for (Idea idea : ideasForKeyword) {
-                List<KeyWord> keys = idea.getKeyWords();
-                boolean flag = false;
-                for(KeyWord keyw : keys){
-                    if (keyw.getWord().toUpperCase().equals(keyword.toUpperCase())) {
-                        flag = true;
-                    }
-                }
-                if(flag){
-                    keywordslist.add(idea);
-                }
-            }
-        }
-        return new PageImpl<>(keywordslist);
-    }
-
     public Page<Idea> getAllIdeasByKeyword(String[] Keywords, int pageNumber) {
         List<Idea> statuslist = new ArrayList<>();
         for (String keyword : Keywords) {
             Page<Idea> ideasForKeyword = ideaRepository.findByKeyword(keyword, PageRequest.of(pageNumber, 1));
             for (Idea idea : ideasForKeyword.getContent()) {
-                System.out.println(idea.getTitle());
+           
                 statuslist.add(idea);
             }
         }
-        System.out.println(new PageImpl<>(statuslist).getContent());
         return new PageImpl<>(statuslist);
     }
 
@@ -168,16 +147,13 @@ public class IdeaService {
                 for (Idea idd : ideas) {
                     if(ide.getIdeaId().equals(idd.getIdeaId())){
                         flag=false;
-                    }
-                    
+                    }   
                 }
                 if(flag){
                     ideas.add(ide);
                 }
-                
             }
         }
-        System.out.println(ideas);
         return ideas;
     }
 
