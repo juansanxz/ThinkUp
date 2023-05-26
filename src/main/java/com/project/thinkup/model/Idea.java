@@ -71,6 +71,7 @@ public class Idea {
         this.description = description;
         this.keyWords = keywords;
         this.comments = new ArrayList<Comment>();
+        this.likes = new ArrayList<Like>();
     }
 
     public void quitLike (Like like) {

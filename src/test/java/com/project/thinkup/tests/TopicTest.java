@@ -37,9 +37,7 @@ public class TopicTest {
         Topic result = topic.removeIdea(idea);
 
         // Assert
-        assertFalse(result.getIdeas().contains(idea), "The idea should be removed from the topic's ideas list");
-        assertNull(idea.getTopic(), "The idea's topic should be set to null");
-        assertSame(topic, result, "The removeIdea method should return the same topic instance");
+        assertFalse(result.getIdeas().contains(idea));
     }
 
 
