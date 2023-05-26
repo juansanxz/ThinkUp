@@ -114,6 +114,9 @@
                     </p:column>
                 </p:dataTable>
             </div>
+            <div class="bottom">
+                <p:commandButton class="back-Button" value="Regresar" action="#{thinkUp.redirection('Main')}"/>
+            </div>
         </h:form>
     <!--  Ventanas-->
     </div>
@@ -285,11 +288,7 @@
             <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
                 onclick="PF('deletetopicDialog').hide()" />
         </p:confirmDialog> 
-        
         </h:form>
-    </div>
-    <div class="bottom">
-        <p:commandButton class="back-Button" value="Regresar" action="#{thinkUp.redirection('Main')}"/>
     </div>
 </h:body>
 </html>
