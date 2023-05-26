@@ -161,10 +161,10 @@ public class Main {
 			//Giving like to the idea4....
 			Like like1 = new Like(idea4, user3);
 			myLikeService.addLike(like1);
-			user3.giveLike(like1);
+			//user3.giveLike(like1);
 			//idea4.giveLike(like1);
-			myUserService.updateUser(user3);
-			myIdeaService.updateIdea(idea4);
+			//myUserService.updateUser(user3);
+			//myIdeaService.updateIdea(idea4);
 
 			Topic topic1 = new Topic("Marvel", "Peliculas");
 			myTopicService.addTopic(topic1);
@@ -185,7 +185,7 @@ public class Main {
 		servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
 
 		// registration
-		ServletRegistrationBean srb = new ServletRegistrationBean<>();
+		ServletRegistrationBean srb = new ServletRegistrationBean();
 		srb.setServlet(new FacesServlet());
 		srb.setUrlMappings(Arrays.asList("*.xhtml"));
 		srb.setLoadOnStartup(1);
