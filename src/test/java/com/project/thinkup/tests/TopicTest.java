@@ -2,32 +2,22 @@ package com.project.thinkup.tests;
 
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
-import com.project.thinkup.model.Status;
+
 import com.project.thinkup.model.Topic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-
-import com.project.thinkup.model.User;
 import com.project.thinkup.repository.TopicRepository;
-import com.project.thinkup.repository.UserRepository;
 import com.project.thinkup.service.TopicService;
-import com.project.thinkup.service.UserService;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
