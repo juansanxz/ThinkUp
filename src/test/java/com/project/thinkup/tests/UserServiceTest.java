@@ -1,6 +1,6 @@
 package com.project.thinkup.tests;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +52,7 @@ public class UserServiceTest {
     public void testDeleteAllUsers() {
         doNothing().when(userRepository).deleteAll();
         userService.deleteAllUsers();
+        assertTrue(userService.getAllUsers().isEmpty());
     }
 
     }

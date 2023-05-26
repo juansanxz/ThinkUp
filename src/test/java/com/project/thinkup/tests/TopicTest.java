@@ -27,16 +27,12 @@ public class TopicTest {
     }
 
     @Test
-    public void testRemoveIdea_RemovesIdeaAndSetsTopicToNull() {
-        // Arrange
+    public void shouldRemovesIdeaAndSetsTopicToNull() {
         Idea idea = new Idea();
         ideas.add(idea);
         topic.setIdeas(ideas);
 
-        // Act
         Topic result = topic.removeIdea(idea);
-
-        // Assert
         assertFalse(result.getIdeas().contains(idea));
     }
 

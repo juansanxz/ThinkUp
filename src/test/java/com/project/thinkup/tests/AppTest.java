@@ -80,7 +80,7 @@ public class AppTest {
     }
 
     @Test
-    public void testConstructor_InitializesProperties() {
+    public void testConstructor() {
         // Arrange
         String title = "Test Topic";
         String description = "This is a test topic";
@@ -112,17 +112,32 @@ public class AppTest {
 
     @Test
     public void testSetAndGetUser() {
-        // Crear el mock de la clase User
         User userMock = mock(User.class);
-
-        // Crear un objeto Like
         Like like = new Like();
 
-        // Llamar al método setUser() con el mock de User
         like.setUser(userMock);
-
-        // Verificar que el mock de User se haya configurado correctamente
         assertEquals(userMock, like.getUser());
+    }
+
+    @Test
+    public void shouldReturnSetPassword() {
+        User user = new User();
+        String password = "password123";
+
+        user.setPassword(password);
+        String result = user.getPassword();
+        assertEquals(password, result);
+    }
+
+    @Test
+    public void shouldSetNewPassword() {
+        User user = new User();
+        String newPassword = "newpassword";
+        user.setPassword("oldpassword");
+
+        user.setPassword(newPassword);
+        String result = user.getPassword();
+        assertEquals(newPassword, result);
     }
 
 
