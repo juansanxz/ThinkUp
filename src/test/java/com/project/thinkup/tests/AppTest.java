@@ -27,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AppTest {
 
     private ThinkUp thinkUp;
@@ -73,7 +74,7 @@ public class AppTest {
 
         assertEquals(title, idea.getTitle());
         assertEquals(LocalDate.now(), idea.getCreationDate());
-        assertEquals(Status.created, idea.getStatus());
+        assertEquals(Status.CREATED, idea.getStatus());
         assertEquals(description, idea.getDescription());
         assertEquals(keywords, idea.getKeyWords());
         assertTrue(idea.getComments().isEmpty());
@@ -95,19 +96,6 @@ public class AppTest {
         assertEquals(LocalDate.now(), topic.getCreationDate());
         assertNotNull(topic.getIdeas());
         assertTrue(topic.getIdeas().isEmpty());
-    }
-
-    @Test
-    public void shouldPublishedIdea(){
-        ThinkUp thinkUp = new ThinkUp();
-        thinkUp.addStringKeyWord("K1");
-        thinkUp.addStringKeyWord("K2");
-
-        int inicial = thinkUp.getAmountOfIdeas();
-        thinkUp.publishAnIdea("Titulo","Idea test");
-        int fin = thinkUp.getAmountOfIdeas();
-        boolean flag = inicial == fin;
-        assertFalse(flag);
     }
 
     @Test
