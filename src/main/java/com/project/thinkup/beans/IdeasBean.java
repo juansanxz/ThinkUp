@@ -98,8 +98,7 @@ public class IdeasBean {
         this.filteredIdeas = filteredIdeas;
     }
 
-    public List<Idea> getIdeas() {
-        this.ideas = ideaService.getAllIdeasWithoutTopic();
+    public List<Idea> getIdeas() {        
         return ideas;
     }
 
@@ -113,7 +112,6 @@ public class IdeasBean {
 
     
     public List<Topic> getTopics() {
-        this.topics = topicService.getAllTopics();
         return topics;
     }
 
