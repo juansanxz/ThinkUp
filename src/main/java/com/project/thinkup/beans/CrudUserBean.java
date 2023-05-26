@@ -31,6 +31,8 @@ public class CrudUserBean {
     private User selectedUser;
     private List<User> selectedUsers;
     private List<User> filteredUsers;
+    private static final String ANOTHERKEY = "anotherkey";
+    private static final String SUCCESS = "Usuario borrado con exito!";
 	
     @Autowired
     UserService userService;
@@ -138,23 +140,23 @@ public class CrudUserBean {
                 RequestContext.getCurrentInstance().execute("PF('manageuserDialog').hide()");
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito","Crear usuario");
-                context.addMessage("anotherkey", msg);               
+                context.addMessage(ANOTHERKEY, msg);               
             }else{
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "El usuario ya existe!","Usuario ya existe");
-                context.addMessage("anotherkey", msg);
+                context.addMessage(ANOTHERKEY, msg);
             }
         }
         else {
             if(userService.updateUser(selectedUser) != null){
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario actualizado con exito!","Usuario modificado con exito");
-                context.addMessage("anotherkey", msg);
+                context.addMessage(ANOTHERKEY, msg);
 
             }else{
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar","Error al actualizar");
-                context.addMessage("anotherkey", msg);
+                context.addMessage(ANOTHERKEY, msg);
             }
 
         }
@@ -170,14 +172,14 @@ public class CrudUserBean {
             this.selectedUser = null;
             refresh();
             FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario borrado con exito!", "Usuario borrado con exito!");
-            context.addMessage("anotherkey", msg);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, SUCCESS, SUCCESS);
+            context.addMessage(ANOTHERKEY, msg);
 
         }catch(Exception e){
             String message = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, message, message);
-            context.addMessage("anotherkey", msg);
+            context.addMessage(ANOTHERKEY, msg);
 
 
         }
@@ -222,14 +224,14 @@ public class CrudUserBean {
             this.selectedUsers = null;
             refresh();
             FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios borrados con exito!", "Usuario borrado con exito!");
-            context.addMessage("anotherkey", msg);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios borrados con exito!", SUCCESS);
+            context.addMessage(ANOTHERKEY, msg);
 
         }catch(Exception e){
             String message = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, message, message);
-            context.addMessage("anotherkey", msg);
+            context.addMessage(ANOTHERKEY, msg);
         }
     }
 }

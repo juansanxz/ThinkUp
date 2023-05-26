@@ -59,7 +59,7 @@ public class Main {
 
 	@Bean(name = "database")
 	public CommandLineRunner run() {
-		return (args) -> {
+		return args -> {
 			//Deleting tables's content...
 			myIdeaService.deleteAllIdeas();
 			myUserService.deleteAllUsers();
