@@ -58,7 +58,7 @@ public class ThinkUp {
 	private boolean onProfile;
 	private String[] filter;
 	public static final String SOMEKEY = "somekey";
-
+	public static final String ORDEN = "orden";
 	private static final String NOSE = "No se";
 
 	public ThinkUp() {
@@ -106,8 +106,6 @@ public class ThinkUp {
 			} else if (filterStatus || filterKeyword) {
 			
 				ideaPage = getIdeasFilter();
-			} else if ((filterStatus || filterKeyword) && inOrder) {
-				ideaPage = getIdeasFilterInOrder();
 			} else {
 				ideaPage = getIdeasDisordered();
 			}
@@ -164,7 +162,7 @@ public class ThinkUp {
 		RequestContext.getCurrentInstance().execute("PF('popUpOrdenar').hide()");
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
+				"Las ideas fueron ordenadas por el criterio seleccionado", ORDEN);
 		context.addMessage("anotherkey", msg);
 	}
 
@@ -186,7 +184,7 @@ public class ThinkUp {
 		changeIdea("next");
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
+				"Las ideas fueron ordenadas por el criterio seleccionado", ORDEN);
 		context.addMessage("anotherkey", msg);
 	}
 
@@ -194,7 +192,7 @@ public class ThinkUp {
 		if (type.isBlank()) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Está vacía la KeyWord",
-					"No se");
+					NOSE);
 			context.addMessage("addKeyWord", msg);
 		} else {
 			keywordsFilter.add(type);
@@ -323,6 +321,7 @@ public class ThinkUp {
 		try {
 			externalContext.redirect("index.html");
 		} catch (Exception e) {
+			e.getMessage();
 		}
 		setOnProfile(false);
 	}
@@ -404,7 +403,7 @@ public class ThinkUp {
 		if (filter != null && ((filterStatus && myIdeaService.getAllByKey(filter).isEmpty()) || (filterKeyword && myIdeaService.getAllBysta(filter).isEmpty()))) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"No hay ideas con el filtro seleccionado", "Orden");
+				"No hay ideas con el filtro seleccionado", ORDEN);
 			context.addMessage(SOMEKEY, msg);
 		}
 	
