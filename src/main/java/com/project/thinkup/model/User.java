@@ -6,11 +6,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
@@ -55,8 +53,8 @@ public class User {
 		this.status = status;
 		this.role = role;
 		this.area = area;
-		this.ideas = new ArrayList<Idea>();
-		this.likes = new ArrayList<Like>();
+		this.ideas = new ArrayList<>();
+		this.likes = new ArrayList<>();
 	}
 
 	public boolean isAdmin() {

@@ -59,7 +59,6 @@ public class KeyWordService {
 
     public void deleteAllKeyWords() {
         keyWordRepository.deleteAll();
-        ;
     }
     public Page<Idea> getAllIdeasByKeyword(String[] Keywords, int pageNumber) {
         List<Idea> keywordslist = new ArrayList<>();

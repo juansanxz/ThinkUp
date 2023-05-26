@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +17,6 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -49,33 +48,25 @@ public class Idea {
     @ManyToOne(targetEntity = Topic.class)
     Topic topic;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
+	private List<Comment> comments;
+
     public Idea() {
     }
 
     public Idea(String title, String description, List<KeyWord> keywords) {
         this.title = title;
         this.creationDate = LocalDate.now();
-        status = Status.created;
+        status = Status.CREATED;
         this.description = description;
         this.keyWords = keywords;
-        likes = new ArrayList<Like>();
-    }
-
-    public void giveLike(Like likeToSet) {
-        likes.add(likeToSet);
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+        this.comments = new ArrayList<>();
+        this.likes = new ArrayList<>();
     }
 
     public void quitLike(Like like) {
         likes.remove(like);
-        System.out.println("DELETED");
     }
 
     public Long getIdeaId() {
@@ -108,10 +99,6 @@ public class Idea {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setKeyWords(ArrayList<KeyWord> keyWords) {
-        this.keyWords = keyWords;
     }
 
     public void setUser(User user) {
@@ -216,4 +203,23 @@ public class Idea {
         return likes.size();
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public void giveLike(Like likeToSet) {
+        likes.add(likeToSet);
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
 }

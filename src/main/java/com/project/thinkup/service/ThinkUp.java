@@ -11,6 +11,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.springframework.data.domain.Page;
+import org.hibernate.Hibernate;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.project.thinkup.beans.LoginBean;
 import com.project.thinkup.model.User;
+import com.project.thinkup.model.Comment;
 import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
@@ -50,6 +52,8 @@ public class ThinkUp {
 	KeyWordService myKeyWordService;
 	@Autowired
 	LikeService myLikeService;
+	@Autowired
+	CommentService myCommentService;
 	private int currentIdeaPage;
 	private Idea currentIdea;
 	private boolean inOrder;
@@ -329,17 +333,28 @@ public class ThinkUp {
 
 	// Para redireccionar a recurso que muestra el perfil, o el main dependiendo en
 	// que página está
-	public void redirection() throws IOException {
-		// resetOrder();
-		if (!onProfile) {
+	public void redirection(String site) throws IOException {
+		//resetOrder();
+		if(site.equals("Profile")){
+			setOnProfile(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
+		} else if(site.equals("Stats")){
+			setOnProfile(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("statistics.xhtml");
+		} else if(site.equals("Main")){
+			setOnProfile(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
+		}
+
+		/** if (!onProfile) {
 			setOnProfile(true);
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect("profile.xhtml?faces-redirect=true&nocache=" + Math.random());
 		} else {
 			setOnProfile(false);
-			FacesContext.getCurrentInstance().getExternalContext()
-					.redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
-		}
+			FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml?faces-redirect=true&nocache=" + Math.random());
+			System.out.println("ok");
+		} **/
 	}
 
 	// Dar like
@@ -447,10 +462,12 @@ public class ThinkUp {
 			return myIdeaService.getIdeasByUser(currentUser).size();
 		} else {
 		
-			if (filterStatus || filterKeyword) {
+			if (filterKeyword) {
 				return myIdeaService.getAllByKey(Filter).size();
-			}
-			else{
+			}else if(filterStatus){
+				return myIdeaService.getAllBysta(Filter).size();
+
+			}else{
 				return myIdeaService.getAllIdeas().size();
 			}
 		}
@@ -459,12 +476,27 @@ public class ThinkUp {
 	public boolean getCurrentIdeaLike() {
 		return currentIdeaLike;
 	}
-
-	public void showw(String[] MyArray) {
-		for (int i = 0; i <= MyArray.length - 1; i++) {
-			System.out.println("MyArray [" + i + "]: " + MyArray[i] + "");
-		}
+	public void addComment(String comment) {
+		Comment description = new Comment(currentIdea, currentUser, comment);
+		myCommentService.addComment(description);
+		//currentIdea.addComment(description);
+		//myIdeaService.updateIdea(currentIdea);
 	}
+
+	public String getComments() {
+		List<Comment> comments = myCommentService.getCommentByIdeaId(currentIdea);
+		String allComments = showComments(comments);
+		return allComments;
+		//return currentIdea.showComments();
+	}
+
+	public String showComments(List<Comment> comments) {
+        String allComments = "";
+        for (Comment comment : comments){
+            allComments += comment.toString() + "\n";
+        }
+        return allComments;
+    }
 
 	public List<KeyWord> getAllKeywords() {
 		return myKeyWordService.getAllKeyWords();

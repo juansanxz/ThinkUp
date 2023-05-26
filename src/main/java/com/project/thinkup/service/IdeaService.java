@@ -55,13 +55,11 @@ public class IdeaService {
     }
 
     public Page<Idea> getAllIdeasPageable(int pageNumber) {
-        Page<Idea> pageable = ideaRepository.findAll(PageRequest.of(pageNumber, 1));
-        return pageable;
+        return ideaRepository.findAll(PageRequest.of(pageNumber, 1));
     }
 
     public Page<Idea> getIdeasPageableByUser(int pageNumber, User user) {
-        Page<Idea> pageable = ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1));
-        return pageable;
+        return ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1));
     }
 
     public Page<Idea> getAllIdeasOrdered(String column, String order, int pageNumber) {
@@ -73,8 +71,7 @@ public class IdeaService {
         }
         Sort sort = Sort.by(orderBy, column);
 
-        Page<Idea> pageable = ideaRepository.findAll(PageRequest.of(pageNumber, 1, sort));
-        return pageable;
+        return ideaRepository.findAll(PageRequest.of(pageNumber, 1, sort));
     }
 
     public Page<Idea> getIdeasOrderedByUser(String column, String order, int pageNumber, User user) {
@@ -86,8 +83,7 @@ public class IdeaService {
         }
         Sort sort = Sort.by(orderBy, column);
 
-        Page<Idea> pageable = ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1, sort));
-        return pageable;
+        return ideaRepository.findByUser(user, PageRequest.of(pageNumber, 1, sort));
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -157,9 +153,29 @@ public class IdeaService {
         return ideas;
     }
 
-    public List<Idea> getAllIdeasWithoutTopic() {
-        TypedQuery<Idea> query = entityManager.createQuery("SELECT i FROM Idea i WHERE i.topic IS NULL", Idea.class);
-        return query.getResultList();
+    public List<Idea> getAllBysta(String[] statuses) {
+        List<Idea> ideas= new ArrayList<>();
+        for (String status : statuses) {
+            List<Idea> temp = ideaRepository.findByStatus(status);
+            for (Idea idd : temp) {
+                ideas.add(idd);
+            }
+        }
+        return ideas;
     }
 
+    public List<Idea> getAllIdeasWithoutTopic() {
+		TypedQuery<Idea> query = entityManager.createQuery("SELECT i FROM Idea i WHERE i.topic IS NULL", Idea.class);
+		return query.getResultList();
+	}
+    
+    public Long countIdeasByUserArea(String areaName) {
+        return ideaRepository.countIdeasByUserArea(areaName);
+    }
+
+    public Long countByState(String state) {
+        return ideaRepository.countByState(state);
+    }
+        
 }
+
