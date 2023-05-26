@@ -15,7 +15,6 @@ public class KeyWord {
     private String word;
 
     public KeyWord() {
-
     }
 
     public KeyWord(String word) {

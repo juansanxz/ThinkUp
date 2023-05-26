@@ -7,11 +7,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 import javax.persistence.OneToMany;
@@ -19,12 +17,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Idea {
@@ -45,17 +38,15 @@ public class Idea {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany()
-    private List<KeyWord> keyWords;
-    
-    //Colección de likes
+    List<KeyWord> keyWords;
+
+    // Colección de likes
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
     @ManyToOne(targetEntity = Topic.class)
     Topic topic;
-
-    
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "idea", cascade = CascadeType.REMOVE)
@@ -67,18 +58,16 @@ public class Idea {
     public Idea(String title, String description, List<KeyWord> keywords) {
         this.title = title;
         this.creationDate = LocalDate.now();
-        status = Status.created;
+        status = Status.CREATED;
         this.description = description;
         this.keyWords = keywords;
-        this.comments = new ArrayList<Comment>();
-        this.likes = new ArrayList<Like>();
+        this.comments = new ArrayList<>();
+        this.likes = new ArrayList<>();
     }
 
-    public void quitLike (Like like) {
-		likes.remove(like);
-        System.out.println("DELETED");
-	}
-    
+    public void quitLike(Like like) {
+        likes.remove(like);
+    }
 
     public Long getIdeaId() {
         return ideaId;
@@ -110,10 +99,6 @@ public class Idea {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setKeyWords(ArrayList<KeyWord> keyWords) {
-        this.keyWords = keyWords;
     }
 
     public void setUser(User user) {
@@ -186,7 +171,8 @@ public class Idea {
     @Override
     public String toString() {
         return "Idea [ideaId=" + ideaId + ", creationDate=" + creationDate + ", status=" + status + ", description="
-                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId() +  ", Topic=" +  topic  +"]";
+                + description + ", title=" + title + ", keyWords=" + keyWords + ", user=" + user.getUserId()
+                + ", Topic=" + topic + "]";
     }
 
     public String getTitle() {
@@ -198,15 +184,16 @@ public class Idea {
     }
 
     public String getStringKeyWords() {
-        String result = "";
+        StringBuilder result = new StringBuilder("");
         for (int i = 0; i < keyWords.size(); i++) {
             if (i != keyWords.size() - 1) {
-                result += keyWords.get(i).getWord() + ", ";
+                result.append(keyWords.get(i).getWord());
+                result.append(", ");
             } else {
-                result += keyWords.get(i).getWord();
+                result.append(keyWords.get(i).getWord());
             }
         }
-        return result;
+        return result.toString();
     }
 
     public User getUser() {

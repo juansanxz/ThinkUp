@@ -35,6 +35,8 @@ public class IdeasBean {
     private List<Idea> filteredIdeas;
     private List<Idea> selectedIdeasInTopic;
     private List<Idea> filteredIdeasInTopic;
+    private static final String ANOTHERKEY = "anotherkey";
+    private static final String GROUPIDEA = "Agrupar idea";
 
     @Autowired
     IdeaService ideaService;
@@ -97,6 +99,7 @@ public class IdeasBean {
     }
 
     public List<Idea> getIdeas() {
+        this.ideas = ideaService.getAllIdeasWithoutTopic();
         return ideas;
     }
 
@@ -110,6 +113,7 @@ public class IdeasBean {
 
     
     public List<Topic> getTopics() {
+        this.topics = topicService.getAllTopics();
         return topics;
     }
 
@@ -159,11 +163,11 @@ public class IdeasBean {
                 RequestContext.getCurrentInstance().execute("PF('managetopicDialog').hide()");
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tema creado con exito!","Crear tema");
-                context.addMessage("anotherkey", msg);               
+                context.addMessage(ANOTHERKEY, msg);               
             }else{
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "El tema ya existe!","Tema ya existe");
-                context.addMessage("anotherkey", msg);
+                context.addMessage(ANOTHERKEY, msg);
             }
         }
         else {
@@ -171,19 +175,19 @@ public class IdeasBean {
                 RequestContext.getCurrentInstance().execute("PF('managetopicDialog').hide()");
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Tema actualizado con exito!","Tema modificado con exito");
-                context.addMessage("anotherkey", msg);
+                context.addMessage(ANOTHERKEY, msg);
 
             }else{
                 FacesContext context = FacesContext.getCurrentInstance();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar","Error al actualizar");
-                context.addMessage("anotherkey", msg);
+                context.addMessage(ANOTHERKEY, msg);
             }
 
         }
     }  
 
     public List<String> complete(String query) {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         for (Topic topic : topics) {
             String title = topic.getTitle();
             if (title.toLowerCase().startsWith(query.toLowerCase())) {
@@ -202,15 +206,15 @@ public class IdeasBean {
             refresh();
             RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
             FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Idea agregada con exito al tema" + menuTopic,"Agrupar idea");
-            context.addMessage("anotherkey", msg);   
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Idea agregada con exito al tema" + menuTopic,GROUPIDEA);
+            context.addMessage(ANOTHERKEY, msg);   
 
 
         }catch(Exception e){
             RequestContext.getCurrentInstance().execute("PF('grouptopicDialog').hide()");
             FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al agrupar:" + e.getMessage(),"Agrupar idea");
-            context.addMessage("anotherkey", msg);   
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al agrupar:" + e.getMessage(),GROUPIDEA);
+            context.addMessage(ANOTHERKEY, msg);   
 
         }
     }
@@ -222,32 +226,36 @@ public class IdeasBean {
             ideaService.updateIdea(selectedIdeaInTopic);
             refresh();
             FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "La idea se ha borrado del Tema correctamente","Agrupar idea");
-            context.addMessage("anotherkey", msg);   
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "La idea se ha borrado del Tema correctamente",GROUPIDEA);
+            context.addMessage(ANOTHERKEY, msg);   
 
 
         }catch(Exception e){
             FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al borrar la idea del grupox:" + e.getMessage(),"Agrupar idea");
-            context.addMessage("anotherkey", msg);   
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Problema al borrar la idea del grupox:" + e.getMessage(),GROUPIDEA);
+            context.addMessage(ANOTHERKEY, msg);   
 
         }
     }
 
     public void deleteSelectedTopic() {
         try{
+            for(Idea ideaInTopic: selectedTopic.getIdeas()){
+                ideaInTopic.setTopic(null);
+                ideaService.updateIdea(ideaInTopic);
+            }
             topicService.deleteTopic(selectedTopic.getTopicId());
             this.selectedTopic = null;
             refresh();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tema borrado con exito!", "Tema borrado con exito!");
-            context.addMessage("anotherkey", msg);
+            context.addMessage(ANOTHERKEY, msg);
 
         }catch(Exception e){
             String message = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, message, message);
-            context.addMessage("anotherkey", msg);
+            context.addMessage(ANOTHERKEY, msg);
 
 
         }
@@ -266,13 +274,13 @@ public class IdeasBean {
             refresh();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ideas agrupadas con exito!", "Ideas agrupadas con exito!");
-            context.addMessage("anotherkey", msg);
+            context.addMessage(ANOTHERKEY, msg);
 
         }catch(Exception e){
             String message = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, message + " Error al agrupar Ideas al tema", message);
-            context.addMessage("anotherkey", msg);
+            context.addMessage(ANOTHERKEY, msg);
         }
     }
 }  

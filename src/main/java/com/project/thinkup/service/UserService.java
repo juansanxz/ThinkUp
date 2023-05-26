@@ -51,7 +51,6 @@ public class UserService {
 
 	public void deleteAllUsers() {
 		userRepository.deleteAll();
-		;
 	}
 
 	public User getUserByEmail(String mail) {

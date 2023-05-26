@@ -114,9 +114,6 @@
                     </p:column>
                 </p:dataTable>
             </div>
-            <div class="bottom">
-                <h:commandButton class="back-Button" value="Regresar" action="main.xhtml?faces-redirect=true"/>
-            </div>
         </h:form>
     <!--  Ventanas-->
     </div>
@@ -159,6 +156,9 @@
                                 oncomplete="PF('managetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                     <f:setPropertyActionListener value="#{ideasBean.selectedTopic}" target="#{ideasBean.selectedTopic}" />
                                     <p:resetInput target="dialogs:manage-topic-content" />
+                                </p:commandButton>
+                                <p:commandButton icon="ui-icon-trash" update=":dialogs:manage-topic-content :topics topic-content"
+                                oncomplete="PF('deletetopicDialog').show(); PF('dtIdeasByTopic').filter()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                 </p:commandButton>
                             </p:toolbarGroup>
                         </p:toolbar>
@@ -203,7 +203,7 @@
                                 <h:outputText value="#{idea.status}" />
                             </p:column>
                             <p:column exportable="false">
-                                <!--  Agrupar Ideas -->
+                                <!--  Quitar Ideas -->
                                 <p:commandButton icon="ui-icon-arrowreturnthick-1-w" update=":topics dt-ideas-topic dialogs:topic-content" oncomplete="PF('ungroupDialog').show()"
                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
                                     <f:setPropertyActionListener value="#{idea}" target="#{ideasBean.selectedIdeaInTopic}" />
@@ -280,13 +280,16 @@
             <p:confirmDialog widgetVar="deletetopicDialog" showEffect="fade" width="300"
             message="¿Eliminar Tema? Es posible que el tema agrupe ideas" header="Confirmar">
             <p:commandButton value="Si" actionListener="#{ideasBean.deleteSelectedTopic}"
-                process="@this" update=":topics :dialogs:topic-content :form "
+                process="@this" update=" :form :form:dt-ideas group-ideas-topic-content topic-content  :topics"
                 oncomplete="PF('deletetopicDialog').hide(); PF('topicDialog').hide(); PF('dtIdeasByTopic').filter()"/>
             <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
                 onclick="PF('deletetopicDialog').hide()" />
         </p:confirmDialog> 
         
         </h:form>
+    </div>
+    <div class="bottom">
+        <p:commandButton class="back-Button" value="Regresar" action="#{thinkUp.redirection('Main')}"/>
     </div>
 </h:body>
 </html>

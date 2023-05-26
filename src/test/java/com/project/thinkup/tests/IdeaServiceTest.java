@@ -4,15 +4,19 @@ import com.project.thinkup.model.Idea;
 import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.service.IdeaService;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class IdeaServiceTest {
+    @Mock
+    private IdeaRepository ideaRepository;
 
+    @InjectMocks
+    private IdeaService ideaService;
     @Test
     public void shouldReturnAddIdea() {
         IdeaRepository ideaRepository = mock(IdeaRepository.class);
