@@ -1,7 +1,6 @@
 package com.project.thinkup.tests;
 
 import com.project.thinkup.model.Idea;
-import com.project.thinkup.model.Like;
 import com.project.thinkup.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.util.AssertionErrors.assertNotNull;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 public class UserTest {
 
@@ -41,33 +38,33 @@ public class UserTest {
     }
 
     @Test
-    public void testGetStatus() {
+    void testGetStatus() {
         String status = user.getStatus();
         assertEquals("active", status);
     }
 
     @Test
-    public void testSetStatus() {
+    void testSetStatus() {
         user.setStatus("inactive");
         String status = user.getStatus();
         assertEquals("inactive", status);
     }
 
     @Test
-    public void testGetRole() {
+    void testGetRole() {
         String role = user.getRole();
         assertEquals("user", role);
     }
 
     @Test
-    public void testSetRole() {
+    void testSetRole() {
         user.setRole("admin");
         String role = user.getRole();
         assertEquals("admin", role);
     }
 
     @Test
-    public void testGetArea() {
+    void testGetArea() {
         String area = "profesor";
         String areaNew = user.getArea();
         assertEquals(area, areaNew);
