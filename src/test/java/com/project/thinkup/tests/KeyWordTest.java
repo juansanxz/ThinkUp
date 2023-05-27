@@ -56,21 +56,21 @@ class KeyWordTest {
     }
 
     @Test
-    public void testEqualsSameObjectReturnsTrue() {
+    void testEqualsSameObjectReturnsTrue() {
         KeyWord keyWord = new KeyWord("example");
         boolean result = keyWord.equals(keyWord);
         assertTrue(result);
     }
 
     @Test
-    public void testEquals_NullObject_ReturnsFalse() {
+    void testEquals_NullObject_ReturnsFalse() {
         KeyWord keyWord = new KeyWord("example");
         boolean result = keyWord.equals(null);
         assertFalse(result);
     }
 
     @Test
-    public void testEquals_DifferentClass_ReturnsFalse() {
+    void testEquals_DifferentClass_ReturnsFalse() {
         KeyWord keyWord = new KeyWord("example");
         Object obj = new Object();
         boolean result = keyWord.equals(obj);
