@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CrudUserBeanTest {
+class CrudUserBeanTest {
     
     @InjectMocks
     private UserService userService;

@@ -84,17 +84,17 @@ class IdeaTest {
     @Test
     void shouldCompareTwoIdeas () {
         Idea otherIdea = new Idea("Idea Prueba", "Esta idea se hace de prueba", keywords);
-        assertTrue(idea.equals(otherIdea));
+        assertEquals(idea, otherIdea);
     }
 
     @Test
     void shouldNotEqualsTwoIdeas () {
         Idea otherIdea = new Idea("Idea Prue", "Esta idea se hace de prueba", keywords);
-        assertFalse(idea.equals(otherIdea));
+        assertNotEquals(idea, otherIdea);
     }
 
     @Test
     void shouldNotEqualsNullIdeas () {
-        assertFalse(idea.equals(null));
+        assertNotEquals(idea, null);
     }
 }

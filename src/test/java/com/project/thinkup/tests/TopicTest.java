@@ -106,7 +106,7 @@ class TopicTest {
     }
 
     @Test
-    public void testGetTitle() {
+    void testGetTitle() {
         String title = "Topic 1";
         topic.setTitle(title);
         String retrievedTitle = topic.getTitle();
@@ -114,14 +114,14 @@ class TopicTest {
     }
 
     @Test
-    public void testSetTitle() {
+    void testSetTitle() {
         String title = "Topic 1";
         topic.setTitle(title);
         assertEquals(title, topic.getTitle());
     }
 
     @Test
-    public void testGetTittle() {
+    void testGetTittle() {
         String title = "Topic 1";
         topic.setTitle(title);
         String retrievedTittle = topic.getTitle();
@@ -129,14 +129,14 @@ class TopicTest {
     }
 
     @Test
-    public void testSetTittle() {
+    void testSetTittle() {
         String title = "Topic 1";
         topic.setTitle(title);
         assertEquals(title, topic.getTitle());
     }
 
     @Test
-    public void testGetCreationDate() {
+    void testGetCreationDate() {
         LocalDate creationDate = LocalDate.now();
         topic.setCreationDate(creationDate);
         LocalDate retrievedCreationDate = topic.getCreationDate();
@@ -144,7 +144,7 @@ class TopicTest {
     }
 
     @Test
-    public void testSetCreationDate() {
+    void testSetCreationDate() {
         LocalDate creationDate = LocalDate.of(2022, 5, 15);
         topic.setCreationDate(creationDate);
         assertEquals(creationDate, topic.getCreationDate());

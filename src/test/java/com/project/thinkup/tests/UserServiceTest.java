@@ -44,6 +44,7 @@ class UserServiceTest {
     void testDeleteUser() {
         Long userId = 1L;
         userService.deleteUser(userId);
+        assertTrue(userService.getAllUsers().isEmpty());
     }
 
     @Test
