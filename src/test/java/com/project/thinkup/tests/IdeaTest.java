@@ -80,4 +80,21 @@ class IdeaTest {
         idea.quitLike(like);
         assertEquals(0, idea.getAmountOfLikes());
     }
+
+    @Test
+    void shouldCompareTwoIdeas () {
+        Idea otherIdea = new Idea("Idea Prueba", "Esta idea se hace de prueba", keywords);
+        assertTrue(idea.equals(otherIdea));
+    }
+
+    @Test
+    void shouldNotEqualsTwoIdeas () {
+        Idea otherIdea = new Idea("Idea Prue", "Esta idea se hace de prueba", keywords);
+        assertFalse(idea.equals(otherIdea));
+    }
+
+    @Test
+    void shouldNotEqualsNullIdeas () {
+        assertFalse(idea.equals(null));
+    }
 }
