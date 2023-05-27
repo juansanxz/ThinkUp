@@ -49,4 +49,20 @@ public class KeyWordTest {
         assertEquals("KeyWord [keyWordId=null, word=Redes]", keyword.toString());
     }
 
+    @Test
+    void shouldEqualsToKey () {
+        KeyWord anotherKeyword = new KeyWord("Redes");
+        assertTrue(keyword.equals(anotherKeyword));
+    }
+
+    @Test
+    void shouldNotEqualsTwoKey () {
+        KeyWord anotherKeyword = new KeyWord("Red");
+        assertFalse(keyword.equals(anotherKeyword));
+    }
+
+    @Test
+    void shouldNotEqualsNull () {
+        assertFalse(keyword.equals(null));
+    }
 }
