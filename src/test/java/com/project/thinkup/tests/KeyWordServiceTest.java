@@ -60,6 +60,29 @@ class KeyWordServiceTest {
         keyWordService.deleteAllKeyWords();
         assertTrue(keyWordService.getAllKeyWords().isEmpty());
     }
+
+    @Test
+    void shouldGetKeyWord () {
+        String word = "Keyword 1";
+        KeyWord keyWord = new KeyWord();
+        keyWord.setWord(word);
+        when(keyWordService.addKeyWord(keyWord)).thenReturn(keyWord);
+
+        KeyWord result = keyWordService.addKeyWord(keyWord);
+        assertNull(keyWordService.getKeyWord("Keyword 1"));
+    }
+
+    @Test
+    void shouldUpdateKeyWord () {
+        String word = "Keyword 1";
+        KeyWord keyWord = new KeyWord();
+        keyWord.setWord(word);
+        when(keyWordRepository.save(eq(keyWord))).thenReturn(keyWord);
+
+        KeyWord result = keyWordService.addKeyWord(keyWord);
+        keyWordService.updateKeyWord(result);
+    }
+
 }
 
 
