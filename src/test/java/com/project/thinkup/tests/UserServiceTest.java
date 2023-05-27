@@ -78,4 +78,23 @@ public class UserServiceTest {
         assertEquals(expectedUser, resultUser);
     }
 
+    
+    @Test
+    public void UserNameIsSuccessfullyChanged() {
+        String newName = "Hugo";
+        user.setFirstName(newName);
+        userService.updateUser(user);
+        assertEquals(newName, user.getFirstName());
     }
+
+
+    @Test
+    public void UserEmailIsSuccessfullyChanged() {
+        String newEmail= "hugo@mail.com";
+        when(userRepository.existsById(1L)).thenReturn(true);
+        user.setMail(newEmail);
+        userService.updateUser(user);
+        assertEquals(newEmail, user.getMail());
+    }
+
+}
