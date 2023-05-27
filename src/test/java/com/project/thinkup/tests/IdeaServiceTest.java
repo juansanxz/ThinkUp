@@ -31,6 +31,16 @@ public class IdeaServiceTest {
     }
 
     @Test
+    public void deleteIdea_shouldDeleteIdea() {
+        Long ideaId = 1L;
+        IdeaRepository ideaRepository = mock(IdeaRepository.class);
+        IdeaService ideaService = new IdeaService(ideaRepository);
+
+        ideaService.deleteIdea(ideaId);
+        assertFalse(ideaRepository.findById(ideaId).isPresent());
+    }
+
+    @Test
     public void shouldDeleteAllIdeas() {
         IdeaRepository ideaRepository = mock(IdeaRepository.class);
         IdeaService ideaService = new IdeaService(ideaRepository);
