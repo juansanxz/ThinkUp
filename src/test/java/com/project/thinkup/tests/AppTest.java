@@ -81,15 +81,12 @@ public class AppTest {
     }
 
     @Test
-    public void testConstructor() {
-        // Arrange
+    public void shouldCreateTopic() {
         String title = "Test Topic";
         String description = "This is a test topic";
 
-        // Act
         Topic topic = new Topic(title, description);
 
-        // Assert
         assertEquals(title, topic.getTitle());
         assertEquals(description, topic.getDescription());
         assertNotNull(topic.getCreationDate());
@@ -97,6 +94,19 @@ public class AppTest {
         assertNotNull(topic.getIdeas());
         assertTrue(topic.getIdeas().isEmpty());
     }
+
+    /*@Test
+    public void shouldPublishedIdea(){
+        ThinkUp thinkUp = new ThinkUp();
+        thinkUp.addStringKeyWord("K1");
+        thinkUp.addStringKeyWord("K2");
+
+        int inicial = thinkUp.getAmountOfIdeas();
+        thinkUp.publishAnIdea("Titulo","Idea test");
+        int fin = thinkUp.getAmountOfIdeas();
+        boolean flag = inicial == fin;
+        assertFalse(flag);
+    }*/
 
     @Test
     public void testSetAndGetUser() {

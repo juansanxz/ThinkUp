@@ -1,14 +1,12 @@
 package com.project.thinkup.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.project.thinkup.model.User;
 import com.project.thinkup.repository.UserRepository;
 import com.project.thinkup.service.UserService;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -55,6 +53,32 @@ public class UserServiceTest {
         assertTrue(userService.getAllUsers().isEmpty());
     }
 
+    @Test
+    public void shouldReturnTrueWhenUserExists() {
+        String mail = "juan.poveda@gmail.com";
+        UserRepository userRepository = mock(UserRepository.class);
+        UserService userService = new UserService(userRepository);
+        when(userRepository.existsByMail(mail)).thenReturn(true);
+
+        boolean result = userService.userExist(mail);
+        assertTrue(result);
+    }
+
+    @Test
+    public void shouldReturnUserWithEmail() {
+        String mail = "juan.poveda@gmail.com";
+        User expectedUser = new User();
+        expectedUser.setMail(mail);
+
+        UserRepository userRepository = mock(UserRepository.class);
+        UserService userService = new UserService(userRepository);
+        when(userRepository.findByMail(mail)).thenReturn(expectedUser);
+
+        User resultUser = userService.getUserByEmail(mail);
+        assertEquals(expectedUser, resultUser);
+    }
+
+    }
     @Test
     public void UserNameIsSuccessfullyChanged() {
         String newName = "Hugo";
