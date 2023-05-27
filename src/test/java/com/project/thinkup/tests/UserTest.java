@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 public class UserTest {
@@ -23,11 +24,12 @@ public class UserTest {
     }
 
     @Test
-    public void testIsAdmin_WithRegularUser() {
+    void testIsAdmin() {
         boolean expectedIsAdmin = false;
         boolean actualIsAdmin = user.isAdmin();
         assertEquals(expectedIsAdmin, actualIsAdmin);
     }
+
     @Test
     void testAddIdea() {
         Idea idea = new Idea();

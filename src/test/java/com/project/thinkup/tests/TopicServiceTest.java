@@ -6,6 +6,8 @@ import com.project.thinkup.service.TopicService;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -33,6 +35,20 @@ class TopicServiceTest {
 
         Topic resultTopic = topicService.addTopic(topic);
         assertEquals(topic, resultTopic);
+    }
+
+    @Test
+    void testGetTopic() {
+        Long topicId = 1L;
+        Topic topic = new Topic("Technology", "Topic description");
+        topic.setTopicId(topicId);
+
+        when(topicRepository.findById(topicId)).thenReturn(Optional.of(topic));
+
+        Topic retrievedTopic = topicService.getTopic(topicId);
+        assertNotNull(retrievedTopic);
+        assertEquals(topic, retrievedTopic);
+        verify(topicRepository, times(1)).findById(topicId);
     }
 
     @Test
@@ -83,5 +99,7 @@ class TopicServiceTest {
 
         assertFalse(result);
     }
+
+
 
 }
