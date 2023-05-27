@@ -63,8 +63,8 @@
                 <f:selectItem itemLabel="Rechazada" itemValue="Rechazada" />
                 <f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />
               </p:selectManyCheckbox>
-             
-              <p:commandButton value="Enviar" action="#{thinkUp.filterIdeasBy(CheckOption.value,'estado')}" onclick="hidePopUpSearchOption1();" update="manage-check idea-display-grid"/>
+
+              <p:commandButton value="Enviar" action="#{thinkUp.filterIdeasBy(CheckOption.value,'estado')}" onclick="hidePopUpSearchOption1();" update="manage-check idea-display-grid currentIdeaLike" oncomplete="cambiarColorLikeInverse();"/>
             </h:form>
           </p:outputPanel>
         </p:dialog>
@@ -76,8 +76,8 @@
               <p:outputLabel for="valorPopUp1" value="Inserte la key word para buscar: " />
               <p:inputText id="valorPopUp1" binding="#{keyWord1}"/>
               <p:outputLabel id="keyword-place1" value="#{thinkUp.getStringKeyWordsfilter()}" />
-              <p:commandButton value="Agregar" action="#{thinkUp.listkeywordIdeasBy(keyWord1.value)}"  update="keyword-filter keyword-place1 valorPopUp1"/>
-              <p:commandButton value="Enviar"  action="#{thinkUp.constructFilterIdeas()}" onclick="hidePopUpSearchOption2()" update="form1:keyword-place1 PopUpSearchOption2 manage-check idea-display-grid PopUpSearchOption2 valorPopUp1 keyword-place1"/>
+              <p:commandButton value="Agregar" action="#{thinkUp.listkeywordIdeasBy(keyWord1.value)}"  update="keyword-filter keyword-place1"/>
+              <p:commandButton value="Enviar"  action="#{thinkUp.constructFilterIdeas()}" onclick="hidePopUpSearchOption2(); " update="valorPopUp1 form1:keyword-place1 PopUpSearchOption2 manage-check idea-display-grid PopUpSearchOption2 valorPopUp1 keyword-place1 currentIdeaLike" oncomplete="cambiarColorLikeInverse();"/>
             </h:panelGrid>  
           </h:form>  
         </p:dialog>  
@@ -89,7 +89,7 @@
                   <p:outputLabel value="Seleccione el tipo de busqueda" />
                   
                   <div class="search-b">
-                    <p:commandButton id="popupButton" value="Buscar por estado" onclick="hidePopUpSearch(); showPopUpSearchOption1();"/>
+                    <p:commandButton id="popupButton" value="Buscar por estado" onclick="hidePopUpSearch(); showPopUpSearchOption1(); "/>
                     <p:commandButton id="popupButton2" value="Buscar por KeyWord" onclick="hidePopUpSearch(); showPopUpSearchOption2();"/>
                     <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="hidePopUpSearch();" update="idea-content PopUpSearchOption1 manage-check page"/>
                   </div>
@@ -117,8 +117,8 @@
                           <f:selectItem itemLabel="Ascendente" itemValue="asc" />
                           <f:selectItem itemLabel="Descendente" itemValue="desc" />
                         </p:selectOneRadio>
-                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" update="manage-ordenar idea-content :form"/>
-                        <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="idea-content"/>
+                        <p:commandButton value="Ordenar" action="#{thinkUp.orderIdeasBy(columnOption.value, orderOption.value)}" update="manage-ordenar idea-content :form page"/>
+                        <p:commandButton value="Restablecer" action="#{thinkUp.resetOrder()}" onclick="ocultaPopUpOrden();" update="idea-content page"/>
                 </p:outputPanel>
               </p:dialog>
             </h:form>
