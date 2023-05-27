@@ -18,7 +18,7 @@
 body {
     background-color: #990000;
     font-family: Ubuntu,sans-serif;
-};
+}
 
 .align-items-center-justify-content-center{
     text-align: center;
@@ -45,7 +45,6 @@ input[type="text"] {
     margin-top: 20px;
     width: 100px;
     height: 40px;
-    margin-left: 47.5%;
     background-color: gray; /* Color de fondo */
     color: white; /* Color del texto */
     padding: 10px 20px; /* Espaciado interno */

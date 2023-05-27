@@ -112,9 +112,9 @@ public class IdeaService {
         return new PageImpl<>(statuslist);
     }
 
-    public Page<Idea> getAllIdeasByKeyword(String[] Keywords, int pageNumber) {
+    public Page<Idea> getAllIdeasByKeyword(String[] keywords, int pageNumber) {
         List<Idea> statuslist = new ArrayList<>();
-        for (String keyword : Keywords) {
+        for (String keyword : keywords) {
             Page<Idea> ideasForKeyword = ideaRepository.findByKeyword(keyword, PageRequest.of(pageNumber, 1));
             for (Idea idea : ideasForKeyword.getContent()) {
            
@@ -128,9 +128,9 @@ public class IdeaService {
         return ideaRepository.findByUser(user);
     }
 
-    public List<Idea> getAllByKey(String[] Keywords) {
+    public List<Idea> getAllByKey(String[] keywords) {
         List<Idea> ideas= new ArrayList<>();
-        for (String keyword : Keywords) {
+        for (String keyword : keywords) {
             List<Idea> temp = ideaRepository.findByKeyword(keyword);
             for (Idea ide : temp) {
                 

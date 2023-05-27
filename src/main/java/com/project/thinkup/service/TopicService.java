@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +17,13 @@ public class TopicService {
 	private final TopicRepository topicRepository;
 
 	@Autowired
-	public TopicService(TopicRepository TopicRepository) {
-		this.topicRepository = TopicRepository;
+	public TopicService(TopicRepository topicRepository) {
+		this.topicRepository = topicRepository;
 	}
 
-	public Topic addTopic(Topic Topic) {
-		if (!topicRepository.existsByTitle(Topic.getTitle())) {
-			return topicRepository.save(Topic);
+	public Topic addTopic(Topic topic) {
+		if (!topicRepository.existsByTitle(topic.getTitle())) {
+			return topicRepository.save(topic);
 		}
 		return null;
 
@@ -41,9 +37,9 @@ public class TopicService {
 		return topicRepository.findAll();
 	}
 
-	public Topic updateTopic(Topic Topic) {
-		if (topicRepository.existsById(Topic.getTopicId())) {
-			return topicRepository.save(Topic);
+	public Topic updateTopic(Topic topic) {
+		if (topicRepository.existsById(topic.getTopicId())) {
+			return topicRepository.save(topic);
 		}
 
 		return null;
@@ -55,7 +51,6 @@ public class TopicService {
 
 	public void deleteAllTopics() {
 		topicRepository.deleteAll();
-		;
 	}
 
 	public Topic getTopicByTitle(String title) {

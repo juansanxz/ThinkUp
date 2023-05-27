@@ -57,8 +57,8 @@ public class ThinkUp {
 	private boolean currentIdeaLike;
 	private boolean onProfile;
 	private String[] filter;
-	private Page<Idea> ideaPage;
-
+	public static final String SOMEKEY = "somekey";
+	public static final String ORDEN = "orden";
 	private static final String NOSE = "No se";
 
 	public ThinkUp() {
@@ -85,7 +85,7 @@ public class ThinkUp {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña es erroneo",
 					NOSE);
-			context.addMessage("somekey", msg);
+			context.addMessage(SOMEKEY, msg);
 			return null;
 		}
 	}
@@ -106,8 +106,6 @@ public class ThinkUp {
 			} else if (filterStatus || filterKeyword) {
 			
 				ideaPage = getIdeasFilter();
-			} else if ((filterStatus || filterKeyword) && inOrder) {
-				ideaPage = getIdeasFilterInOrder();
 			} else {
 				ideaPage = getIdeasDisordered();
 			}
@@ -131,10 +129,6 @@ public class ThinkUp {
 		
 			return myIdeaService.getAllIdeasByKeyword(filter, currentIdeaPage);
 		}
-	}
-
-	private Page<Idea> getIdeasFilterInOrder() {
-		return null;
 	}
 
 	// Si el usuario desea reiniciar el orden por el que lo estaba haciendo
@@ -164,7 +158,7 @@ public class ThinkUp {
 		RequestContext.getCurrentInstance().execute("PF('popUpOrdenar').hide()");
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
+				"Las ideas fueron ordenadas por el criterio seleccionado", ORDEN);
 		context.addMessage("anotherkey", msg);
 	}
 
@@ -186,7 +180,7 @@ public class ThinkUp {
 		changeIdea("next");
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Las ideas fueron ordenadas por el criterio seleccionado", "Orden");
+				"Las ideas fueron ordenadas por el criterio seleccionado", ORDEN);
 		context.addMessage("anotherkey", msg);
 	}
 
@@ -194,7 +188,7 @@ public class ThinkUp {
 		if (type.isBlank()) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Está vacía la KeyWord",
-					"No se");
+					NOSE);
 			context.addMessage("addKeyWord", msg);
 		} else {
 			keywordsFilter.add(type);
@@ -273,7 +267,7 @@ public class ThinkUp {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta información",
 						NOSE);
-			context.addMessage("somekey", msg);
+			context.addMessage(SOMEKEY, msg);
 		} else {
 			// Agregar las keyword a la base de datos
 			for (String keyWord : stringKeyWords) {
@@ -323,6 +317,7 @@ public class ThinkUp {
 		try {
 			externalContext.redirect("index.html");
 		} catch (Exception e) {
+			e.getMessage();
 		}
 		setOnProfile(false);
 	}
@@ -404,8 +399,8 @@ public class ThinkUp {
 		if (filter != null && ((filterStatus && myIdeaService.getAllByKey(filter).isEmpty()) || (filterKeyword && myIdeaService.getAllBysta(filter).isEmpty()))) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"No hay ideas con el filtro seleccionado", "Orden");
-			context.addMessage("somekey", msg);
+				"No hay ideas con el filtro seleccionado", ORDEN);
+			context.addMessage(SOMEKEY, msg);
 		}
 	
 	}
@@ -431,27 +426,27 @@ public class ThinkUp {
 	}
 
 	public String getStringKeyWordsNice() {
-		String result = "";
+		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < stringKeyWords.size(); i++) {
 			if (i != stringKeyWords.size() - 1) {
-				result += stringKeyWords.get(i) + ", ";
+				result.append(stringKeyWords.get(i) + ", ");
 			} else {
-				result += stringKeyWords.get(i);
+				result.append(stringKeyWords.get(i));
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 	public String getStringKeyWordsfilter() {
-		String result = "";
+		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < keywordsFilter.size(); i++) {
 			if (i != keywordsFilter.size() - 1) {
-				result += keywordsFilter.get(i) + ", ";
+				result.append(keywordsFilter.get(i) + ", ");
 			} else {
-				result += keywordsFilter.get(i);
+				result.append(keywordsFilter.get(i));
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 	public int getCurrentIdeaPage() {
@@ -495,11 +490,11 @@ public class ThinkUp {
 	}
 
 	public String showComments(List<Comment> comments) {
-        String allComments = "";
+        StringBuilder allComments = new StringBuilder("");
         for (Comment comment : comments){
-            allComments += comment.toString() + "\n";
+            allComments.append(comment.toString() + "\n");
         }
-        return allComments;
+        return allComments.toString();
     }
 
 	public List<KeyWord> getAllKeywords() {
