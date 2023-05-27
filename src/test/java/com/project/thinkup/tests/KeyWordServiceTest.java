@@ -30,7 +30,7 @@ class KeyWordServiceTest {
         String word = "Keyword 1";
         KeyWord keyWord = new KeyWord();
         keyWord.setWord(word);
-        when(keyWordRepository.save(eq(keyWord))).thenReturn(keyWord);
+        when(keyWordRepository.save(keyWord)).thenReturn(keyWord);
 
         KeyWord result = keyWordService.addKeyWord(keyWord);
 
@@ -42,7 +42,7 @@ class KeyWordServiceTest {
         String word = "Keyword 1";
         KeyWord keyWord = new KeyWord();
         keyWord.setWord(word);
-        when(keyWordRepository.existsByWord(eq(word))).thenReturn(true);
+        when(keyWordRepository.existsByWord(word)).thenReturn(true);
 
         KeyWord result = keyWordService.addKeyWord(keyWord);
         assertNull(result);
@@ -77,10 +77,10 @@ class KeyWordServiceTest {
         String word = "Keyword 1";
         KeyWord keyWord = new KeyWord();
         keyWord.setWord(word);
-        when(keyWordRepository.save(eq(keyWord))).thenReturn(keyWord);
+        when(keyWordRepository.save(keyWord)).thenReturn(keyWord);
 
         KeyWord result = keyWordService.addKeyWord(keyWord);
-        keyWordService.updateKeyWord(result);
+        assertNull(keyWordService.updateKeyWord(result));
     }
 
 }
