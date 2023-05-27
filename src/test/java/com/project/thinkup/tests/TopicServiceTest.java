@@ -105,7 +105,7 @@ class TopicServiceTest {
     }
 
     @Test
-    public void testGetIdeasByTopicId() {
+    void testGetIdeasByTopicId() {
         Long topicId = 1L;
         KeyWord keyWord1 = new KeyWord("ABC");
         List<KeyWord> keyWords1 = new ArrayList<KeyWord>();
