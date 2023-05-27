@@ -37,6 +37,8 @@ public class CrudUserBean {
     @Autowired
     UserService userService;
 
+    public CrudUserBean() {
+    }
 
     /**
      * Method that gets users from the database after dependency injection
