@@ -5,12 +5,8 @@ import com.project.thinkup.model.*;
 import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.ThinkUp;
-import com.project.thinkup.service.UserService;
-import junit.framework.Assert;
-import org.aspectj.lang.annotation.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 
 import java.time.LocalDate;
@@ -20,15 +16,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class AppTest {
+class AppTest {
 
     private ThinkUp thinkUp;
 
@@ -39,7 +31,7 @@ public class AppTest {
     private IdeaService ideaService;
 
     @Test
-    public void createNewUser() {
+    void createNewUser() {
         // Arrange
         String firstName = "andres";
         String lastName = "oñate";
@@ -63,7 +55,7 @@ public class AppTest {
     }
 
     @Test
-    public void testIdea() {
+    void testIdea() {
         String title = "Test Idea";
         String description = "Test Description";
         List<KeyWord> keywords = new ArrayList<>();
@@ -81,7 +73,7 @@ public class AppTest {
     }
 
     @Test
-    public void shouldCreateTopic() {
+    void shouldCreateTopic() {
         String title = "Test Topic";
         String description = "This is a test topic";
 
@@ -109,7 +101,7 @@ public class AppTest {
     }*/
 
     @Test
-    public void testSetAndGetUser() {
+    void testSetAndGetUser() {
         User userMock = mock(User.class);
         Like like = new Like();
 
@@ -118,7 +110,7 @@ public class AppTest {
     }
 
     @Test
-    public void shouldReturnSetPassword() {
+    void shouldReturnSetPassword() {
         User user = new User();
         String password = "password123";
 
@@ -128,7 +120,7 @@ public class AppTest {
     }
 
     @Test
-    public void shouldSetNewPassword() {
+    void shouldSetNewPassword() {
         User user = new User();
         String newPassword = "newpassword";
         user.setPassword("oldpassword");

@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-public class LikeTest {
+class LikeTest {
 
     private User user;
     private List<Like> likes;
@@ -25,7 +25,7 @@ public class LikeTest {
     }
 
     @Test
-    public void shouldAddLike() {
+    void shouldAddLike() {
         // Arrange
         Like like = new Like();
 
@@ -38,7 +38,7 @@ public class LikeTest {
     }
 
     @Test
-    public void shouldRemoveLike() {
+    void shouldRemoveLike() {
         // Arrange
         Like like = new Like();
         user.giveLike(like);
@@ -51,7 +51,7 @@ public class LikeTest {
     }
 
     @Test
-    public void shouldIncreaseLikes(){
+    void shouldIncreaseLikes(){
         KeyWord keyWord1 = new KeyWord("ABC");
         List<KeyWord> keyWords1 = new ArrayList<KeyWord>();
         keyWords1.add(keyWord1);
@@ -68,7 +68,7 @@ public class LikeTest {
     }
 
     @Test
-    public void testSetAndGetIdea() {
+    void testSetAndGetIdea() {
         // Crear el mock de la clase Idea
         Idea ideaMock = mock(Idea.class);
 

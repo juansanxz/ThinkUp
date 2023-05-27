@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class UserServiceTest {
+class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -35,26 +35,26 @@ public class UserServiceTest {
     }
 
     @Test
-    public void savedUserIsSuccessfullyCreated() {
+    void savedUserIsSuccessfullyCreated() {
         User newUser = userService.addUser(user);
         assertNotNull(newUser.getUserId());
     }
 
     @Test
-    public void testDeleteUser() {
+    void testDeleteUser() {
         Long userId = 1L;
         userService.deleteUser(userId);
     }
 
     @Test
-    public void testDeleteAllUsers() {
+    void testDeleteAllUsers() {
         doNothing().when(userRepository).deleteAll();
         userService.deleteAllUsers();
         assertTrue(userService.getAllUsers().isEmpty());
     }
 
     @Test
-    public void shouldReturnTrueWhenUserExists() {
+    void shouldReturnTrueWhenUserExists() {
         String mail = "juan.poveda@gmail.com";
         UserRepository userRepository = mock(UserRepository.class);
         UserService userService = new UserService(userRepository);
@@ -65,7 +65,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldReturnUserWithEmail() {
+    void shouldReturnUserWithEmail() {
         String mail = "juan.poveda@gmail.com";
         User expectedUser = new User();
         expectedUser.setMail(mail);
@@ -80,7 +80,7 @@ public class UserServiceTest {
 
     
     @Test
-    public void UserNameIsSuccessfullyChanged() {
+    void UserNameIsSuccessfullyChanged() {
         String newName = "Hugo";
         user.setFirstName(newName);
         userService.updateUser(user);
@@ -89,7 +89,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void UserEmailIsSuccessfullyChanged() {
+    void UserEmailIsSuccessfullyChanged() {
         String newEmail= "hugo@mail.com";
         when(userRepository.existsById(1L)).thenReturn(true);
         user.setMail(newEmail);

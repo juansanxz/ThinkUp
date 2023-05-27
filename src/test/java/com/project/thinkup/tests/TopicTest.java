@@ -21,7 +21,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TopicTest {
+class TopicTest {
 
     @Mock
     private TopicRepository topicRepository;
@@ -51,7 +51,7 @@ public class TopicTest {
     }
 
     @Test
-    public void shouldRemovesIdeaAndSetsTopicToNull() {
+    void shouldRemovesIdeaAndSetsTopicToNull() {
         Idea idea = new Idea();
         ideas.add(idea);
         topic.setIdeas(ideas);
@@ -60,7 +60,7 @@ public class TopicTest {
     }
 
     @Test
-    public void savedTopicIsSuccessfullyCreated() {
+    void savedTopicIsSuccessfullyCreated() {
         Topic newTopic = topicService.addTopic(topic);
         assertNotNull(newTopic.getTopicId());
         assertEquals("Iniciativas Estudiantes", topic.getTitle());
@@ -69,21 +69,21 @@ public class TopicTest {
     }
 
     @Test
-    public void TopicTitleIsSuccessfullyChanged() {
+    void TopicTitleIsSuccessfullyChanged() {
         topic.setTitle("Nuevo Titulo");
         topicService.updateTopic(topic);
         assertEquals("Nuevo Titulo", topic.getTitle());
     }
 
     @Test
-    public void TopicDescriptionIsSuccessfullyChanged() {
+    void TopicDescriptionIsSuccessfullyChanged() {
         topic.setDescription("Nueva Descripción");
         topicService.updateTopic(topic);
         assertEquals("Nueva Descripción", topic.getDescription());
     }
 
     @Test
-    public void ShouldAddIdeasToTheTopic() {
+    void ShouldAddIdeasToTheTopic() {
         int originalideas = topic.getIdeas().size();
         topic.addIdea(idea);
         topicService.updateTopic(topic);
@@ -91,7 +91,7 @@ public class TopicTest {
     }
 
     @Test
-    public void ShouldRemoveIdeasToTheTopic() {
+    void ShouldRemoveIdeasToTheTopic() {
         int originalideas = topic.getIdeas().size();
         topic.addIdea(idea);
         topicService.updateTopic(topic);
