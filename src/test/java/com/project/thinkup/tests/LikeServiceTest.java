@@ -99,7 +99,7 @@ class LikeServiceTest {
     @Test
     void shouldDeleteAllLikesByIdeaUser() {
         likeService.deleteAllLikes();
-        assertTrue(likeService.getLikeByIdeaUser(idea, user) == null);
+        assertNull(likeService.getLikeByIdeaUser(idea, user));
     }
 
     @Test

@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 
 import static org.mockito.Mockito.mock;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.MockitoAnnotations;
@@ -31,6 +32,7 @@ class AppTest {
     @InjectMocks
     private ThinkUp thinkUp;
 
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -123,7 +125,7 @@ class AppTest {
     }
 
     @Test
-    public void shouldReturnsWord() {
+    void shouldReturnsWord() {
         String word = "ejemplo";
         KeyWord keyWord = new KeyWord(word);
 
@@ -132,7 +134,7 @@ class AppTest {
     }
 
     @Test
-    public void shouldSetsWord() {
+    void shouldSetsWord() {
         String word = "ejemplo";
         KeyWord keyWord = new KeyWord();
         keyWord.setWord(word);
