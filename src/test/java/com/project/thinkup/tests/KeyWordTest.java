@@ -52,6 +52,6 @@ class KeyWordTest {
 
     @Test
     void shouldNotEqualsNull () {
-        assertNotEquals(keyword, null);
+        assertNotEquals(null, keyword);
     }
 }
