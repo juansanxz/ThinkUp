@@ -1,9 +1,6 @@
 package com.project.thinkup.tests;
 
 import com.project.thinkup.model.*;
-
-import com.project.thinkup.repository.IdeaRepository;
-import com.project.thinkup.service.IdeaService;
 import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.service.ThinkUp;
 import org.mockito.InjectMocks;
@@ -18,9 +15,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.*;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.mock;
 
