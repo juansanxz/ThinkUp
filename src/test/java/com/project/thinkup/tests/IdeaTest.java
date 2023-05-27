@@ -95,6 +95,6 @@ class IdeaTest {
 
     @Test
     void shouldNotEqualsNullIdeas () {
-        assertNotEquals(idea, null);
+        assertNotEquals(null,idea);
     }
 }
