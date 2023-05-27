@@ -4,6 +4,7 @@ import com.project.thinkup.model.*;
 
 import com.project.thinkup.repository.IdeaRepository;
 import com.project.thinkup.service.IdeaService;
+import com.project.thinkup.service.KeyWordService;
 import com.project.thinkup.service.ThinkUp;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,20 +16,30 @@ import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+
 import static org.mockito.Mockito.mock;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.MockitoAnnotations;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AppTest {
 
-    private ThinkUp thinkUp;
-
     @Mock
-    private IdeaRepository ideaRepository;
+    private KeyWordService keyWordService;
 
     @InjectMocks
-    private IdeaService ideaService;
+    private ThinkUp thinkUp;
+
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     void createNewUser() {
@@ -87,19 +98,6 @@ class AppTest {
         assertTrue(topic.getIdeas().isEmpty());
     }
 
-    /*@Test
-    public void shouldPublishedIdea(){
-        ThinkUp thinkUp = new ThinkUp();
-        thinkUp.addStringKeyWord("K1");
-        thinkUp.addStringKeyWord("K2");
-
-        int inicial = thinkUp.getAmountOfIdeas();
-        thinkUp.publishAnIdea("Titulo","Idea test");
-        int fin = thinkUp.getAmountOfIdeas();
-        boolean flag = inicial == fin;
-        assertFalse(flag);
-    }*/
-
     @Test
     void testSetAndGetUser() {
         User userMock = mock(User.class);
@@ -128,6 +126,24 @@ class AppTest {
         user.setPassword(newPassword);
         String result = user.getPassword();
         assertEquals(newPassword, result);
+    }
+
+    @Test
+    public void shouldReturnsWord() {
+        String word = "ejemplo";
+        KeyWord keyWord = new KeyWord(word);
+
+        String result = keyWord.getWord();
+        assertEquals(word, result);
+    }
+
+    @Test
+    public void shouldSetsWord() {
+        String word = "ejemplo";
+        KeyWord keyWord = new KeyWord();
+        keyWord.setWord(word);
+
+        assertEquals(word, keyWord.getWord());
     }
 
 
