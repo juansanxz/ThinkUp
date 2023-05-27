@@ -1,14 +1,15 @@
 package com.project.thinkup.tests;
 
-import com.project.thinkup.model.Comment;
 import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
+import com.project.thinkup.model.Like;
+import com.project.thinkup.model.Status;
 import com.project.thinkup.model.User;
-import com.project.thinkup.repository.CommentRepository;
 import com.project.thinkup.repository.IdeaRepository;
+import com.project.thinkup.repository.LikeRepository;
 import com.project.thinkup.repository.UserRepository;
-import com.project.thinkup.service.CommentService;
 import com.project.thinkup.service.IdeaService;
+import com.project.thinkup.service.LikeService;
 import com.project.thinkup.service.UserService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CommentServiceTest {
+class LikeServiceTest {
     @Mock
-    private CommentRepository commentRepository;
+    private LikeRepository likeRepository;
 
     @Mock
     private IdeaRepository ideaRepository;
@@ -37,25 +38,31 @@ class CommentServiceTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private CommentService commentService;
-
-    @InjectMocks
     private IdeaService ideaService;
 
     @InjectMocks
     private UserService userService;
 
-    private Comment comment;
+    @InjectMocks
+    private LikeService likeService;
+
     private Idea idea;
     private User user;
+    private Like like;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         KeyWord keyWord1 = new KeyWord("ABC");
 
-        commentRepository = mock(CommentRepository.class);
-        commentService = new CommentService(commentRepository);
+        likeRepository = mock(LikeRepository.class);
+        likeService = new LikeService(likeRepository);
+
+        ideaRepository = mock(IdeaRepository.class);
+        ideaService = new IdeaService(ideaRepository);
+
+        userRepository = mock(UserRepository.class);
+        userService = new UserService(userRepository);
 
         List<KeyWord> keyWords1 = new ArrayList<KeyWord>();
         keyWords1.add(keyWord1);
@@ -67,35 +74,38 @@ class CommentServiceTest {
         user.setUserId(1L);
         when(userRepository.save(user)).thenReturn(user);
 
-        comment = new Comment(idea, user, "Comenteario de prueba");
-        comment.setCommentId(3L);
-        when(commentService.addComment(comment)).thenReturn(comment);
+        like = new Like(idea, user);
+        like.setLikeId(3L);
+        when(likeService.addLike(like)).thenReturn(like);
     }
 
     @Test
-    void savedCommentIsSuccessfullyCreated() {
-        Comment newComment = commentService.addComment(comment);
-        assertNotNull(newComment.getCommentId());
+    void savedLikeIsSuccessfullyCreated() {
+        Like newLike = likeService.addLike(like);
+        assertNotNull(newLike.getLikeId());
     }
 
     @Test
     void shouldReturnAddComment() {
-        when(commentService.addComment(comment)).thenReturn(comment);
-        Comment result = commentService.addComment(comment);
-        assertEquals(comment, result);
+        Like result = likeService.addLike(like);
+        assertEquals(like, result);
     }
 
     @Test
-    void shouldDeleteAllComments() {
-        commentService.deleteAllComments();;
-        assertTrue(commentService.getAllComments().isEmpty());
+    void shouldDeleteAllLikes() {
+        likeService.deleteAllLikes();
+        assertTrue(likeService.getLikeByIdea(idea).isEmpty());
     }
 
     @Test
-    void shouldReturnAlloComments() {
-        when(commentService.addComment(comment)).thenReturn(comment);
-        Comment result = commentService.addComment(comment);
-        List<Comment> comments = commentService.getAllComments();
-        assertTrue(comments.isEmpty());
+    void shouldDeleteAllLikesByIdeaUser() {
+        likeService.deleteAllLikes();
+        assertTrue(likeService.getLikeByIdeaUser(idea, user) == null);
+    }
+
+    @Test
+    void shouldDeleteLike() {
+        likeService.deleteLike(like.getLikeId());
+        assertTrue(likeService.getLikeByIdea(idea).isEmpty());
     }
 }
