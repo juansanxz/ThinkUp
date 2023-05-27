@@ -78,7 +78,7 @@ public class UserServiceTest {
         assertEquals(expectedUser, resultUser);
     }
 
-    }
+    
     @Test
     public void UserNameIsSuccessfullyChanged() {
         String newName = "Hugo";
