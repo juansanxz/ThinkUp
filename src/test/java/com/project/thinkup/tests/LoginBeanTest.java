@@ -9,8 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class LoginBeanTest {
@@ -47,5 +47,7 @@ class LoginBeanTest {
         boolean loginResult = loginBean.login(username,password);
         assertFalse(loginResult);
     }
+
+
 
 }

@@ -65,4 +65,60 @@ public class KeyWordTest {
     void shouldNotEqualsNull () {
         assertFalse(keyword.equals(null));
     }
+
+    @Test
+    public void testEqualsSameObjectReturnsTrue() {
+        KeyWord keyWord = new KeyWord("example");
+        boolean result = keyWord.equals(keyWord);
+        assertTrue(result);
+    }
+
+    @Test
+    public void testEquals_NullObject_ReturnsFalse() {
+        KeyWord keyWord = new KeyWord("example");
+        boolean result = keyWord.equals(null);
+        assertFalse(result);
+    }
+
+    @Test
+    public void testEquals_DifferentClass_ReturnsFalse() {
+        KeyWord keyWord = new KeyWord("example");
+        Object obj = new Object();
+        boolean result = keyWord.equals(obj);
+        assertFalse(result);
+    }
+
+    @Test
+    void testEqualsEqualObjectsReturnsTrue() {
+        KeyWord keyWord1 = new KeyWord("example");
+        keyWord1.setKeyWordId(1L);
+        KeyWord keyWord2 = new KeyWord("example");
+        keyWord2.setKeyWordId(1L);
+
+        boolean result = keyWord1.equals(keyWord2);
+        assertTrue(result);
+    }
+
+    @Test
+    void testEqualsDifferentKeyWordIdReturnsFalse() {
+        KeyWord keyWord1 = new KeyWord("example");
+        keyWord1.setKeyWordId(1L);
+        KeyWord keyWord2 = new KeyWord("example");
+        keyWord2.setKeyWordId(2L);
+
+        boolean result = keyWord1.equals(keyWord2);
+        assertFalse(result);
+    }
+
+    @Test
+    void testEqualsDifferentWordReturnsFalse() {
+        KeyWord keyWord1 = new KeyWord("example");
+        keyWord1.setKeyWordId(1L);
+        KeyWord keyWord2 = new KeyWord("different");
+        keyWord2.setKeyWordId(1L);
+
+        boolean result = keyWord1.equals(keyWord2);
+        assertFalse(result);
+    }
+
 }
