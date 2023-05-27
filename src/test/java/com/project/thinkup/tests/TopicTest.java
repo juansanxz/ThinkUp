@@ -4,9 +4,11 @@ import com.project.thinkup.model.Idea;
 import com.project.thinkup.model.KeyWord;
 
 import com.project.thinkup.model.Topic;
+import javassist.bytecode.AccessFlag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ class TopicTest {
     private List<Idea> ideas;
 
     private Idea idea;
+    private LocalDate localDate;
 
     @BeforeEach
     public void setUp() {
@@ -102,4 +105,48 @@ class TopicTest {
         assertEquals(originalideas - 1, topic.getIdeas().size());
     }
 
+    @Test
+    public void testGetTitle() {
+        String title = "Topic 1";
+        topic.setTitle(title);
+        String retrievedTitle = topic.getTitle();
+        assertEquals(title, retrievedTitle);
+    }
+
+    @Test
+    public void testSetTitle() {
+        String title = "Topic 1";
+        topic.setTitle(title);
+        assertEquals(title, topic.getTitle());
+    }
+
+    @Test
+    public void testGetTittle() {
+        String title = "Topic 1";
+        topic.setTitle(title);
+        String retrievedTittle = topic.getTitle();
+        assertEquals(title, retrievedTittle);
+    }
+
+    @Test
+    public void testSetTittle() {
+        String title = "Topic 1";
+        topic.setTitle(title);
+        assertEquals(title, topic.getTitle());
+    }
+
+    @Test
+    public void testGetCreationDate() {
+        LocalDate creationDate = LocalDate.now();
+        topic.setCreationDate(creationDate);
+        LocalDate retrievedCreationDate = topic.getCreationDate();
+        assertEquals(creationDate, retrievedCreationDate);
+    }
+
+    @Test
+    public void testSetCreationDate() {
+        LocalDate creationDate = LocalDate.of(2022, 5, 15);
+        topic.setCreationDate(creationDate);
+        assertEquals(creationDate, topic.getCreationDate());
+    }
 }
