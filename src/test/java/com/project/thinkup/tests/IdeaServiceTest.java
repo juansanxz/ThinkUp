@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class IdeaServiceTest {
+class IdeaServiceTest {
     @Mock
     private IdeaRepository ideaRepository;
 
@@ -44,7 +44,7 @@ public class IdeaServiceTest {
     }
 
     @Test
-    public void savedIdeaIsSuccessfullyCreated() {
+    void savedIdeaIsSuccessfullyCreated() {
         Idea newIdea = ideaService.addIdea(idea);
         assertNotNull(newIdea.getIdeaId());
         assertEquals("Titulo", idea.getTitle());
@@ -53,7 +53,7 @@ public class IdeaServiceTest {
     }
 
     @Test
-    public void shouldReturnAddIdea() {
+    void shouldReturnAddIdea() {
         IdeaRepository ideaRepository = mock(IdeaRepository.class);
         IdeaService ideaService = new IdeaService(ideaRepository);
         Idea idea = new Idea();
@@ -66,7 +66,7 @@ public class IdeaServiceTest {
     }
 
     @Test
-    public void deleteIdea_shouldDeleteIdea() {
+    void deleteIdea_shouldDeleteIdea() {
         Long ideaId = 1L;
         IdeaRepository ideaRepository = mock(IdeaRepository.class);
         IdeaService ideaService = new IdeaService(ideaRepository);
@@ -76,7 +76,7 @@ public class IdeaServiceTest {
     }
 
     @Test
-    public void shouldDeleteAllIdeas() {
+    void shouldDeleteAllIdeas() {
         IdeaRepository ideaRepository = mock(IdeaRepository.class);
         IdeaService ideaService = new IdeaService(ideaRepository);
         ideaService.deleteAllIdeas();
@@ -84,7 +84,7 @@ public class IdeaServiceTest {
     }
 
     @Test
-    public void IdeaStatusIsSuccessfullyChanged() {
+    void IdeaStatusIsSuccessfullyChanged() {
         idea.setStatus(Status.PENDING);
         ideaService.updateIdea(idea);
         assertEquals(Status.PENDING, idea.getStatus());

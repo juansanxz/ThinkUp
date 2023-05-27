@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 class TopicServiceTest {
 
     @Test
-    public void shouldReturnAddedTopic() {
+    void shouldReturnAddedTopic() {
         String title = "Test Topic";
         Topic topic = new Topic();
         topic.setTitle(title);
@@ -25,7 +25,7 @@ class TopicServiceTest {
     }
 
     @Test
-    public void shouldGetTopicByTitle() {
+    void shouldGetTopicByTitle() {
         String title = "Test Topic";
         Topic topic = new Topic();
         topic.setTitle(title);

@@ -33,7 +33,7 @@ class LoginBeanTest {
     }
 
     @Test
-    public void checkIfLoginIsSuccess() {
+    void checkIfLoginIsSuccess() {
         String username = "santiago.arevalo@gmail.com";
         String password = "123";
         boolean loginResult = loginBean.login(username,password);
@@ -41,7 +41,7 @@ class LoginBeanTest {
     }
 
     @Test
-    public void checkIfLoginIsFailed() {
+    void checkIfLoginIsFailed() {
         String username = "invalid.email@gmail.com";
         String password = "123";
         boolean loginResult = loginBean.login(username,password);

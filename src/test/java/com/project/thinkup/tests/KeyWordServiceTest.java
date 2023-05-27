@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class KeyWordServiceTest {
+class KeyWordServiceTest {
     @Mock
     private KeyWordRepository keyWordRepository;
 
@@ -26,7 +26,7 @@ public class KeyWordServiceTest {
     }
 
     @Test
-    public void shouldAddNewWordToRepository() {
+    void shouldAddNewWordToRepository() {
         String word = "Keyword 1";
         KeyWord keyWord = new KeyWord();
         keyWord.setWord(word);
@@ -38,7 +38,7 @@ public class KeyWordServiceTest {
     }
 
     @Test
-    public void shouldNotAddExistingWordToRepository() {
+    void shouldNotAddExistingWordToRepository() {
         String word = "Keyword 1";
         KeyWord keyWord = new KeyWord();
         keyWord.setWord(word);
@@ -49,14 +49,14 @@ public class KeyWordServiceTest {
     }
 
     @Test
-    public void deleteKeyWord() {
+    void deleteKeyWord() {
         String word = "Keyword 1";
         keyWordService.deleteKeyWord(word);
         assertNull(keyWordService.getKeyWord(word));
     }
 
     @Test
-    public void deleteAllKeyWords() {
+    void deleteAllKeyWords() {
         keyWordService.deleteAllKeyWords();
         assertTrue(keyWordService.getAllKeyWords().isEmpty());
     }
