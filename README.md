@@ -18,4 +18,4 @@ Conexión DB en proceso
 Despliegue:
 endpoint de la aplicación publicada: https://cvds-whynot.azurewebsites.net
 
-Prueba SPTI
+Prueba SPTI 2
